@@ -1,0 +1,41 @@
+<section class="wrap">
+  <div class="head">
+    <div>
+      <h1>I nostri prodotti</h1>
+      <p class="sub">Catalogo mock (poi arriverà dal backend).</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <input
+        type="search"
+        placeholder="Cerca un titolo…"
+        [value]="query()"
+        (input)="onSearch(($any($event.target)).value)"
+      />
+    </div>
+    <div class="meta">
+      @if (query().trim()) {
+        <span>Risultati per “{{ query() }}”: {{ products().length }}</span>
+      } @else {
+        <span>Totale prodotti: {{ products().length }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="grid">
+    @for (p of products(); track p.name) {
+      <article class="card">
+        <img [src]="p.img" [alt]="p.name" />
+        <h3>{{ p.name }}</h3>
+        <p class="price">€{{ p.price }}</p>
+        <button class="btn small">Aggiungi</button>
+      </article>
+    }
+  </div>
+
+  @if (products().length === 0) {
+    <p class="empty">Nessun prodotto trovato.</p>
+  }
+</section>

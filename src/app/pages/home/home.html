@@ -1,0 +1,47 @@
+<div class="hero">
+  <div class="carousel">
+    <img src="https://picsum.photos/1200/400?random=1" />
+    <img src="https://picsum.photos/1200/400?random=2" />
+    <img src="https://picsum.photos/1200/400?random=3" />
+  </div>
+</div>
+
+<div class="cta">
+  <div>
+    <h1>Libri & Manga</h1>
+    <p>Qualche prodotto in evidenza (mock) e poi catalogo completo.</p>
+  </div>
+  <a class="btn" routerLink="/products">Vai ai prodotti</a>
+</div>
+
+<h2 class="section-title">In evidenza</h2>
+<div class="grid">
+  @for (p of featured; track p) {
+    <div class="card">
+      <img [src]="p.img" [alt]="p.name" />
+      <h3>{{ p.name }}</h3>
+      <p class="price">€{{ p.price }}</p>
+    </div>
+  }
+</div>
+
+<h2 class="section-title">Perché scegliere noi</h2>
+
+<div class="features">
+  <div class="feature">
+    <h3> Spedizione veloce</h3>
+    <p>Consegna in 24/48h in tutta Italia.</p>
+  </div>
+
+  <div class="feature">
+    <h3> Offerte ogni giorno</h3>
+    <p>Sconti esclusivi su libri e prodotti.</p>
+  </div>
+
+  <div class="feature">
+    <h3> Qualità garantita</h3>
+    <p>Solo articoli selezionati e verificati.</p>
+  </div>
+</div>
+
+

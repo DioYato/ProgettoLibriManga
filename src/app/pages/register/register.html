@@ -1,0 +1,53 @@
+<div class="auth-overlay">
+  <div class="auth-dialog">
+    <div class="auth-header">
+      <h2>Accedi/Registrati</h2>
+      <button class="auth-close" routerLink="/">×</button>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="tab" routerLink="/login">Accedi</button>
+      <button class="tab active">Registrati</button>
+    </div>
+
+    <div class="auth-social">
+      <span class="label">Registrati con:</span>
+      <div class="icons">
+        <button type="button" class="social fb">f</button>
+        <button type="button" class="social apple"></button>
+      </div>
+    </div>
+
+    <hr />
+
+    <form class="auth-form">
+      <div class="row-2">
+        <label>
+          <span class="field-label">Nome*</span>
+          <input type="text" />
+        </label>
+        <label>
+          <span class="field-label">Cognome*</span>
+          <input type="text" />
+        </label>
+      </div>
+
+      <label>
+        <span class="field-label">Email*</span>
+        <input type="email" />
+      </label>
+
+      <label>
+        <span class="field-label">Password*</span>
+        <input type="password" />
+      </label>
+
+      <label>
+        <span class="field-label">Conferma password*</span>
+        <input type="password" />
+      </label>
+
+      <button type="submit" class="primary-btn">Crea account</button>
+    </form>
+  </div>
+</div>
