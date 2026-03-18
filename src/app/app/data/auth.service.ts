@@ -9,4 +9,9 @@ export class AuthService {
   register(data: any) {
     return this.http.post(`${this.api}/create`, data);
   }
+
+  login(data: any) {
+  return this.http.post(`${this.api}/login`, data);
+}
+
 }

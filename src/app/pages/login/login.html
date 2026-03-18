@@ -20,15 +20,17 @@
 
     <hr />
 
-    <form class="auth-form">
+    <!-- FORM LOGIN MODERNO -->
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
       <label>
         <span class="field-label">Email*</span>
-        <input type="email" />
+        <input type="email" formControlName="email" />
       </label>
 
       <label>
         <span class="field-label">Password*</span>
-        <input type="password" />
+        <input type="password" formControlName="password" />
       </label>
 
       <a class="forgot" href="#">Hai dimenticato la password?</a>
@@ -42,3 +44,5 @@
     </form>
   </div>
 </div>
+
+
