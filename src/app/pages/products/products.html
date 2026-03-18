@@ -25,13 +25,28 @@
   </div>
 
   <div class="grid">
-    @for (p of products(); track p.name) {
-      <article class="card">
-        <img [src]="p.img" [alt]="p.name" />
-        <h3>{{ p.name }}</h3>
-        <p class="price">€{{ p.price }}</p>
-        <button class="btn small">Aggiungi</button>
-      </article>
+    @for (p of products(); track p.id; let i = $index) {
+      <a class="p-cardLink" [routerLink]="['/products', p.id]">
+        <article class="p-card">
+        <div class="p-card__top">
+          <div class="p-card__rank">{{ i + 1 }}°</div>
+        </div>
+
+        <div class="p-card__media">
+          <img class="p-card__img" [src]="p.img" [alt]="p.name" />
+        </div>
+
+        <h3 class="p-card__title">{{ p.name }}</h3>
+
+        <div class="p-card__author">{{ p.author }}</div>
+
+        <div class="p-card__availability">
+          {{ p.availableNow ? 'Disponibilità immediata' : 'Non disponibile' }}
+        </div>
+
+        <div class="p-card__priceRow">€{{ p.price | number: '1.2-2' }}</div>
+        </article>
+      </a>
     }
   </div>
 

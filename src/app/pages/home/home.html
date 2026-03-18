@@ -16,7 +16,7 @@
 
 <h2 class="section-title">In evidenza</h2>
 <div class="grid">
-  @for (p of featured; track p) {
+  @for (p of featured(); track p.id) {
     <div class="card">
       <img [src]="p.img" [alt]="p.name" />
       <h3>{{ p.name }}</h3>
@@ -24,6 +24,95 @@
     </div>
   }
 </div>
+
+<section class="promo">
+  <div class="promo__inner">
+    <div class="promo__media">
+      <img
+        class="promo__img"
+        src="https://picsum.photos/520/360?random=kobo"
+        alt="Offerta del mese"
+        loading="lazy"
+      />
+    </div>
+
+    <div class="promo__content">
+      <div class="promo__kicker">IN OFFERTA FINO AL 25 MARZO</div>
+      <h2 class="promo__title">Kobo Libra Colour</h2>
+      <p class="promo__lead">
+        Grazie alla compatibilità con Kobo Stylus 2, puoi immergerti ancora più profondamente nelle
+        pagine dei tuoi testi preferiti.
+      </p>
+
+      <ul class="promo__list">
+        <li>Sfoglia e leggi a colori sul display E Ink Kaleido 3 da 7"</li>
+        <li>Scrivi i tuoi pensieri a colori con un numero infinito di quaderni per gli appunti</li>
+        <li>Porta con te migliaia di libri grazie ai 32 GB di memoria e alle settimane di autonomia</li>
+        <li>Acquista dallo store e leggi gli articoli salvati con Pocket</li>
+      </ul>
+
+      <div class="promo__actions">
+        <a class="promo__link" href="#" (click)="$event.preventDefault()">Acquistalo Nero</a>
+        <a class="promo__link" href="#" (click)="$event.preventDefault()">Acquistalo Bianco</a>
+      </div>
+
+      <div class="promo__foot">
+        <span>Acquistabile anche nei BookStore.</span>
+        <a class="promo__link promo__link--inline" href="#" (click)="$event.preventDefault()">
+          Trova BookStore
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="authors">
+  <div class="authors__head">
+    <h2 class="authors__title">Gli autori del momento</h2>
+  </div>
+
+  <div class="authors__shell">
+    <button class="authors__nav authors__nav--left" type="button" (click)="prevAuthors()" aria-label="Precedente">
+      ‹
+    </button>
+
+    <div class="authors__viewport">
+      <div
+        class="authors__track"
+        [style.transform]="'translateX(-' + (authorSlideIndex() * 100) + '%)'"
+      >
+        @for (slide of authorSlides(); track $index) {
+          <div class="authors__slide">
+            @for (a of slide; track a.name) {
+              <article class="authorCard">
+                <div class="authorCard__media">
+                  <img class="authorCard__img" [src]="a.img" [alt]="a.name" loading="lazy" />
+                </div>
+                <div class="authorCard__name">{{ a.name }}</div>
+              </article>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <button class="authors__nav authors__nav--right" type="button" (click)="nextAuthors()" aria-label="Successivo">
+      ›
+    </button>
+  </div>
+
+  <div class="authors__dots" aria-label="Pagine carosello">
+    @for (s of authorSlides(); track $index; let i = $index) {
+      <button
+        type="button"
+        class="authors__dot"
+        [class.is-active]="authorSlideIndex() === i"
+        (click)="setAuthorSlide(i)"
+        [attr.aria-label]="'Vai alla pagina ' + (i + 1)"
+      ></button>
+    }
+  </div>
+</section>
 
 <h2 class="section-title">Perché scegliere noi</h2>
 
