@@ -40,7 +40,7 @@ export class ProductsService {
       author: 'J.R.R. Tolkien',
       price: 24.9,
       availableNow: true,
-      img: 'https://picsum.photos/600/800?book1',
+      img: 'IlSignoreDegliAnelli.jpg',
       description:
         'Un grande classico fantasy: un viaggio epico nella Terra di Mezzo tra amicizia, coraggio e destino.',
       details: ['Categoria: Libro', 'Lingua: Italiano', 'Editore: Mock Editore', 'EAN: 0000000000000'],
@@ -55,7 +55,7 @@ export class ProductsService {
       author: 'George Orwell',
       price: 14.5,
       availableNow: true,
-      img: 'https://picsum.photos/600/800?book2',
+      img: 'GeorgeOrwell.jpg',
       description:
         'Un romanzo distopico senza tempo sul controllo, la sorveglianza e la libertà individuale.',
       details: ['Categoria: Libro', 'Lingua: Italiano', 'Editore: Mock Editore', 'EAN: 0000000000001'],
@@ -141,7 +141,7 @@ export class ProductsService {
       author: 'Eiichiro Oda',
       price: 5.2,
       availableNow: true,
-      img: 'https://picsum.photos/600/800?manga1',
+      img: 'OnePiece.jpg',
       description: 'L’inizio dell’avventura di Rufy: pirati, sogni e la ricerca del leggendario tesoro.',
       details: ['Categoria: Manga', 'Lingua: Italiano', 'Editore: Mock Editore', 'EAN: 0000000000008'],
       formats: [{ label: 'Tankōbon', price: 5.2 }],
