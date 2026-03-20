@@ -201,5 +201,13 @@ export class ProductsService {
     const safeId = (id ?? '').trim().toLowerCase();
     return this.items().find((p) => p.id === safeId);
   }
+  /**
+   * Migrazione backend:
+   * Quando il backend sarà disponibile, questo metodo farà una GET
+   * e aggiornerà lo stato `items`.
+   */
+  loadFromBackend(products: Product[]) {
+    this.items.set(products);
+  }
 }
 

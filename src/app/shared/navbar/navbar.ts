@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
@@ -12,19 +12,27 @@ export class Navbar {
 
   private router = inject(Router);
 
-  isLogged = false;
+  isLogged = signal(false); 
 
   constructor() {
+    this.router.events.subscribe(() => this.updateState());
     this.updateState();
   }
 
   updateState() {
-    this.isLogged = !!localStorage.getItem('token');
+    if (typeof window !== 'undefined') {
+      this.isLogged.set(!!localStorage.getItem('token'));
+    }
   }
 
   logout() {
-    localStorage.removeItem('token');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
+    }
     this.updateState();
     this.router.navigate(['/']);
   }
 }
+
+
+
