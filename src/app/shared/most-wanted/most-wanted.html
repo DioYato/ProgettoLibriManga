@@ -1,0 +1,48 @@
+<div class="header">
+  
+  <h2 style="text-align: left; font-family: sans-serif; font-size: 40px; margin-top: 40px; color: white;">In evidenza >></h2>
+  <p style="text-align: left; color: #cecece;  font-size: 25px; margin-bottom: 20px;">I prodotti più ricercati del momento:</p>
+
+</div>
+
+
+<div class="carousel-wrapper">
+  <div class="freccetta_1">
+    <button class="freccetta_1_butt" (click)="scroll(-1)"><</button>
+  </div>
+
+  <div class="carosello_carte" #carousel>
+    @for (prodotto of prodotti; track prodotto.id) {
+      <div class="card">
+        <div class="img_cont">
+          <img [src]="prodotto.img" alt="Immagine prodotto" />
+        </div>
+
+        <div class="text-section">
+          <h3>{{ prodotto.title }}</h3>
+          <p class="autore">{{ prodotto.autore }}</p>
+
+          @if (prodotto.quantita > 0) {
+          
+            <p class="disponibilita"> disponibilità immediata {{prodotto.quantita}} </p>
+
+          } @else {
+
+            <p class=" non_disponibile"> prodotto non disponibile</p>
+          }
+
+          <div class="section_prezzi">
+            <span class="old-price">€{{ prodotto.prezzo }}</span>
+            <span class="new-price">€{{ prodotto.prezzo_scontato }}</span>
+            <span class="badge-sconto">-€{{ prodotto.sconto }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="freccetta_2">
+    <button class="freccetta_2_butt" (click)="scroll(1)"> > </button>
+  </div>
+</div>
+

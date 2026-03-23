@@ -1,28 +1,35 @@
 <nav class="navbar">
+
   <div class="left">
 
-    <a routerLink="/" class="logo">
-      <img src="/1.png" alt="Logo">
+     <a routerLink="/" class="logo">
+      <img src="https://www.mondadoristore.it/assets/img/Mondadori_logo_positivo.svg" alt="Logo">
     </a>
 
-    <a routerLink="">Home</a>
-    <a routerLink="products">Prodotti</a>
+    <div class="spazziatore ">
 
-  @if (!isLogged()) {
-  <a routerLink="/login">Login</a>
-}
+    </div>
 
-@if (isLogged()) {
-  <button (click)="logout()">Logout</button>
-}
+    <div class="center">
+       <button routerLink="" class="button_navbar">Home</button>
+       <button routerLink="products" class="button_navbar">Prodotti</button>
+       <button routerLink="login" class="button_navbar">Login</button>
+    </div>
 
 
   </div>
+
+  
+   <input type="text" class="input" placeholder="Cosa stai cercando?">
+
+    
 
   <div class="right">
-    <a routerLink="cart" class="cart-btn">
-      🛒 Carrello
-    </a>
+    <button routerLink="cart" class="img_cart_cont">
+        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Carrello">
+    </button>
   </div>
+
+
 </nav>
 

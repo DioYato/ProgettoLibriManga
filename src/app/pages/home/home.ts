@@ -1,10 +1,12 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../data/products.service';
+import { Carosello } from "../../shared/carosello/carosello";
+import { MostWanted } from "../../shared/most-wanted/most-wanted";
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [RouterLink, Carosello, MostWanted],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

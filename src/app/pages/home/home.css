@@ -4,75 +4,6 @@
   overflow: hidden;
 }
 
-.carousel {
-  display: flex;
-  width: 300%;
-  animation: slide 12s infinite;
-}
-
-.carousel img {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-}
-
-/* Animazione carosello */
-@keyframes slide {
-  0% { transform: translateX(0); }
-  33% { transform: translateX(-100%); }
-  66% { transform: translateX(-200%); }
-  100% { transform: translateX(0); }
-}
-
-/* Sezione sotto */
-.section-title {
-  text-align: center;
-  margin: 40px 0 20px;
-}
-
-.cta {
-  max-width: 1100px;
-  margin: 18px auto 0;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.cta h1 {
-  margin: 0 0 6px;
-}
-
-.cta p {
-  margin: 0;
-  opacity: 0.75;
-}
-
-.btn {
-  display: inline-block;
-  padding: 10px 14px;
-  background: #007bff;
-  color: #fff;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.btn:hover {
-  background: #005fcc;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-  padding: 0 20px 10px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
 .promo {
   max-width: 1100px;
   margin: 22px auto 0;
@@ -336,3 +267,4 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
