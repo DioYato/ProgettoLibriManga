@@ -47,6 +47,11 @@ export class Login {
     }
   }
 
+  /**
+   * Gestisce il submit del form di login.
+   * Valida i dati inseriti, invia le credenziali al servizio di autenticazione
+   * e se il login ha successo reindirizza alla homepage.
+   */
   onLoginSubmit() {
     if (this.loginForm.invalid) {
       alert('Inserisci email e password');
@@ -73,6 +78,11 @@ export class Login {
     });
   }
 
+  /**
+   * Gestisce il submit del form di registrazione.
+   * Valida tutti i dati, verifica che le password corrispondano,
+   * invia i dati al servizio di autenticazione e poi passa alla pagina di login.
+   */
   onRegisterSubmit() {
     if (this.registerForm.invalid) {
       alert('Compila tutti i campi');

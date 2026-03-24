@@ -26,7 +26,10 @@ export class AuthService {
     }
   }
 
-  // Mock per registrazione - quando backend pronto, sostituisci con chiamata HTTP
+  /**
+   * Registra un nuovo utente.
+   * Attualmente è una simulazione (mock) - quando il backend sarà pronto, effettuerà una vera richiesta.
+   */
   register(userData: { nome: string; cognome: string; email: string; password: string }): Observable<any> {
     // TODO: Quando il backend sarà pronto, usa:
     // return this.http.post('/api/auth/register', userData);
@@ -34,7 +37,11 @@ export class AuthService {
     return of({ success: true, message: 'Registrazione completata (mock)' });
   }
 
-  // Mock per login - quando backend pronto, sostituisci con chiamata HTTP
+  /**
+   * Esegue il login dell'utente.
+   * Verifica le credenziali, salva il token nel browser e aggiorna lo stato dell'utente.
+   * Attualmente è una simulazione - il backend restituirà il vero token.
+   */
   login(credentials: { email: string; password: string }): Observable<any> {
     // TODO: Quando il backend sarà pronto, usa:
     // return this.http.post('/api/auth/login', credentials).pipe(
@@ -51,7 +58,10 @@ export class AuthService {
     return of({ success: true, user: mockUser, token: 'mock-token' });
   }
 
-  // Mock per logout - quando backend pronto, aggiungi chiamata HTTP se necessario
+  /**
+   * Disconnette l'utente.
+   * Rimuove il token dal browser e lo riporta alla homepage.
+   */
   logout(): void {
     // TODO: Quando il backend sarà pronto, usa:
     // this.http.post('/api/auth/logout', {}).subscribe();
@@ -65,10 +75,18 @@ export class AuthService {
   //   return this.http.get<User>('/api/auth/validate');
   // }
 
+  /**
+   * Recupera il token di autenticazione salvato nel browser.
+   * Ritorna null se l'utente non è loggato.
+   */
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
+  /**
+   * Verifica se l'utente è attualmente loggato.
+   * Ritorna true se esiste un token, false altrimenti.
+   */
   isLoggedIn(): boolean {
     return !!this.getToken();
   }

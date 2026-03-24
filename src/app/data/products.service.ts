@@ -184,27 +184,27 @@ export class ProductsService {
   ]);
 
   /**
-   * Vista in sola lettura per i componenti.
-   * Tenerla come `computed` permette di cambiare in futuro l’implementazione (async / stateful)
-   * senza dover modificare i componenti.
+   * Vista in sola lettura di tutti i prodotti disponibili.
+   * I componenti possono accedere a questo elenco per mostrarli all'utente.
+   * Quando il backend sarà pronto, verrà caricato automaticamente da API.
    */
   readonly all = computed(() => this.items());
 
   /**
-   * Lookup usato dalla pagina dettaglio prodotto.
-   *
-   * Migrazione backend:
-   * - Opzione A (semplice): fetch per id (GET `/api/products/:id`) e cache dei risultati
-   * - Opzione B (catalogo): fetch del catalogo una volta e lookup locale come ora
+   * Cerca un prodotto specifico per ID.
+   * Viene usato dalla pagina di dettaglio per mostrare le informazioni complete del libro scelto.
+   * @param id - L'identificatore univoco del prodotto
+   * @return Il prodotto trovato, oppure undefined se non esiste
    */
   getById(id: string | null | undefined) {
     const safeId = (id ?? '').trim().toLowerCase();
     return this.items().find((p) => p.id === safeId);
   }
   /**
-   * Migrazione backend:
-   * Quando il backend sarà disponibile, questo metodo farà una GET
-   * e aggiornerà lo stato `items`.
+   * Carica i prodotti da un'origine esterna (backend).
+   * Quando il backend sarà disponibile, questo metodo riceverà i dati dall'API
+   * e li salverà nello stato interno dell'applicazione.
+   * @param products - Array dei prodotti ricevuti dal backend
    */
   loadFromBackend(products: Product[]) {
     this.items.set(products);

@@ -41,15 +41,27 @@ export class ProductDetail {
     private readonly products: ProductsService,
   ) {}
 
+  /**
+   * Cambia la scheda visualizzata tra descrizione dettagliata e specificità del prodotto.
+   */
   setTab(tab: 'descrizione' | 'dettagli') {
     this.tab.set(tab);
   }
 
+  /**
+   * Aggiorna il formato scelto quando l'utente lo cambia nel dropdown.
+   * Questo modifica automaticamente il prezzo visualizzato.
+   */
   onFormatChange(value: string) {
     const idx = Number(value);
     this.selectedFormatIndex.set(Number.isFinite(idx) ? idx : 0);
   }
 
+  /**
+   * Aggiunge il libro al carrello.
+   * Attualmente mostra solo un messaggio di conferma (mock).
+   * Quando il backend sarà pronto, invierà i dati al servizio carrello.
+   */
   addToCart() {
     /**
      * Migrazione backend:

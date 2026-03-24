@@ -13,6 +13,11 @@ export class MostWanted {
   @ViewChild('carousel') carousel! : ElementRef;
 
 
+  /**
+   * Fa scorrere il carosello dei prodotti più cercati verso sinistra o destra.
+   * Lo scorrimento è fluido e animato per un'esperienza utente migliore.
+   * @param direction 1 per scorrere a destra, -1 per scorrere a sinistra
+   */
   scroll(direction: number) {
     // Sposta di 400px (o quanto è larga la tua card + gap)
     const direzione=400;

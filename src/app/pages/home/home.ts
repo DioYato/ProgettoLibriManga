@@ -38,6 +38,9 @@ export class Home {
    * - La logica del carosello resta identica: serve solo un array di `{ name, img }`
    */
 
+  /**
+   * Sposta il carosello degli autori verso sinistra (slide precedente).
+   */
   prevAuthors() {
     const count = this.authorSlideCount();
     if (count <= 1) return;
@@ -45,6 +48,9 @@ export class Home {
     this.authorSlideIndex.set(next);
   }
 
+  /**
+   * Sposta il carosello degli autori verso destra (slide successiva).
+   */
   nextAuthors() {
     const count = this.authorSlideCount();
     if (count <= 1) return;
@@ -52,6 +58,10 @@ export class Home {
     this.authorSlideIndex.set(next);
   }
 
+  /**
+   * Passa direttamente a una slide specifica del carosello.
+   * Usato quando l'utente clicca su un puntatore numerico.
+   */
   setAuthorSlide(i: number) {
     const count = this.authorSlideCount();
     const clamped = Math.max(0, Math.min(i, count - 1));
