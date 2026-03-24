@@ -12,7 +12,7 @@
       <button class="tab" [class.active]="mode==='register'" type="button" (click)="switchMode('register')">Registrati</button>
     </div>
 
-    <ng-container *ngIf="mode === 'login'">
+    @if(mode === 'login') {
       <div class="auth-social">
         <span class="label">Accedi con:</span>
         <div class="icons">
@@ -43,9 +43,7 @@
 
         <button type="submit" class="primary-btn">Accedi</button>
       </form>
-    </ng-container>
-
-    <ng-container *ngIf="mode === 'register'">
+    } @else {
       <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
         <div class="row-2">
           <label>
@@ -76,7 +74,7 @@
 
         <button type="submit" class="primary-btn">Crea account</button>
       </form>
-    </ng-container>
+    }
 
   </div>
 </div>
