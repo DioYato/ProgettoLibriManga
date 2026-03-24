@@ -1,47 +1,83 @@
+<app-home></app-home>
+
 <div class="auth-overlay">
   <div class="auth-dialog">
     <div class="auth-header">
-      <h2>Accedi/Registrati</h2>
-      <button class="auth-close" routerLink="/">×</button>
+      <h2>{{ mode === 'login' ? 'Accedi' : 'Registrati' }}</h2>
+      <button class="auth-close" type="button" (click)="close()">×</button>
     </div>
 
     <div class="auth-tabs">
-      <button class="tab active">Accedi</button>
-      <button class="tab" routerLink="/register">Registrati</button>
+      <button class="tab" [class.active]="mode==='login'" type="button" (click)="switchMode('login')">Accedi</button>
+      <button class="tab" [class.active]="mode==='register'" type="button" (click)="switchMode('register')">Registrati</button>
     </div>
 
-    <div class="auth-social">
-      <span class="label">Accedi con:</span>
-      <div class="icons">
-        <button type="button" class="social fb">f</button>
-        <button type="button" class="social apple"></button>
+    <ng-container *ngIf="mode === 'login'">
+      <div class="auth-social">
+        <span class="label">Accedi con:</span>
+        <div class="icons">
+          <button type="button" class="social fb">f</button>
+          <button type="button" class="social apple"></button>
+        </div>
       </div>
-    </div>
 
-    <hr />
+      <hr />
 
-    <!-- FORM LOGIN MODERNO -->
-    <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+        <label>
+          <span class="field-label">Email*</span>
+          <input type="email" formControlName="email" />
+        </label>
 
-      <label>
-        <span class="field-label">Email*</span>
-        <input type="email" formControlName="email" />
-      </label>
+        <label>
+          <span class="field-label">Password*</span>
+          <input type="password" formControlName="password" />
+        </label>
 
-      <label>
-        <span class="field-label">Password*</span>
-        <input type="password" formControlName="password" />
-      </label>
+        <a class="forgot" href="#">Hai dimenticato la password?</a>
 
-      <a class="forgot" href="#">Hai dimenticato la password?</a>
+        <label class="remember">
+          <input type="checkbox" />
+          <span>Ricordami</span>
+        </label>
 
-      <label class="remember">
-        <input type="checkbox" />
-        <span>Ricordami</span>
-      </label>
+        <button type="submit" class="primary-btn">Accedi</button>
+      </form>
+    </ng-container>
 
-      <button type="submit" class="primary-btn">Accedi</button>
-    </form>
+    <ng-container *ngIf="mode === 'register'">
+      <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+        <div class="row-2">
+          <label>
+            <span class="field-label">Nome*</span>
+            <input type="text" formControlName="nome" />
+          </label>
+
+          <label>
+            <span class="field-label">Cognome*</span>
+            <input type="text" formControlName="cognome" />
+          </label>
+        </div>
+
+        <label>
+          <span class="field-label">Email*</span>
+          <input type="email" formControlName="email" />
+        </label>
+
+        <label>
+          <span class="field-label">Password*</span>
+          <input type="password" formControlName="password" />
+        </label>
+
+        <label>
+          <span class="field-label">Conferma password*</span>
+          <input type="password" formControlName="confermaPassword" />
+        </label>
+
+        <button type="submit" class="primary-btn">Crea account</button>
+      </form>
+    </ng-container>
+
   </div>
 </div>
 

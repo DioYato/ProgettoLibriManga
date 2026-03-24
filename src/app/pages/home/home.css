@@ -229,6 +229,14 @@
   font-weight: bold;
 }
 
+.section-title {
+  margin: 36px 20px 14px;
+  font-size: 28px;
+  color: #0c2c6b;
+  text-align: center;
+  font-weight: 800;
+}
+
 .features {
   display: flex;
   justify-content: center;
@@ -238,6 +246,7 @@
 
 .feature {
   background: white;
+  color: #123056;
   padding: 20px;
   width: 280px;
   border-radius: 12px;

@@ -1,8 +1,16 @@
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-   background-color: #303030;
+  background-color: #f5f9ff; /* theme chiaro */
+  color: #1e2a3a;
+}
 
+:root {
+  --brand-primary: #0047b3;
+  --brand-secondary: #00a1ff;
+  --surface: #ffffff;
+  --surface-alt: #f2f6ff;
+  --text-default: #1e2a3a;
 }
 
 .auth-overlay {

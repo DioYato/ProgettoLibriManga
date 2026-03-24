@@ -6,7 +6,7 @@ import { MostWanted } from "../../shared/most-wanted/most-wanted";
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, Carosello, MostWanted],
+  imports: [Carosello, MostWanted],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
