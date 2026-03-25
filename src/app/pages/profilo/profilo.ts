@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../data/auth.service';
 import { AsyncPipe } from '@angular/common';
+import { UsersService } from '../../data/users.service';
 
 @Component({
   selector: 'app-profilo',
@@ -13,6 +14,7 @@ import { AsyncPipe } from '@angular/common';
 export class Profilo {
 
   auth = inject(AuthService);
+  users = inject(UsersService)
 
   form = new FormGroup({
     nome: new FormControl('', Validators.required),
@@ -38,7 +40,13 @@ export class Profilo {
       return;
     }
 
-    console.log("Dati aggiornati:", this.form.value);
-    alert("Dati aggiornati (frontend)");
+    const user = JSON.parse(localStorage.getItem('user')!);
+
+    this.users.update(user.id, this.form.value).subscribe({
+      next: () => {
+        alert("Dati aggiornati");
+      },
+      error: (err: any) => alert('Errore: ' + (err?.message || 'impossibile registrare'))
+    });
   }
 }
