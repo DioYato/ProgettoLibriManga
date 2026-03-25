@@ -13,7 +13,11 @@
     <div class="center">
        <button routerLink="" class="button_navbar">Home</button>
        <button routerLink="products" class="button_navbar">Prodotti</button>
-       <button routerLink="login" class="button_navbar">Login</button>
+       @if (!(this.auth.user$ | async)) {
+          <button routerLink="login" class="button_navbar">Login</button>
+       } @else {
+          <button (click)="this.auth.logout()" class="button_navbar">Logout</button>
+       }
     </div>
 
 
