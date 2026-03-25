@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../../app/data/auth.service';
+import { AuthService } from '../../data/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -41,8 +41,12 @@ export class Register {
     };
 
     this.auth.register(payload).subscribe({
-      next: () => alert('Registrazione completata'),
-      error: (err) => alert('Errore: ' + err.message)
+      next: () => {
+        alert('Registrazione completata');
+      },
+      error: (err: any) => {
+        alert('Errore: ' + (err?.message || 'Impossibile registrare'));
+      }
     });
   }
 }

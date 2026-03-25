@@ -4,7 +4,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { tokenInterceptor } from './data/token.interceptor';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,6 +12,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     // TODO: Quando il backend sarà pronto, questo fornisce HttpClient con interceptor per token JWT
-    provideHttpClient(withInterceptors([tokenInterceptor]))
+    provideHttpClient()
   ]
 };

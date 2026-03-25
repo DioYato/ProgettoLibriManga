@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../app/data/auth.service';
+import { AuthService } from '../../data/auth.service';
 import { Home } from '../home/home';
 
 @Component({
@@ -47,11 +47,7 @@ export class Login {
     }
   }
 
-  /**
-   * Gestisce il submit del form di login.
-   * Valida i dati inseriti, invia le credenziali al servizio di autenticazione
-   * e se il login ha successo reindirizza alla homepage.
-   */
+  // 🔥 LOGIN SEMPLICE SENZA TOKEN
   onLoginSubmit() {
     if (this.loginForm.invalid) {
       alert('Inserisci email e password');
@@ -63,14 +59,8 @@ export class Login {
       password: this.loginForm.value.password!
     };
 
-    // TODO: domani il backend deve restituire un oggetto login con token + utente.
-    // Qui puoi poi salvare uno user context in un service giusto per tenere l'utente loggato.
     this.auth.login(payload).subscribe({
-      next: (res: any) => {
-        if (res.token) {
-          localStorage.setItem('token', res.token);
-        }
-
+      next: () => {
         alert('Login effettuato');
         this.router.navigate(['/']);
       },
@@ -78,11 +68,7 @@ export class Login {
     });
   }
 
-  /**
-   * Gestisce il submit del form di registrazione.
-   * Valida tutti i dati, verifica che le password corrispondano,
-   * invia i dati al servizio di autenticazione e poi passa alla pagina di login.
-   */
+  // 🔥 REGISTRAZIONE
   onRegisterSubmit() {
     if (this.registerForm.invalid) {
       alert('Compila tutti i campi');
@@ -101,9 +87,6 @@ export class Login {
       password: this.registerForm.value.password!
     };
 
-    // TODO: qui si chiama /api/users/create, poi si può navigare su /login.
-    // In futuro: mostra feedback più dettagliati degli errori (es. email già usata).
-
     this.auth.register(payload).subscribe({
       next: () => {
         alert('Registrazione completata');
@@ -117,4 +100,3 @@ export class Login {
     this.router.navigate(['/']);
   }
 }
-
