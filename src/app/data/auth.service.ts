@@ -18,7 +18,7 @@ export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
 
-  private api = 'http://localhost:8080/api/auth';
+  private api = 'http://localhost:8080/utenti';
 
   constructor(private http: HttpClient, private router: Router) {
     const user = localStorage.getItem('user');
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   register(data: any) {
-    return this.http.post(`${this.api}/register`, data);
+    return this.http.post(`${this.api}/create`, data);
   }
 
   login(credentials: { email: string; password: string }) {

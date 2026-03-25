@@ -47,7 +47,7 @@ export class Login {
     }
   }
 
-  // 🔥 LOGIN SEMPLICE SENZA TOKEN
+  // LOGIN SEMPLICE SENZA TOKEN
   onLoginSubmit() {
     if (this.loginForm.invalid) {
       alert('Inserisci email e password');
@@ -68,7 +68,7 @@ export class Login {
     });
   }
 
-  // 🔥 REGISTRAZIONE
+  // REGISTRAZIONE
   onRegisterSubmit() {
     if (this.registerForm.invalid) {
       alert('Compila tutti i campi');
@@ -84,7 +84,8 @@ export class Login {
       nome: this.registerForm.value.nome!,
       cognome: this.registerForm.value.cognome!,
       email: this.registerForm.value.email!,
-      password: this.registerForm.value.password!
+      password: this.registerForm.value.password!,
+      ruolo: 'USER',
     };
 
     this.auth.register(payload).subscribe({
