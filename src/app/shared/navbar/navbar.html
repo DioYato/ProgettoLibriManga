@@ -2,31 +2,29 @@
 
   <div class="left">
 
-     <a routerLink="/" class="logo">
+    <a routerLink="/" class="logo">
       <img src="https://www.mondadoristore.it/assets/img/Mondadori_logo_positivo.svg" alt="Logo">
     </a>
 
-    <div class="spazziatore ">
-
-    </div>
+    <div class="spazziatore"></div>
 
     <div class="center">
-       <button routerLink="" class="button_navbar">Home</button>
-       <button routerLink="products" class="button_navbar">Prodotti</button>
-       @if (!(this.auth.user$ | async)) {
-          <button routerLink="login" class="button_navbar">Login</button>
-       } @else {
-          <button (click)="this.auth.logout()" class="button_navbar">Logout</button>
-       }
-    </div>
+      <button routerLink="" class="button_navbar">Home</button>
+      <button routerLink="products" class="button_navbar">Prodotti</button>
 
+      @if (!(auth.user$ | async)) {
+        <button routerLink="login" class="button_navbar">Login</button>
+      } @else {
+        <span class="button_navbar" (click)="goToProfile()">
+          Benvenuto, {{ (auth.user$ | async)!.nome }}
+        </span>
+        <button class="button_navbar" (click)="logout()">Logout</button>
+      }
+    </div>
 
   </div>
 
-  
-   <input type="text" class="input" placeholder="Cosa stai cercando?">
-
-    
+  <input type="text" class="input" placeholder="Cosa stai cercando?">
 
   <div class="right">
     <button routerLink="mappa" class="img_cart_cont" title="Trova BookStore">
@@ -37,6 +35,4 @@
     </button>
   </div>
 
-
 </nav>
-

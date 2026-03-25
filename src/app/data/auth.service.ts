@@ -1,8 +1,7 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
 
 export interface User {
   id: number;
@@ -21,8 +20,15 @@ export class AuthService {
 
   private api = 'http://localhost:8080/utenti';
 
-  constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
-    if (isPlatformBrowser(this.platformId)) {
+  // Serve per evitare errori con SSR
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined';
+  }
+
+  constructor(private http: HttpClient, private router: Router) {
+
+    // Carica l’utente SOLO se siamo nel browser
+    if (this.isBrowser()) {
       const user = localStorage.getItem('user');
       if (user) {
         this.userSubject.next(JSON.parse(user));
@@ -37,21 +43,32 @@ export class AuthService {
   login(credentials: { email: string; password: string }) {
     return this.http.post(`${this.api}/login`, credentials).pipe(
       tap((user: any) => {
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('user', JSON.stringify(user));
+
+        // Salva SOLO se siamo nel browser
+        if (this.isBrowser()) {
+          localStorage.setItem('userId', user.id);
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+
         this.userSubject.next(user);
       })
     );
   }
 
   logout() {
-    localStorage.removeItem('userId');
-    localStorage.removeItem('user');
+
+    // Rimuove SOLO se siamo nel browser
+    if (this.isBrowser()) {
+      localStorage.removeItem('userId');
+      localStorage.removeItem('user');
+    }
+
     this.userSubject.next(null);
     this.router.navigate(['/']);
   }
 
   isLoggedIn(): boolean {
+    if (!this.isBrowser()) return false;
     return !!localStorage.getItem('userId');
   }
 }

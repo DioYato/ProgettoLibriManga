@@ -1,9 +1,18 @@
-import { CanActivateFn } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router, CanActivateFn } from '@angular/router';
+import { AuthService } from './data/auth.service';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
 
-  return true;
+ const user = JSON.parse(localStorage.getItem('user') || 'null');
 
-  // Quando avrò il backend:
-  
+  if (user) {
+    return true;
+  }
+
+  router.navigate(['/login']);
+  return false;
 };
+

@@ -15,4 +15,9 @@ export const routes: Routes = [
   { path: 'login', component: Login, data: { mode: 'login' } },
   { path: 'register', component: Login, data: { mode: 'register' } },
   { path: 'mappa', component: MapPage },
+  {path: 'profilo',loadComponent: () => import('./pages/profilo/profilo').then(m => m.Profilo)},
+  {path: 'profilo',canActivate: [authGuard],loadComponent: () => import('./pages/profilo/profilo').then(m => m.Profilo)
+}
+
+
 ];

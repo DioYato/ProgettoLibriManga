@@ -1,0 +1,18 @@
+<h2>Profilo Utente</h2>
+
+<form [formGroup]="form" (ngSubmit)="salva()">
+
+  <label>Nome</label>
+  <input formControlName="nome">
+
+  <label>Cognome</label>
+  <input formControlName="cognome">
+
+  <label>Email</label>
+  <input formControlName="email">
+
+  <label>Nuova Password (opzionale)</label>
+  <input type="password" formControlName="password">
+
+  <button type="submit">Salva modifiche</button>
+</form>
