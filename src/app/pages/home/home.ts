@@ -3,10 +3,11 @@ import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../data/products.service';
 import { Carosello } from "../../shared/carosello/carosello";
 import { MostWanted } from "../../shared/most-wanted/most-wanted";
+import { CardRettangolo } from "../../shared/card-rettangolo/card-rettangolo";
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, Carosello, MostWanted],
+  imports: [RouterLink, Carosello, MostWanted, CardRettangolo],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

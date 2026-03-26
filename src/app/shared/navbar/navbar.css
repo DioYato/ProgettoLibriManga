@@ -1,87 +1,61 @@
+/* NAVBAR PRINCIPALE */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #303030;
-  padding: 10px;
+  padding: 0 40px;
   height: 90px;
+  position: relative; /* Necessario per contenere il menu a larghezza intera */
 }
 
-.left {
+.left, .center {
   display: flex;
   align-items: center;
   gap: 20px;
-  margin-left: 40px;
 }
-
-.spazziatore {
-  width: 10px;
-  height: 50px;
-  background-color: white;
-}
-
-
 
 .button_navbar {
   background-color: transparent;
   border: none;
   color: white;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 10px;
   font-size: 18px;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: 0.3s;
+  border-radius: 20px;
 }
-
 
 .button_navbar:hover {
-  background-color: gray;
-  height: 50px;
-  border-radius: 20px;
-  color: white;
-  font-size: 17px;
-  cursor: pointer;
-  transition: 0.4s;
+  background-color: #505050;
 }
 
+
+
+/* INPUT E CARRELLO */
 .input {
-  margin-right: 190px;
-  width: 450px;
-  height: 37px;
+  width: 400px;
+  height: 42px;
   border-radius: 10px;
-  box-shadow: 5px 5px 5px rgba(255, 255, 255, 0.2);
-  font-size: 19px;
-  border: 1px solid #b1b1b1;
-
-  padding-left: 15px;  /* Allontana il testo dal bordo sinistro */
-  padding-right: 15px; /* Sicurezza per quando il testo è molto lungo */
-  box-sizing: border-box; /* Assicura che il padding sia incluso nella larghezza totale */
+  border: none;
+  padding: 0 15px;
+  font-size: 16px;
+  outline: none;
 }
 
-
+.img_cart_cont {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  filter: invert(1); /* Icona bianca */
+}
 
 .right {
   display: flex;
   align-items: center;
-  margin-right: 90px;
+  margin-right: 40px; /* Ridotto un po' per bilanciare la navbar */
 }
-
-.img_cart_cont {
-  background-color: transparent;
-  height: 60px;
-  width: 60px;
-  cursor: pointer;
-  border: none;
-  padding: 10px;
-}
-
-
-.img_cart_cont:hover {
-  background-color: rgb(194, 194, 194);
-  border-radius: 30px;
-  border: none;
-  transition: 0.4s;
-}
-
 
 img {
   width: 100%;
