@@ -38,14 +38,14 @@
           <div class="p-card__media">
             <img
               class="p-card__img"
-              [src]="p.immagine"
+              [src]="p.copertina"
               [alt]="p.titolo"
             />
           </div>
 
           <h3 class="p-card__title">{{ p.titolo }}</h3>
 
-          <div class="p-card__author">{{ p.autore }}</div>
+          <div class="p-card__author">{{ p.autore.nome }} {{ p.autore.cognome }}</div>
 
           <div class="p-card__availability">
             Disponibile
