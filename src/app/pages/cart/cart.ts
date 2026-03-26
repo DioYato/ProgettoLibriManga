@@ -8,6 +8,11 @@ import { CartService } from '../../data/cart.service';
   styleUrl: './cart.css',
 })
 export class Cart {
+remove(id: number) {
+  this.cart.remove(id);
+}
+
+
 
   private readonly cart = inject(CartService);
 
