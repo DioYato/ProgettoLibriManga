@@ -2,17 +2,33 @@
   <h1>Carrello</h1>
 
   @if (items().length === 0) {
-    <p>Il carrello è vuoto.</p>
+    <p class="empty">Il carrello è vuoto.</p>
   } @else {
-    <ul>
+
+    <ul class="cart-list">
       @for (item of items(); track item.product.id) {
-        <li>
-          <strong>{{ item.product.titolo }}</strong>
-          — {{ item.quantity }} × €{{ item.product.prezzo }}
+        <li class="cart-card">
+
+          <div class="cart-left">
+            <img class="cart-img"
+                 [src]="item.product.immagine"
+                 [alt]="item.product.titolo" />
+          </div>
+
+          <div class="cart-right">
+            <strong class="cart-title">{{ item.product.titolo }}</strong>
+            <div class="cart-author">{{ item.product.autore }}</div>
+
+            <div class="cart-qty">
+              {{ item.quantity }} × €{{ item.product.prezzo }}
+            </div>
+          </div>
+
         </li>
       }
     </ul>
 
-    <h2>Totale: €{{ total() }}</h2>
+    <h2 class="cart-total">Totale: €{{ total() }}</h2>
   }
 </section>
+
