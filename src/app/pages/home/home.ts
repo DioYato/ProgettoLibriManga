@@ -4,10 +4,12 @@ import { ProductsService } from '../../data/products.service';
 import { Carosello } from "../../shared/carosello/carosello";
 import { MostWanted } from "../../shared/most-wanted/most-wanted";
 import { CardRettangolo } from "../../shared/card-rettangolo/card-rettangolo";
+import { CartServizi } from "../../shared/cart-servizi/cart-servizi";
+import { CartTipologia } from "../../shared/cart-tipologia/cart-tipologia";
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, Carosello, MostWanted, CardRettangolo],
+  imports: [RouterLink, Carosello, MostWanted, CardRettangolo, CartServizi, CartTipologia],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
