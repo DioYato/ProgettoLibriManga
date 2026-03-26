@@ -11,13 +11,13 @@
 
           <div class="cart-left">
             <img class="cart-img"
-                 [src]="item.product.immagine"
+                 [src]="imageUrl(item.product.copertina)"
                  [alt]="item.product.titolo" />
           </div>
 
           <div class="cart-right">
             <strong class="cart-title">{{ item.product.titolo }}</strong>
-            <div class="cart-author">{{ item.product.autore }}</div>
+            <div class="cart-author">{{ item.product.autore.nome }} {{ item.product.autore.cognome }}</div>
 
             <div class="cart-qty">
               {{ item.quantity }} × €{{ item.product.prezzo }}

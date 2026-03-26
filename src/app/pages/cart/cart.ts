@@ -7,10 +7,17 @@ import { CartService } from '../../data/cart.service';
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })
-export class CartComponent {
+export class Cart {
 
   private readonly cart = inject(CartService);
 
   readonly items = computed(() => this.cart.all());
   readonly total = computed(() => this.cart.total());
+
+  imageUrl(copertina?: string) {
+    if (!copertina) {
+      return ''
+    }
+    return `http://localhost:8080/images/${copertina}`;
+  }
 }
