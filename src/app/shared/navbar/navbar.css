@@ -100,3 +100,19 @@ img {
   width: 100%;
   object-fit: cover;
 }
+
+.img_cart_cont {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+

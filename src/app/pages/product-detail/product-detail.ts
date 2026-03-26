@@ -2,6 +2,8 @@ import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductsService } from '../../data/products.service';
+import { CartService } from '../../data/cart.service';
+
 
 @Component({
   selector: 'app-product-detail',
@@ -22,6 +24,7 @@ export class ProductDetail implements OnInit {
 
   // Prodotto ottenuto dal service
   readonly product = computed(() => this.products.getById(this.id()));
+  private readonly cart = inject(CartService);
 
   constructor() {}
 
@@ -35,8 +38,13 @@ export class ProductDetail implements OnInit {
   }
 
   addToCart() {
-    alert('Aggiunto al carrello (mock)');
-  }
+  const p = this.product();
+  if (!p) return;
+
+  this.cart.add(p);
+  alert('Prodotto aggiunto al carrello!');
+}
+
 }
 
 
