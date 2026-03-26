@@ -1,3 +1,4 @@
+ 
 <nav class="navbar">
 
   <div class="left">
@@ -13,18 +14,10 @@
       <button routerLink="products" class="button_navbar">Prodotti</button>
 
       @if (!(auth.user$ | async)) {
-  <button routerLink="login" class="button_navbar">Login</button>
-} @else {
-
-  <button class="profile-btn" (click)="goToProfile()" title="Profilo">
-    <img class="profile-icon"
-         src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-         alt="Profilo">
-  </button>
-
-  <button class="button_navbar" (click)="logout()">Logout</button>
-}
-
+        <button routerLink="login" class="button_navbar">Login</button>
+      } @else {
+        <button class="button_navbar" (click)="logout()">Logout</button>
+      }
     </div>
 
   </div>
@@ -32,14 +25,24 @@
   <input type="text" class="input" placeholder="Cosa stai cercando?">
 
   <div class="right">
+
     <button routerLink="mappa" class="img_cart_cont" title="Trova BookStore">
       <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Mappa">
     </button>
-    <button routerLink="cart" class="img_cart_cont" title="Carrello">
-  <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Carrello">
 
-  <span class="badge">{{ cartCount() }}</span>
-</button>
+    <!-- OMINO SOLO SE LOGGATO, ACCANTO AL CARRELLO -->
+    @if (auth.user$ | async) {
+      <button class="img_cart_cont" (click)="goToProfile()" title="Profilo">
+        <img class="profile-icon"
+             src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+             alt="Profilo">
+      </button>
+    }
+
+    <button routerLink="cart" class="img_cart_cont" title="Carrello">
+      <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Carrello">
+      <span class="badge">{{ cartCount() }}</span>
+    </button>
 
   </div>
 
