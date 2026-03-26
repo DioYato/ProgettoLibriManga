@@ -21,7 +21,7 @@
         <h1 class="pdp__title">{{ p.titolo }}</h1>
 
         <a class="pdp__author" href="#" (click)="$event.preventDefault()">
-          {{ p.autore }}
+          {{ p.autore.nome }} {{ p.autore.cognome }}
         </a>
 
         <div class="pdp__bullets">
