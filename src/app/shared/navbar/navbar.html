@@ -1,8 +1,6 @@
  
 <nav class="navbar">
-
   <div class="left">
-
     <a routerLink="/" class="logo">
       <img src="https://www.mondadoristore.it/assets/img/Mondadori_logo_positivo.svg" alt="Logo">
     </a>
@@ -25,11 +23,10 @@
   <input type="text" class="input" placeholder="Cosa stai cercando?">
 
   <div class="right">
-
     <button routerLink="mappa" class="img_cart_cont" title="Trova BookStore">
       <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Mappa">
     </button>
-
+    
     <!-- OMINO SOLO SE LOGGATO, ACCANTO AL CARRELLO -->
     @if (auth.user$ | async) {
       <button class="img_cart_cont" (click)="goToProfile()" title="Profilo">

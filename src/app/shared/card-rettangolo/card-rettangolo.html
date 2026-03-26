@@ -1,0 +1,20 @@
+
+  <h2 style="text-align: left; font-family: sans-serif; font-size: 30px; margin-top: 40px; margin-left: 40px;  color: white;">visualizza per categoria >></h2>
+
+
+<div class="conteiner_section">
+
+    <div class="grid_cards">
+
+    @for (card of cards; track card.img) {
+        <div class="card_in_sè">
+            <div class="img_cont">
+                <img [src]="card.img" alt="genre_img">
+            </div>
+            <h3>{{card.genere}}</h3>
+        </div>
+    }
+    
+    </div>
+
+</div>

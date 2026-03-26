@@ -1,0 +1,56 @@
+.conteiner_section {
+    background-color: transparent;
+    margin: 40px auto; 
+    max-width: 1300px; /* Aumentato leggermente per ospitare card più grandi */
+    padding: 20px;
+}
+
+.grid_cards {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* MODIFICATO: Spazio ridotto per bilanciare le card più grandi */
+    padding: 20px;
+    flex-wrap: nowrap;
+}
+
+.card_in_sè {
+    display: flex;
+    flex-direction: column;
+    /* --- MODIFICATO: Aumentata la larghezza (e quindi l'altezza quadrata) --- */
+    width: 340px; /* Era 250px. Ora sono più larghe e lunghe */
+    border-radius: 15px; 
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card_in_sè:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.img_cont {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* L'altezza segue la larghezza automaticamente (280x280) */
+    background-color: #333; 
+    overflow: hidden;
+}
+
+.img_cont img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+h3 {
+    background-color: #000; 
+    color: #fff; 
+    width: 100%;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 19px; /* Aumentato leggermente il font per proporzione */
+    font-weight: bold;
+    margin: 0;
+    padding: 18px 5px; /* Aumentato leggermente il padding per proporzione */
+    box-sizing: border-box;
+}
