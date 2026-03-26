@@ -23,7 +23,15 @@ export class Profilo {
     password: new FormControl('')
   });
 
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined';
+  }
+
   ngOnInit() {
+    if (!this.isBrowser()) {
+      return;
+    }
+
     const user = JSON.parse(localStorage.getItem('user')!);
     if (user) {
       this.form.patchValue({
