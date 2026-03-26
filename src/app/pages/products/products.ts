@@ -14,24 +14,21 @@ export class Products implements OnInit {
 
   private readonly productsService = inject(ProductsService);
 
-  // Testo della ricerca
   readonly query = signal('');
+  readonly sort = signal('');
 
-  // Lista prodotti filtrata
   readonly products = computed(() => {
     const q = this.query().trim().toLowerCase();
-    const items = this.productsService.all(); // <-- ora vengono dal backend
+    const items = this.productsService.all();
 
     if (!q) return items;
 
-    // ATTENZIONE: ora il backend manda "titolo", non "name"
     return items.filter((p) =>
       p.titolo.toLowerCase().includes(q)
     );
   });
 
   ngOnInit() {
-    // Carica i prodotti dal backend
     this.productsService.loadFromBackend();
   }
 
@@ -39,11 +36,17 @@ export class Products implements OnInit {
     this.query.set(value);
   }
 
+  onSortChange(event: Event) {
+  const value = (event.target as HTMLSelectElement)?.value ?? '';
+  this.sort.set(value);
+  this.productsService.loadFromBackend(value);
+}
+
+
   imageUrl(copertina?: string) {
-    if (!copertina) {
-      return ''
-    }
+    if (!copertina) return '';
     return `http://localhost:8080/images/${copertina}`;
   }
 }
+
 

@@ -6,6 +6,17 @@
     </div>
   </div>
 
+  <select class="sort-select" (change)="onSortChange($event)">
+  <option value="">In evidenza</option>
+  <option value="annoAsc">Anno pubblicazione meno recente</option>
+  <option value="annoDesc">Anno pubblicazione più recente</option>
+  <option value="prezzoAsc">Prezzo crescente</option>
+  <option value="prezzoDesc">Prezzo decrescente</option>
+  <option value="venduti">I più venduti</option>
+</select>
+
+
+
   <div class="toolbar">
     <div class="search">
       <input

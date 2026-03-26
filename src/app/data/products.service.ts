@@ -7,6 +7,7 @@ export type Author = {
 }
 
 export type Product = {
+immagine: any;
   id: number;
   titolo: string;
   autore: Author;
@@ -37,12 +38,17 @@ export class ProductsService {
   /**
    * Carica i prodotti dal backend e aggiorna lo stato interno.
    */
-  loadFromBackend() {
-    this.http.get<Product[]>(`${this.apiUrl}/list`).subscribe({
-      next: (products) => this.items.set(products),
-      error: (err) => console.error('Errore caricamento prodotti:', err),
-    });
-  }
+  loadFromBackend(sort?: string) {
+
+  const params: any = {};
+  if (sort) params.sort = sort;
+
+  this.http.get<Product[]>(`${this.apiUrl}/list`, { params }).subscribe({
+    next: (products) => this.items.set(products),
+    error: (err) => console.error('Errore caricamento prodotti:', err),
+  });
+}
+
 
   /**
    * Restituisce un prodotto per ID.
