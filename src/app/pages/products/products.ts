@@ -38,5 +38,12 @@ export class Products implements OnInit {
   onSearch(value: string) {
     this.query.set(value);
   }
+
+  imageUrl(copertina?: string) {
+    if (!copertina) {
+      return ''
+    }
+    return `http://localhost:8080/images/${copertina}`;
+  }
 }
 

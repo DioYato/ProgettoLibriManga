@@ -9,8 +9,8 @@
 
     <div class="pdp__grid">
       <div class="pdp__media">
-        <img class="pdp__thumb" [src]="p.immagine" [alt]="p.titolo" />
-        <img class="pdp__cover" [src]="p.immagine" [alt]="p.titolo" />
+        <img class="pdp__thumb" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
+        <img class="pdp__cover" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
       </div>
 
       <div class="pdp__info">

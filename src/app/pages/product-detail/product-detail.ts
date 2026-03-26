@@ -45,6 +45,13 @@ export class ProductDetail implements OnInit {
   alert('Prodotto aggiunto al carrello!');
 }
 
+  imageUrl(copertina?: string) {
+    if (!copertina) {
+      return ''
+    }
+    return `http://localhost:8080/images/${copertina}`;
+  }
+
 }
 
 
