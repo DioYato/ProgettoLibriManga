@@ -1,42 +1,42 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../data/products.service';
 
 @Component({
   selector: 'app-products',
+  standalone: true,
   imports: [DecimalPipe, RouterLink],
   templateUrl: './products.html',
   styleUrl: './products.css',
 })
-export class Products {
+export class Products implements OnInit {
 
-  // Memorizza il testo di ricerca inserito dall'utente
+  private readonly productsService = inject(ProductsService);
+
+  // Testo della ricerca
   readonly query = signal('');
 
-  /**
-   * Lista dei prodotti filtrata in base alla ricerca.
-   * Se l'utente scrive qualcosa, vengono mostrati solo i prodotti che contengono quel testo nel nome.
-   * Se il campo è vuoto, vengono mostrati tutti i prodotti.
-   */
+  // Lista prodotti filtrata
   readonly products = computed(() => {
     const q = this.query().trim().toLowerCase();
-
-    // Per ora usiamo i prodotti finti
-    const items = this.productsService.all();
+    const items = this.productsService.all(); // <-- ora vengono dal backend
 
     if (!q) return items;
 
-    return items.filter((p) => p.name.toLowerCase().includes(q));
+    // ATTENZIONE: ora il backend manda "titolo", non "name"
+    return items.filter((p) =>
+      p.titolo.toLowerCase().includes(q)
+    );
   });
 
-  constructor(private readonly productsService: ProductsService) {}
+  ngOnInit() {
+    // Carica i prodotti dal backend
+    this.productsService.loadFromBackend();
+  }
 
-  /**
-   * Aggiorna il testo di ricerca quando l'utente scrive nella barra di ricerca.
-   * Questo fa automaticamente rifiltrare l'elenco dei prodotti.
-   */
   onSearch(value: string) {
     this.query.set(value);
   }
 }
+

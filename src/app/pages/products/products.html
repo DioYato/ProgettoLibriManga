@@ -2,7 +2,7 @@
   <div class="head">
     <div>
       <h1>I nostri prodotti</h1>
-      <p class="sub">Catalogo mock (poi arriverà dal backend).</p>
+      <p class="sub">Dati caricati dal backend.</p>
     </div>
   </div>
 
@@ -27,6 +27,7 @@
 
   <div class="grid">
     @for (p of products(); track p.id; let i = $index) {
+
       <a class="p-cardLink" [routerLink]="['/products', p.id]">
         <article class="p-card">
 
@@ -35,23 +36,28 @@
           </div>
 
           <div class="p-card__media">
-            <img class="p-card__img" [src]="p.img" [alt]="p.name" />
+            <img
+              class="p-card__img"
+              [src]="p.immagine"
+              [alt]="p.titolo"
+            />
           </div>
 
-          <h3 class="p-card__title">{{ p.name }}</h3>
+          <h3 class="p-card__title">{{ p.titolo }}</h3>
 
-          <div class="p-card__author">{{ p.author }}</div>
+          <div class="p-card__author">{{ p.autore }}</div>
 
           <div class="p-card__availability">
-            {{ p.availableNow ? 'Disponibilità immediata' : 'Non disponibile' }}
+            Disponibile
           </div>
 
           <div class="p-card__priceRow">
-            €{{ p.price | number: '1.2-2' }}
+            €{{ p.prezzo | number: '1.2-2' }}
           </div>
 
         </article>
       </a>
+
     }
   </div>
 
@@ -59,4 +65,5 @@
     <p class="empty">Nessun prodotto trovato.</p>
   }
 </section>
+
 

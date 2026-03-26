@@ -1,15 +1,16 @@
 <section class="pdp">
   @if (product(); as p) {
+
     <div class="pdp__crumbs">
       <a routerLink="/products" class="pdp__crumb">Prodotti</a>
       <span class="pdp__sep">/</span>
-      <span class="pdp__current">{{ p.name }}</span>
+      <span class="pdp__current">{{ p.titolo }}</span>
     </div>
 
     <div class="pdp__grid">
       <div class="pdp__media">
-        <img class="pdp__thumb" [src]="p.img" [alt]="p.name" />
-        <img class="pdp__cover" [src]="p.img" [alt]="p.name" />
+        <img class="pdp__thumb" [src]="p.immagine" [alt]="p.titolo" />
+        <img class="pdp__cover" [src]="p.immagine" [alt]="p.titolo" />
       </div>
 
       <div class="pdp__info">
@@ -17,13 +18,16 @@
           <span class="pdp__tag">Libro</span>
         </div>
 
-        <h1 class="pdp__title">{{ p.name }}</h1>
-        <a class="pdp__author" href="#" (click)="$event.preventDefault()">{{ p.author }}</a>
+        <h1 class="pdp__title">{{ p.titolo }}</h1>
+
+        <a class="pdp__author" href="#" (click)="$event.preventDefault()">
+          {{ p.autore }}
+        </a>
 
         <div class="pdp__bullets">
           <div class="pdp__bullet">
             <span class="dot dot--ok" aria-hidden="true"></span>
-            <span>{{ p.availableNow ? 'Disponibilità immediata' : 'Non disponibile' }}</span>
+            <span>Disponibile</span>
           </div>
           <div class="pdp__bullet">
             <span class="dot dot--sale" aria-hidden="true"></span>
@@ -32,23 +36,12 @@
         </div>
 
         <div class="pdp__price">
-          €{{ currentPrice() | number: '1.2-2' }}
+          €{{ p.prezzo | number: '1.2-2' }}
         </div>
 
-        @if ((p.formats?.length ?? 0) > 0) {
-          <label class="pdp__selectLabel">
-            <span>Formato</span>
-            <select class="pdp__select" (change)="onFormatChange(($any($event.target)).value)">
-              @for (f of (p.formats ?? []); track f.label; let idx = $index) {
-                <option [value]="idx">
-                  {{ f.label }} | €{{ f.price | number: '1.2-2' }}
-                </option>
-              }
-            </select>
-          </label>
-        }
-
-        <button class="pdp__cta" type="button" (click)="addToCart()">Aggiungi al carrello</button>
+        <button class="pdp__cta" type="button" (click)="addToCart()">
+          Aggiungi al carrello
+        </button>
 
         <div class="pdp__note">
           Articolo acquistabile con i buoni Carta Cultura o Carta Docente
@@ -65,6 +58,7 @@
       >
         Descrizione
       </button>
+
       <button
         class="pdp__tab"
         [class.is-active]="tab() === 'dettagli'"
@@ -77,15 +71,18 @@
 
     <div class="pdp__panel">
       @if (tab() === 'descrizione') {
-        <p class="pdp__text">{{ p.description }}</p>
-      } @else {
+        <p class="pdp__text">{{ p.descrizione }}</p>
+      <!-- } @else {
         <ul class="pdp__list">
           @for (d of (p.details ?? []); track d) {
             <li>{{ d }}</li>
           }
-        </ul>
+        </ul> -->
+
+        <!-- dettagli da integrare in futuro  -->
       }
     </div>
+
   } @else {
     <div class="pdp__notFound">
       <h1>Prodotto non trovato</h1>
@@ -93,4 +90,5 @@
     </div>
   }
 </section>
+
 

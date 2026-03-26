@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../data/auth.service';
-import { AsyncPipe } from '@angular/common';
 import { UsersService } from '../../data/users.service';
 
 @Component({
