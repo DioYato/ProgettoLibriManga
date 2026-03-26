@@ -13,13 +13,18 @@
       <button routerLink="products" class="button_navbar">Prodotti</button>
 
       @if (!(auth.user$ | async)) {
-        <button routerLink="login" class="button_navbar">Login</button>
-      } @else {
-        <span class="button_navbar" (click)="goToProfile()">
-          Benvenuto, {{ (auth.user$ | async)!.nome }}
-        </span>
-        <button class="button_navbar" (click)="logout()">Logout</button>
-      }
+  <button routerLink="login" class="button_navbar">Login</button>
+} @else {
+
+  <button class="profile-btn" (click)="goToProfile()" title="Profilo">
+    <img class="profile-icon"
+         src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
+         alt="Profilo">
+  </button>
+
+  <button class="button_navbar" (click)="logout()">Logout</button>
+}
+
     </div>
 
   </div>

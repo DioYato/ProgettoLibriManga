@@ -11,9 +11,6 @@ export class Cart {
 remove(id: number) {
   this.cart.remove(id);
 }
-
-
-
   private readonly cart = inject(CartService);
 
   readonly items = computed(() => this.cart.all());
