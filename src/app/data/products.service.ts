@@ -1,19 +1,24 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+export type Author = {
+  nome: string;
+  cognome: string;
+}
+
 export type Product = {
   id: number;
   titolo: string;
-  autore: string;
+  autore: Author;
   prezzo: number;
   descrizione: string;
-  immagine?: string;
+  copertina?: string;
 };
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
 
-  private readonly apiUrl = 'http://localhost:8080/prodotti';
+  private readonly apiUrl = 'http://localhost:8080/libri';
 
   /**
    * Stato interno dei prodotti.
@@ -33,7 +38,7 @@ export class ProductsService {
    * Carica i prodotti dal backend e aggiorna lo stato interno.
    */
   loadFromBackend() {
-    this.http.get<Product[]>(this.apiUrl).subscribe({
+    this.http.get<Product[]>(`${this.apiUrl}/list`).subscribe({
       next: (products) => this.items.set(products),
       error: (err) => console.error('Errore caricamento prodotti:', err),
     });
