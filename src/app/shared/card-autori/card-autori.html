@@ -1,0 +1,23 @@
+<div class="section">
+  
+  <button class="nav_btn" (click)="scroll(-1)"> < </button>
+
+  <div class="carosello_container" #containerCarosello>
+  
+        @for (autore of Autori; track autore.img) {
+          
+            
+            <div class="cont_img_autore">
+
+               <img [src]="autore.img" alt="Autore">
+
+            </div>
+        }
+
+    </div>
+
+     <button class="nav_btn" (click)="scroll(1)"> > </button>
+
+  </div>
+
+

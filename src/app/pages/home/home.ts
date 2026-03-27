@@ -6,10 +6,11 @@ import { MostWanted } from "../../shared/most-wanted/most-wanted";
 import { CardRettangolo } from "../../shared/card-rettangolo/card-rettangolo";
 import { CartServizi } from "../../shared/cart-servizi/cart-servizi";
 import { CartTipologia } from "../../shared/cart-tipologia/cart-tipologia";
+import { CardAutori } from "../../shared/card-autori/card-autori";
 
 @Component({
   selector: 'app-home',
-  imports: [ Carosello, MostWanted, CardRettangolo, CartServizi, CartTipologia],
+  imports: [Carosello, MostWanted, CardRettangolo, CartServizi, CartTipologia, CardAutori],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
