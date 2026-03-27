@@ -1,9 +1,8 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ProductsService } from '../../data/products.service';
+import { Product, ProductsService } from '../../data/products.service';
 import { FiltersComponent, ProductFilters } from '../filters/filters.component';
-
 
 @Component({
   selector: 'app-products',
@@ -13,18 +12,16 @@ import { FiltersComponent, ProductFilters } from '../filters/filters.component';
   styleUrl: './products.css',
 })
 export class Products implements OnInit {
-onFiltersChange($event: ProductFilters) {
-throw new Error('Method not implemented.');
-}
 
   private readonly productsService = inject(ProductsService);
 
   readonly query = signal('');
   readonly sort = signal('');
 
+  // Computed: filtra SOLO lato frontend
   readonly products = computed(() => {
     const q = this.query().trim().toLowerCase();
-    const items = this.productsService.all();
+    const items = this.productsService.all(); // dati veri dal backend
 
     if (!q) return items;
 
@@ -42,16 +39,24 @@ throw new Error('Method not implemented.');
   }
 
   onSortChange(event: Event) {
-  const value = (event.target as HTMLSelectElement)?.value ?? '';
-  this.sort.set(value);
-  this.productsService.loadFromBackend(value);
-}
+    const value = (event.target as HTMLSelectElement)?.value ?? '';
+    this.sort.set(value);
+    this.productsService.loadFromBackend(value);
+  }
 
+  // 🔥 FILTRI: chiama il backend con sort + generi
+  onFiltersChange(filters: ProductFilters) {
+    this.productsService.loadFromBackend(
+      this.sort(),
+      filters.genres
+    );
+  }
 
   imageUrl(copertina?: string) {
     if (!copertina) return '';
     return `http://localhost:8080/images/${copertina}`;
   }
 }
+
 
 
