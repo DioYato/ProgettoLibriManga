@@ -10,15 +10,13 @@ import { CardAutori } from "../../shared/card-autori/card-autori";
 
 @Component({
   selector: 'app-home',
-  imports: [Carosello, MostWanted, CardRettangolo, CartServizi, CartTipologia, CardAutori],
+  imports: [ Carosello, MostWanted, CardRettangolo, CartTipologia],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home {
-  // Mock: in futuro questi dati arriveranno dal backend.
   readonly featured = computed(() => this.productsService.all().slice(8, 12));
 
-  // Mock: in futuro questi dati arriveranno dal backend.
   readonly authors = [
     { name: 'Autore 1', img: 'https://picsum.photos/700/500?random=author1' },
     { name: 'Autore 2', img: 'https://picsum.photos/700/500?random=author2' },
@@ -34,17 +32,6 @@ export class Home {
   readonly authorSlides = computed(() => chunk(this.authors, 4));
   readonly authorSlideCount = computed(() => this.authorSlides().length);
 
-  /**
-   * Navigazione del carosello.
-   *
-   * Migrazione backend:
-   * - Sostituisci `authors` con dati API (es. GET `/api/authors/trending`)
-   * - La logica del carosello resta identica: serve solo un array di `{ name, img }`
-   */
-
-  /**
-   * Sposta il carosello degli autori verso sinistra (slide precedente).
-   */
   prevAuthors() {
     const count = this.authorSlideCount();
     if (count <= 1) return;
@@ -52,9 +39,6 @@ export class Home {
     this.authorSlideIndex.set(next);
   }
 
-  /**
-   * Sposta il carosello degli autori verso destra (slide successiva).
-   */
   nextAuthors() {
     const count = this.authorSlideCount();
     if (count <= 1) return;
@@ -62,10 +46,6 @@ export class Home {
     this.authorSlideIndex.set(next);
   }
 
-  /**
-   * Passa direttamente a una slide specifica del carosello.
-   * Usato quando l'utente clicca su un puntatore numerico.
-   */
   setAuthorSlide(i: number) {
     const count = this.authorSlideCount();
     const clamped = Math.max(0, Math.min(i, count - 1));
@@ -76,8 +56,7 @@ export class Home {
 }
 
 function chunk<T>(items: T[], size: number) {
-  // Utility per spezzare un array in "slide" di dimensione fissa per il carosello.
-  // Tenerla pura semplifica un eventuale refactor o test.
+
   const out: T[][] = [];
   for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
   return out;

@@ -1,5 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ProductFilters } from '../pages/filters/filters.component';
 
 export type Author = {
@@ -8,7 +8,7 @@ export type Author = {
 }
 
 export type Product = {
-immagine: any;
+  immagine: any;
   id: number;
   titolo: string;
   autore: Author;
@@ -22,63 +22,47 @@ export class ProductsService {
 
   private readonly apiUrl = 'http://localhost:8080/libri';
 
-  /**
-   * Stato interno dei prodotti.
-   * Parte vuoto e viene popolato dal backend.
-   */
-  private readonly items = signal<Product[]>([]);
+  // Stato interno
+  private readonly _items = signal<Product[]>([]);
 
-  /**
-   * Vista in sola lettura dei prodotti.
-   * I componenti possono sottoscriversi a questo segnale.
-   */
-  readonly all = computed(() => this.items());
+  // Vista pubblica in sola lettura
+  readonly all = computed(() => this._items());
 
   constructor(private http: HttpClient) {}
 
   /**
-   * Carica i prodotti dal backend e aggiorna lo stato interno.
+   * Carica i prodotti dal backend con sort + filtri.
+   * Se sort o filtri non ci sono, non li manda.
    */
-  loadFromBackend(sort?: string) {
+  loadFromBackend(sort?: string, genres?: number[]) {
+    let params = new HttpParams();
 
-  const params: any = {};
-  if (sort) params.sort = sort;
+    if (sort) {
+      params = params.set('sort', sort);
+    }
 
-  this.http.get<Product[]>(`${this.apiUrl}/list`, { params }).subscribe({
-    next: (products) => this.items.set(products),
-    error: (err) => console.error('Errore caricamento prodotti:', err),
-  });
-}
+    if (genres && genres.length > 0) {
+      genres.forEach(g => {
+        params = params.append('categorie', g);
+      });
+    }
 
+    this.http.get<Product[]>(`${this.apiUrl}/list`, { params })
+      .subscribe({
+        next: (products) => this._items.set(products),
+        error: (err) => console.error('Errore caricamento prodotti:', err),
+      });
+  }
 
   /**
-   * Restituisce un prodotto per ID.
-   * Funziona dopo che i prodotti sono stati caricati.
+   * Restituisce un singolo prodotto per ID.
    */
   getById(id: string | number | null | undefined) {
     if (!id) return undefined;
-    return this.items().find((p) => p.id == id);
+    return this._items().find((p) => p.id == id);
   }
-
-
-  loadFromBackendWithFilters(filters: ProductFilters) {
-  const params: any = {};
-
-  if (filters.types.length) {
-    params.types = filters.types; // es: ['libro', 'manga']
-  }
-
-  if (filters.genres.length) {
-    params.genres = filters.genres; // es: [1, 2, 6]
-  }
-
-  this.http.get<Product[]>(`${this.apiUrl}/list`, { params }).subscribe({
-    next: (products) => this.items.set(products),
-    error: (err) => console.error('Errore caricamento prodotti:', err),
-  });
 }
 
-}
 
 
 
