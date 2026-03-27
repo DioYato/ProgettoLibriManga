@@ -2,15 +2,20 @@ import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProductsService } from '../../data/products.service';
+import { FiltersComponent, ProductFilters } from '../filters/filters.component';
+
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [DecimalPipe, RouterLink],
+  imports: [DecimalPipe, RouterLink, FiltersComponent],
   templateUrl: './products.html',
   styleUrl: './products.css',
 })
 export class Products implements OnInit {
+onFiltersChange($event: ProductFilters) {
+throw new Error('Method not implemented.');
+}
 
   private readonly productsService = inject(ProductsService);
 

@@ -1,5 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ProductFilters } from '../pages/filters/filters.component';
 
 export type Author = {
   nome: string;
@@ -58,6 +59,27 @@ export class ProductsService {
     if (!id) return undefined;
     return this.items().find((p) => p.id == id);
   }
+
+
+  loadFromBackendWithFilters(filters: ProductFilters) {
+  const params: any = {};
+
+  if (filters.types.length) {
+    params.types = filters.types; // es: ['libro', 'manga']
+  }
+
+  if (filters.genres.length) {
+    params.genres = filters.genres; // es: [1, 2, 6]
+  }
+
+  this.http.get<Product[]>(`${this.apiUrl}/list`, { params }).subscribe({
+    next: (products) => this.items.set(products),
+    error: (err) => console.error('Errore caricamento prodotti:', err),
+  });
 }
+
+}
+
+
 
 

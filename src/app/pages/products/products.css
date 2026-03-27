@@ -145,3 +145,34 @@
   cursor: pointer;
 }
 
+.products-page {
+  display: flex;
+}
+
+.products-content {
+  flex: 1;
+  padding: 16px;
+}
+/* LAYOUT A DUE COLONNE COME MONDADORI */
+.products-page {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px 0;
+}
+
+/* FILTRI A SINISTRA */
+.filters-container {
+  width: 260px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+}
+
+/* CONTENUTO A DESTRA */
+.products-content {
+  flex: 1;
+  min-width: 0;
+}
+

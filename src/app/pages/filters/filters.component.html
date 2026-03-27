@@ -1,0 +1,17 @@
+<div class="filters">
+
+  <h3>Tipologia</h3>
+  <label><input type="checkbox" (change)="toggleType('libro', $event)"> Libri</label>
+  <label><input type="checkbox" (change)="toggleType('manga', $event)"> Manga</label>
+
+  <h3>Genere</h3>
+  @for (g of generi; track g.id) {
+    <label>
+      <input type="checkbox" (change)="toggleGenre(g.id, $event)">
+      {{ g.categoria }}
+    </label>
+  }
+  <button class="apply-btn">Applica</button>
+
+
+</div>

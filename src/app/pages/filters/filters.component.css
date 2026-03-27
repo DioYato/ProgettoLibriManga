@@ -1,0 +1,66 @@
+.filters {
+  width: 240px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Titolo sezione */
+.filters h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #b10f1a; /* Rosso Mondadori */
+  padding-bottom: 6px;
+  border-bottom: 2px solid #b10f1a33;
+}
+
+/* Checkbox + label */
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  padding: 4px 0;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.15s ease;
+}
+
+.filters label:hover {
+  color: #b10f1a;
+}
+
+.filters input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #b10f1a; /* checkbox rosso */
+}
+
+/* Pulsante Applica */
+.apply-btn {
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #b10f1a;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.apply-btn:hover {
+  background: #8e0c15;
+  transform: translateY(-1px);
+}
+
+.apply-btn:active {
+  transform: translateY(0);
+}

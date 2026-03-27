@@ -9,7 +9,7 @@ import { CartTipologia } from "../../shared/cart-tipologia/cart-tipologia";
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, Carosello, MostWanted, CardRettangolo, CartServizi, CartTipologia],
+  imports: [ Carosello, MostWanted, CardRettangolo, CartServizi, CartTipologia],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
