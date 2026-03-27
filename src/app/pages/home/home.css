@@ -85,6 +85,7 @@
   margin-left: 6px;
 }
 
+/* Autori */
 .authors {
   max-width: 1100px;
   margin: 22px auto 0;
@@ -205,6 +206,7 @@
   background: #b10f1a;
 }
 
+/* Card generiche */
 .card {
   background: white;
   border-radius: 12px;
@@ -229,128 +231,90 @@
   font-weight: bold;
 }
 
+/* Titolo sezione */
 .section-title {
-  margin: 36px 20px 14px;
-  font-size: 28px;
+  font-size: 26px;
   color: #0c2c6b;
+  margin-bottom: 50px;
+  margin-left: 4%;
+  font-weight: 700;
+  text-align: left;
+}
+
+/* Servizi */
+.services-container {
   text-align: center;
-  font-weight: 800;
+  padding: 60px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .features {
   display: flex;
   justify-content: center;
-  gap: 20px;
-  padding: 0 20px;
+  gap: 50px;
+  flex-wrap: wrap;
 }
 
 .feature {
-  background: white;
-  color: #123056;
-  padding: 20px;
-  width: 280px;
-  border-radius: 12px;
-  text-align: center;
+  flex: 1;
+  min-width: 200px;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
-.feature h3 {
-  margin-bottom: 10px;
-}
-
-
-/* Container principale (Stile Mondadori pulito) */
-.services-container {
-    text-align: center;
-    padding: 60px 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font più pulito */
-}
-
-.section-title {
-    font-size: 26px;
-    color: #0c2c6b;
-    margin-bottom: 50px;
-    margin-left: 4%;
-    font-weight: 700;
-    text-align: left;
-}
-
-/* Griglia */
-.features {
-    display: flex;
-    justify-content: center;
-    gap: 50px; /* Più spazio tra gli elementi come nella foto */
-    flex-wrap: wrap;
-}
-
-/* Singola Card Servizio */
-.feature {
-    flex: 1;
-    min-width: 200px;
-    max-width: 280px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer; /* Pointer visibile su tutta la card */
-    transition: transform 0.3s ease;
-}
-
-/* Box Icona (Quadrato Rosso Mondadori) */
 .icon-box {
-    width: 90px;
-    height: 90px;
-    background-color: #ce0b24; /* Rosso vibrante */
-    border-radius: 15px; /* Angoli smussati eleganti */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 25px;
-    padding: 20px; /* Spazio interno per l'SVG */
-    box-sizing: border-box;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  width: 90px;
+  height: 90px;
+  background-color: #ce0b24;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Stile specifico per gli SVG */
 .icon-box svg {
-    width: 100%;
-    height: 100%;
-    /* stroke: white; <- Se vuoi forzare il colore via CSS invece che nell'HTML */
+  width: 100%;
+  height: 100%;
 }
 
-/* Testi */
 .feature h3 {
-    font-size: 19px;
-    color: #333;
-    margin: 10px 0 8px 0;
-    font-weight: 700;
+  font-size: 19px;
+  color: #333;
+  margin: 10px 0 8px 0;
+  font-weight: 700;
 }
 
 .feature p {
-    font-size: 14px;
-    color: #777;
-    line-height: 1.5;
-    max-width: 200px;
-    margin: 0;
+  font-size: 14px;
+  color: #777;
+  line-height: 1.5;
+  max-width: 200px;
+  margin: 0;
 }
 
-/* --- INTERATTIVITÀ (Hover Effetto Vetro/Zoom) --- */
-
 .feature:hover .icon-box {
-    background-color: #a0081c; /* Rosso più profondo al passaggio */
-    transform: scale(1.08) translateY(-3px); /* Lieve zoom e sollevamento */
-    box-shadow: 0 10px 20px rgba(206, 11, 36, 0.3); /* Ombra rossa soffusa */
+  background-color: #a0081c;
+  transform: scale(1.08) translateY(-3px);
+  box-shadow: 0 10px 20px rgba(206, 11, 36, 0.3);
 }
 
 .feature:hover h3 {
-    color: #ce0b24; /* Il titolo diventa rosso */
+  color: #ce0b24;
 }
 
 .feature:hover {
-    transform: translateY(-5px); /* Tutta la card si alza leggermente */
+  transform: translateY(-5px);
 }
 
-
-
-
+/* Responsive */
 @media (max-width: 720px) {
   .cta {
     flex-direction: column;
@@ -369,4 +333,5 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
 

@@ -145,15 +145,7 @@
   cursor: pointer;
 }
 
-.products-page {
-  display: flex;
-}
-
-.products-content {
-  flex: 1;
-  padding: 16px;
-}
-/* LAYOUT A DUE COLONNE COME MONDADORI */
+/* LAYOUT A DUE COLONNE */
 .products-page {
   display: flex;
   align-items: flex-start;
@@ -173,6 +165,8 @@
 /* CONTENUTO A DESTRA */
 .products-content {
   flex: 1;
+  padding: 16px;
   min-width: 0;
 }
+
 
