@@ -1,6 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ProductFilters } from '../pages/filters/filters.component';
 
 export type Author = {
   nome: string;

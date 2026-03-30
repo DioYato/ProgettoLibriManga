@@ -15,7 +15,6 @@ export class MostWanted {
 
   /**
    * Fa scorrere il carosello dei prodotti più cercati verso sinistra o destra.
-   * Lo scorrimento è fluido e animato per un'esperienza utente migliore.
    * @param direction 1 per scorrere a destra, -1 per scorrere a sinistra
    */
   scroll(direction: number) {
