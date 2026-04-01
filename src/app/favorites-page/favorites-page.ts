@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FavoritesService } from '../data/favorites.service';
 import { ProductsService } from '../data/products.service';
 import { Product } from '../data/products.service';
@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
 })
 export class FavoritesPageComponent implements OnInit {
 
-  items: Product[] = [];
+  readonly items = signal<Product[]>([]);
 
   constructor(
     private favorites: FavoritesService,
@@ -24,14 +24,14 @@ export class FavoritesPageComponent implements OnInit {
     const localIds = this.favorites.ids();
     if (localIds.length > 0) {
       this.products.loadFromBackend().subscribe(() => {
-        this.items = this.products.all().filter((p) => localIds.includes(p.id));
+        this.items.set(this.products.all().filter((p) => localIds.includes(p.id)));
       });
     }
 
     this.favorites.loadFromBackend().subscribe((backendIds) => {
       if (backendIds.length === 0) {
         if (localIds.length === 0) {
-          this.items = [];
+          this.items.set([]);
         }
         return;
       }
@@ -39,7 +39,7 @@ export class FavoritesPageComponent implements OnInit {
       const idsChanged = backendIds.length !== localIds.length || backendIds.some((id: any, index: any) => id !== localIds[index]);
       if (idsChanged) {
         this.products.loadFromBackend().subscribe(() => {
-          this.items = this.products.all().filter((p) => backendIds.includes(p.id));
+          this.items.set(this.products.all().filter((p) => backendIds.includes(p.id)));
         });
       }
     });

@@ -2,7 +2,7 @@
   <h1>I tuoi preferiti</h1>
 
   <div class="grid">
-    @for (p of items; track p.id) {
+    @for (p of items(); track p.id) {
       <article class="p-card">
         <a class="p-cardLink" [routerLink]="['/products', p.id]">
           <img class="p-card__img" [src]="imageUrl(p.copertina || '')" />
