@@ -72,3 +72,18 @@
 .remove-btn:hover {
   background: #d93636;
 }
+
+.order-btn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #b10f1a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.order-btn:hover {
+  background: #8d0c15;
+}
