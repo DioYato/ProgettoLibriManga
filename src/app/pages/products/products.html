@@ -49,8 +49,18 @@
       <div class="grid">
         @for (p of products(); track p.id; let i = $index) {
 
-          <a class="p-cardLink" [routerLink]="['/products', p.id]">
-            <article class="p-card">
+          <article class="p-card">
+
+            <!-- ❤️ CUORE -->
+            <button
+              class="fav-btn"
+              (click)="toggleFavorite(p.id); $event.stopPropagation()"
+            >
+              <span [class.filled]="isFavorite(p.id)">♥</span>
+            </button>
+
+            <!-- LINK ALLA PAGINA PRODOTTO -->
+            <a class="p-cardLink" [routerLink]="['/products', p.id]">
 
               <div class="p-card__top">
                 <div class="p-card__rank">{{ i + 1 }}°</div>
@@ -66,7 +76,9 @@
 
               <h3 class="p-card__title">{{ p.titolo }}</h3>
 
-              <div class="p-card__author">{{ p.autore.nome }} {{ p.autore.cognome }}</div>
+              <div class="p-card__author">
+                {{ p.autore.nome }} {{ p.autore.cognome }}
+              </div>
 
               <div class="p-card__availability">
                 Disponibile
@@ -76,8 +88,10 @@
                 €{{ p.prezzo | number: '1.2-2' }}
               </div>
 
-            </article>
-          </a>
+            </a>
+
+          </article>
+
         }
       </div>
 
@@ -89,7 +103,3 @@
   </main>
 
 </div>
-
-
-
-

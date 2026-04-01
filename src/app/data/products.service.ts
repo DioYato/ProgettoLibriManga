@@ -60,6 +60,11 @@ export class ProductsService {
     if (!id) return undefined;
     return this._items().find((p) => p.id == id);
   }
+
+  getByIds(ids: number[]) {
+  return this.http.post<Product[]>('/api/products/by-ids', ids);
+}
+
 }
 
 

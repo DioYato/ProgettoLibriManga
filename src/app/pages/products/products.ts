@@ -3,6 +3,7 @@ import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Product, ProductsService } from '../../data/products.service';
 import { FiltersComponent, ProductFilters } from '../filters/filters.component';
+import { FavoritesService } from '../../data/favorites.service';
 
 @Component({
   selector: 'app-products',
@@ -56,6 +57,20 @@ export class Products implements OnInit {
     if (!copertina) return '';
     return `http://localhost:8080/images/${copertina}`;
   }
+
+  constructor(
+  private favorites: FavoritesService,
+  // ...altri inject che hai già
+) {}
+
+isFavorite(id: number) {
+  return this.favorites.isFavorite(id);
+}
+
+toggleFavorite(id: number) {
+  this.favorites.toggle(id);
+}
+  
 }
 
 

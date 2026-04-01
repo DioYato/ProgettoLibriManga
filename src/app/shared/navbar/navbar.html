@@ -36,6 +36,11 @@
       </button>
     }
 
+    <a routerLink="/preferiti" class="nav-fav">
+      <span class="heart-icon">♥</span>
+      <span class="fav-badge">{{ favoritesCount() }}</span>
+    </a>
+
     <button routerLink="cart" class="img_cart_cont" title="Carrello">
       <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Carrello">
       <span class="badge">{{ cartCount() }}</span>

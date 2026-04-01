@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../data/auth.service';
 import { AsyncPipe } from '@angular/common';
 import { CartService } from '../../data/cart.service';
+import { FavoritesService } from '../../data/favorites.service';
 
 @Component({
   selector: 'app-navbar',
@@ -29,6 +30,12 @@ private readonly cart = inject(CartService);
   readonly cartCount = computed(() =>
   this.cart.all().reduce((sum, item) => sum + item.quantity, 0)
 );
+
+constructor(private favorites: FavoritesService) {}
+
+favoritesCount() {
+  return this.favorites.count();
+}
 
 
 }
