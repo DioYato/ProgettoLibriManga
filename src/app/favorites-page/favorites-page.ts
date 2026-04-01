@@ -21,10 +21,29 @@ export class FavoritesPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-  const ids = this.favorites.ids();
-  const all = this.products.all();
-  this.items = all.filter(p => ids.includes(p.id));
-}
+    const localIds = this.favorites.ids();
+    if (localIds.length > 0) {
+      this.products.loadFromBackend().subscribe(() => {
+        this.items = this.products.all().filter((p) => localIds.includes(p.id));
+      });
+    }
+
+    this.favorites.loadFromBackend().subscribe((backendIds) => {
+      if (backendIds.length === 0) {
+        if (localIds.length === 0) {
+          this.items = [];
+        }
+        return;
+      }
+
+      const idsChanged = backendIds.length !== localIds.length || backendIds.some((id: any, index: any) => id !== localIds[index]);
+      if (idsChanged) {
+        this.products.loadFromBackend().subscribe(() => {
+          this.items = this.products.all().filter((p) => backendIds.includes(p.id));
+        });
+      }
+    });
+  }
 
 
   imageUrl(fileName: string) {

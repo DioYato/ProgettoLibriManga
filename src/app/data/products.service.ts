@@ -1,5 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { catchError, of, shareReplay, tap } from 'rxjs';
 
 export type Author = {
   nome: string;
@@ -46,11 +47,18 @@ export class ProductsService {
       });
     }
 
-    this.http.get<Product[]>(`${this.apiUrl}/list`, { params })
-      .subscribe({
-        next: (products) => this._items.set(products),
-        error: (err) => console.error('Errore caricamento prodotti:', err),
-      });
+    const request$ = this.http.get<Product[]>(`${this.apiUrl}/list`, { params }).pipe(
+      tap((products) => this._items.set(products)),
+      catchError((err) => {
+        console.error('Errore caricamento prodotti:', err);
+        this._items.set([]);
+        return of([] as Product[]);
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
+
+    request$.subscribe();
+    return request$;
   }
 
   /**
@@ -62,8 +70,8 @@ export class ProductsService {
   }
 
   getByIds(ids: number[]) {
-  return this.http.post<Product[]>('/api/products/by-ids', ids);
-}
+    return this.http.post<Product[]>('/api/products/by-ids', ids);
+  }
 
 }
 
