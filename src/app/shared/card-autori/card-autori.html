@@ -6,10 +6,15 @@
   
         @for (autore of Autori; track autore.img) {
           
-            
+            <div class="card_autore">
+
             <div class="cont_img_autore">
 
                <img [src]="autore.img" alt="Autore">
+                
+            </div>
+
+            <h4>{{ autore.nome }}</h4>
 
             </div>
         }

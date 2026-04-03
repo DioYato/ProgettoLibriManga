@@ -44,12 +44,12 @@ export class CardAutori {
   
 
   scroll(direction: number) {
-  // Calcola la larghezza esatta visibile in quel momento
-  const width = this.container.nativeElement.offsetWidth;
-
+  // Scorre esattamente della larghezza della "finestra" visibile
+  const vediQuante = this.container.nativeElement.clientWidth;
   this.container.nativeElement.scrollBy({
-    left: direction * width, // Scorre esattamente di una "pagina"
+    left: direction * (vediQuante * 0.7), // Scorre del 70% della vista per non perdere il filo
     behavior: 'smooth'
   });
 }
+
 }

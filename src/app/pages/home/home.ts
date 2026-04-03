@@ -1,14 +1,15 @@
 import { Component, computed, signal } from '@angular/core';
 import { ProductsService } from '../../data/products.service';
-import { Carosello } from "../../shared/carosello/carosello";
 import { MostWanted } from "../../shared/most-wanted/most-wanted";
 import { CardRettangolo } from "../../shared/card-rettangolo/card-rettangolo";
 import { CartTipologia } from "../../shared/cart-tipologia/cart-tipologia";
+import { CardAutori } from "../../shared/card-autori/card-autori";
+import { CarouselHeroComponent } from "../../shared/carosello/carosello";
 
 
 @Component({
   selector: 'app-home',
-  imports: [ Carosello, MostWanted, CardRettangolo, CartTipologia],
+  imports: [CarouselHeroComponent, MostWanted, CardRettangolo, CartTipologia, CardAutori],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

@@ -1,31 +1,96 @@
+/* Layout principale: assicura che le frecce restino ai lati */
 .section {
-  background-color: #00ffff;
-  height: 400px;
-  padding: 20px ;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
-  
+  min-height: 400px;
+  width: 100%;
+  padding: 20px 23px;
+  gap: 30px 20px;
+  box-sizing: border-box;
 }
 
+/* Il contenitore deve avere una larghezza definita per "tagliare" le card extra */
 .carosello_container {
   display: flex;
   flex-direction: row;
-  gap: 20px;
-  overflow: hidden;
+  flex-wrap: nowrap;
+  gap: 60px; /* Ridotto leggermente per armonia, ma puoi rimettere 90px */
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 20px;
+  margin: 30px;
+
+  width: 80%; 
+  max-width: 1000px;
+  
+  /* FIXED: Limita la larghezza per permettere lo scorrimento */
+  max-width: 80%; 
 }
 
+.carosello_container::-webkit-scrollbar {
+  display: none;
+}
 
+/* FIXED: flex-shrink: 0 impedisce alle card di rimpicciolirsi */
+.card_autore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0; 
+  flex-shrink: 0;              /* OBBLIGATORIO: Impedisce alle card di rimpicciolirsi */
+  width: 200px;                /* Forza la larghezza della card */
+}
+
+/* FIXED: Aggiunto bordo rosso e gestione dimensioni */
 .cont_img_autore {
-
-  border-radius: 50%;
   width: 200px;
   height: 200px;
+  padding: 5px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 6px solid red; /* Il tuo contorno rosso */
+  box-sizing: border-box; /* Importante: il bordo non aumenta i 200px */
+  background-color: transparent; /* Evita trasparenze brutte dietro l'immagine */
 }
 
 img {
-
   width: 100%;
+  height: 100%;
+  border-radius: 50%;
   object-fit: cover;
+}
+
+/* I bottoni restano fissi ai lati del contenitore */
+.nav_btn {
+  flex-shrink: 0; /* Impedisce ai bottoni di deformarsi */
+  background-color: white;
+  color: #333;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.nav_btn:hover {
+  background-color: #333;
+  color: white;
+  transform: scale(1.1);
+}
+
+h4 {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  font-size: 1.2rem;
 }
