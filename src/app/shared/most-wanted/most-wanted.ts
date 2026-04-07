@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild,  } from '@angular/core';
+import { Component, computed, ElementRef, inject, OnInit, ViewChild,  } from '@angular/core';
+import { ProductsService } from '../../data/products.service';
 
 @Component({
   selector: 'app-most-wanted',
@@ -7,11 +8,22 @@ import { Component, ElementRef, ViewChild,  } from '@angular/core';
   styleUrl: './most-wanted.css',
 })
 
-export class MostWanted {
+export class MostWanted implements OnInit {
+  private productsService = inject(ProductsService);
 
   //view child per abilitare lo scroll del carosello
   @ViewChild('carousel') carousel! : ElementRef;
 
+  // Signal derivato: prende tutti i prodotti e ne restituisce solo 6
+  prodottiSample = computed(() => {
+    const tutti = this.productsService.all();
+    return tutti.slice(0, 6); // Prende i primi 6 elementi
+  });
+
+  ngOnInit() {
+    // Carica i dati (il servizio aggiornerà il signal 'all')
+    this.productsService.loadFromBackend();
+  }
 
   /**
    * Fa scorrere il carosello dei prodotti più cercati verso sinistra o destra.
@@ -31,6 +43,9 @@ export class MostWanted {
   price_1 = "23,99";
 
   isDisponibile = true;
+
+  /*
+
 
   prodotti = [
     {
@@ -94,4 +109,9 @@ export class MostWanted {
       sconto: "4%"
     },
   ];
+
+  */
+
+
+
 }

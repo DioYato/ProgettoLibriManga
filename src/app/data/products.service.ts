@@ -12,6 +12,7 @@ export type Product = {
   id: number;
   titolo: string;
   autore: Author;
+  quantita: number;
   prezzo: number;
   descrizione: string;
   copertina?: string;
