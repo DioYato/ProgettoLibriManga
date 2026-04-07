@@ -44,7 +44,7 @@ export class MostWanted implements OnInit {
 
   isDisponibile = true;
 
-  /*
+  
 
 
   prodotti = [
@@ -110,7 +110,7 @@ export class MostWanted implements OnInit {
     },
   ];
 
-  */
+  
 
 
 

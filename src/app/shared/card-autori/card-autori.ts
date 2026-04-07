@@ -15,7 +15,7 @@ export class CardAutori {
 
   {
     id:1,
-    img: "https://media.mondadoristore.it/picture/978881715981/64/NZO",
+    img: "https://images.mubicdn.net/images/cast_member/452378/cache-274485-1509594212/image-w856.jpg?size=300x",
     nome: "masashi Kishimoto"
   },
 

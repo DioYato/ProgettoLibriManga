@@ -1,34 +1,48 @@
-<div class="carosello_carte" #carousel>
-  @for (prodotto of prodottiSample(); track prodotto.id) {
-    <div class="card">
-      <div class="img_cont">
-        <img [src]="prodotto.copertina || 'assets/placeholder-libro.png'" alt="Immagine prodotto" />
-      </div>
+<div class="header">
+  <h2>In evidenza >></h2>
+  <p>I prodotti più ricercati del momento:</p>
+</div>
 
-      <div class="text-section">
-        <h3>{{ prodotto.titolo || 'Titolo non disponibile' }}</h3>
-        
-        <p class="autore">{{ prodotto.autore?.nome }} {{ prodotto.autore?.cognome }}</p>
+<div class="carousel-wrapper">
+  <div class="freccetta_1">
+    <button class="freccetta_1_butt" (click)="scroll(-1)"> < </button>
+  </div>
 
-        @if (prodotto.quantita > 0) {
-          <p class="disponibilita"> disponibilità immediata: {{prodotto.quantita}} </p>
-        } @else {
-          <p class="non_disponibile"> prodotto non disponibile</p>
-        }
+  <div class="carosello_carte" #carousel>
+    @for (prodotto of prodotti; track prodotto.id) {
+      <div class="card">
+        <div class="img_cont">
+          <img [src]="prodotto.img || 'assets/placeholder-libro.png'" 
+               alt="Immagine prodotto" />
+        </div>
 
-        <div class="section_prezzi">
-          <span class="old-price">€{{ prodotto.prezzo }}</span>
-
-          <!--
-          <span class="new-price">€{{ prodotto.prezzo_scontato || prodotto.prezzo }}</span>
+        <div class="text-section">
+          <h3>{{ prodotto.title || 'Titolo non disponibile' }}</h3>
           
-          @if (prodotto.sconto) {
-            <span class="badge-sconto">-{{ prodotto.sconto }}%</span>
+          <p class="autore">
+            {{ prodotto.autore }} 
+          </p>
+
+          @if (prodotto.quantita > 0) {
+            <p class="disponibilita"> Disponibilità: {{ prodotto.quantita }} </p>
+          } @else {
+            <p class="non_disponibile"> Prodotto non disponibile</p>
           }
+
+          <div class="section_prezzi">
+            <span class="old-price">€{{ prodotto.prezzo }}</span>
+            <span class="new-price">€{{ prodotto.prezzo_scontato || prodotto.prezzo }}</span>
             
-            -->
+            @if (prodotto.sconto) {
+              <span class="badge-sconto">-{{ prodotto.sconto }}</span>
+            }
+          </div>
         </div>
       </div>
-    </div>
-  }
+    }
+  </div>
+
+  <div class="freccetta_2">
+    <button class="freccetta_2_butt" (click)="scroll(1)"> > </button>
+  </div>
 </div>
