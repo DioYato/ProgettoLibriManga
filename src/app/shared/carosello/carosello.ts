@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common'; // Importante per [class.active]
 
 @Component({
   selector: 'app-carousel-hero',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './carosello.html',
   styleUrl: './carosello.css'

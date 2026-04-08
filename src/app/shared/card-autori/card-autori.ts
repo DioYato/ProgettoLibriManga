@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-card-autori',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './card-autori.html',
   styleUrl: './card-autori.css',

@@ -7,7 +7,15 @@
   border-bottom: 1px solid #dde6f6;
   padding: 10px;
   height: 90px;
-  position: relative; /* Necessario per contenere il menu a larghezza intera */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+body {
+  padding-top: 90px;
 }
 
 /* BOTTONI NAVBAR */

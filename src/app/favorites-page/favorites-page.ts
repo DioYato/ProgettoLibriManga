@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-favorites-page',
-  standalone: true,
   imports: [RouterModule],
   templateUrl: './favorites-page.html',
   styleUrls: ['./favorites-page.css']

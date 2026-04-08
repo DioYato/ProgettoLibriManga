@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart',
-  standalone: true,
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })

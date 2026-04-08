@@ -7,7 +7,6 @@ import { FavoritesService } from '../../data/favorites.service';
 
 @Component({
   selector: 'app-products',
-  standalone: true,
   imports: [DecimalPipe, RouterLink, FiltersComponent],
   templateUrl: './products.html',
   styleUrl: './products.css',

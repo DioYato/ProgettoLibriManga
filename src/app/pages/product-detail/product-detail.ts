@@ -7,7 +7,6 @@ import { CartService } from '../../data/cart.service';
 
 @Component({
   selector: 'app-product-detail',
-  standalone: true,
   imports: [RouterLink, DecimalPipe],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',

@@ -7,7 +7,6 @@ export interface ProductFilters {
 
 @Component({
   selector: 'app-products-filters',
-  standalone: true,
   templateUrl: './filters.component.html',
   styleUrl: './filters.component.css',
 })

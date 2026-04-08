@@ -5,7 +5,6 @@ import { UsersService } from '../../data/users.service';
 
 @Component({
   selector: 'app-profilo',
-  standalone: true,
   imports: [ReactiveFormsModule,],
   templateUrl: './profilo.html',
   styleUrl: './profilo.css'

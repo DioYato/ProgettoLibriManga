@@ -6,7 +6,6 @@ import { Home } from '../home/home';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
   imports: [ReactiveFormsModule, Home],
   templateUrl: './login.html',
   styleUrl: './login.css',
