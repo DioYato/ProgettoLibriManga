@@ -1,54 +1,27 @@
-import { Component, signal, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-card-autori',
-  imports: [CommonModule],
   templateUrl: './card-autori.html',
-  styleUrl: './card-autori.css',
+  styleUrl: './card-autori.css'
 })
 export class CardAutori {
   @ViewChild('containerCarosello') container!: ElementRef;
 
- Autori = [
-
-  {
-    id:1,
-    img: "https://images.mubicdn.net/images/cast_member/452378/cache-274485-1509594212/image-w856.jpg?size=300x",
-    nome: "masashi Kishimoto"
-  },
-
-  {
-    id:2,
-    img: "https://media.mondadoristore.it/picture/978881715981/64/NZO",
-    nome: "Dante Alighieri"
-  },
-
-  {
-    id:3,
-    img: "https://media.mondadoristore.it/picture/978881715981/64/NZO",
-    nome: "Akira Toriyama"
-  },
-  {
-    id:4,
-    img: "https://media.mondadoristore.it/picture/978881715981/64/NZO",
-    nome: "Eichiro Oda"
-  },
-  {
-    id:5,
-    img: "https://media.mondadoristore.it/picture/978881715981/64/NZO",
-    nome: "uma musume"
-  }
- ]
-  
+  Autori = [
+    { id: 1, nome: 'Alberto Angela', img: 'https://archeosticker.com/assets/img/stickers/21_AlbertoAngela.png' },
+    { id: 2, nome: 'stephen King', img: 'https://cdn.prod.website-files.com/63d2e5c935189c740b46adfe/64652d4902efb61acfc91af7_Copy%2Bof%2BCopy%2Bof%2BUntitled%2B%252834%2529.png' },
+    { id: 3, nome: 'J k Rowling', img: 'https://variety.com/wp-content/uploads/2019/12/jk_rowling_v3.png' },
+    { id: 4, nome: 'Aldo Cazzullo', img: 'percorso/cazzullo.png' },
+    { id: 5, nome: 'Alessandro Barbero', img: 'percorso/barbero.png' },
+    { id: 6, nome: 'Eichiro Oda', img: '' }
+  ];
 
   scroll(direction: number) {
-  // Scorre esattamente della larghezza della "finestra" visibile
-  const vediQuante = this.container.nativeElement.clientWidth;
-  this.container.nativeElement.scrollBy({
-    left: direction * (vediQuante * 0.7), // Scorre del 70% della vista per non perdere il filo
-    behavior: 'smooth'
-  });
-}
-
+    const cardWidth = 300; // Larghezza card + gap
+    this.container.nativeElement.scrollBy({
+      left: direction * cardWidth,
+      behavior: 'smooth'
+    });
+  }
 }

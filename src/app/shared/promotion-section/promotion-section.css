@@ -1,0 +1,46 @@
+.promotion_section {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #f0f0f0;
+}
+
+.image-container {
+  position: relative; /* Necessario per posizionare il contenuto sopra */
+  width: 100%;
+  max-width: 900px; /* Limite larghezza per non sgranare */
+  height: 600px;
+  border-radius: 30px; /* Arrotondamento come richiesto */
+  overflow: hidden; /* Taglia l'immagine e il gradiente ai bordi */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.promotion_img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Evita deformazioni */
+}
+
+.promotion_content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%; /* Altezza del gradiente */
+  display: flex;
+  align-items: flex-end; /* Spinge il testo in basso */
+  padding: 40px;
+  
+  /* L'EFFETTO DISSOLVE: dal trasparente al nero opaco */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.promotion_title {
+  color: white;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Migliora la leggibilità */
+  line-height: 1.2;
+}
