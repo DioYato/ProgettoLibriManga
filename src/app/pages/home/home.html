@@ -4,6 +4,8 @@
 
 </div>
 
+<app-promotion-section></app-promotion-section>
+
 <app-most-wanted></app-most-wanted>
 
 <app-card-rettangolo></app-card-rettangolo>
@@ -49,64 +51,9 @@
   </div>
 </section>
 
+
+
 <app-cart-tipologia></app-cart-tipologia>
-
-
-
-
-
-
-
-
-
-<section class="authors">
-  <div class="authors__head">
-    <h2 class="authors__title">Gli autori del momento</h2>
-  </div>
-
-  <div class="authors__shell">
-    <button class="authors__nav authors__nav--left" type="button" (click)="prevAuthors()" aria-label="Precedente">
-      ‹
-    </button>
-
-    <div class="authors__viewport">
-      <div
-        class="authors__track"
-        [style.transform]="'translateX(-' + (authorSlideIndex() * 100) + '%)'"
-      >
-        @for (slide of authorSlides(); track $index) {
-          <div class="authors__slide">
-            @for (a of slide; track a.name) {
-              <article class="authorCard">
-                <div class="authorCard__media">
-                  <img class="authorCard__img" [src]="a.img" [alt]="a.name" loading="lazy" />
-                </div>
-                <div class="authorCard__name">{{ a.name }}</div>
-              </article>
-            }
-          </div>
-        }
-      </div>
-    </div>
-
-    <button class="authors__nav authors__nav--right" type="button" (click)="nextAuthors()" aria-label="Successivo">
-      ›
-    </button>
-  </div>
-
-  <div class="authors__dots" aria-label="Pagine carosello">
-    @for (s of authorSlides(); track $index; let i = $index) {
-      <button
-        type="button"
-        class="authors__dot"
-        [class.is-active]="authorSlideIndex() === i"
-        (click)="setAuthorSlide(i)"
-        [attr.aria-label]="'Vai alla pagina ' + (i + 1)"
-      ></button>
-    }
-  </div>
-</section>
-
 
 
 <app-card-autori></app-card-autori>
@@ -152,3 +99,5 @@
 
   </div>
 </section>
+
+<app-spedizioni></app-spedizioni>
