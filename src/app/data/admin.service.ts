@@ -21,24 +21,32 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
+  private mapOrders(response: any): Order[] {
+    return (Array.isArray(response) ? response : []).map(order => ({
+      id: order.id,
+      userId: order.utente?.id || 0,
+      userName: `${order.utente?.nome || ''} ${order.utente?.cognome || ''}`.trim(),
+      products: (order.dettagliOrdine || []).map((detail: any) => ({
+        id: detail.libro?.id || 0,
+        name: detail.libro?.titolo || 'Prodotto sconosciuto',
+        quantity: detail.quantita || 0,
+        price: detail.libro?.prezzo || 0
+      })),
+      total: order.dettagliOrdine?.reduce((sum: number, d: any) => sum + (d.costoTotale || 0), 0) || 0,
+      date: order.dettagliOrdine?.[0]?.data || '',
+      status: order.dettagliOrdine?.[0]?.stato || 'PENDING'
+    }));
+  }
+
   getOrders(): Observable<Order[]> {
     return this.http.get<any>('http://localhost:8080/ordini/list').pipe(
-      map(response => {
-        return (Array.isArray(response) ? response : []).map(order => ({
-          id: order.id,
-          userId: order.utente?.id || 0,
-          userName: `${order.utente?.nome || ''} ${order.utente?.cognome || ''}`.trim(),
-          products: (order.dettagliOrdine || []).map((detail: any) => ({
-            id: detail.libro?.id || 0,
-            name: detail.libro?.titolo || 'Prodotto sconosciuto',
-            quantity: detail.quantita || 0,
-            price: detail.libro?.prezzo || 0
-          })),
-          total: order.dettagliOrdine?.reduce((sum: number, d: any) => sum + (d.costoTotale || 0), 0) || 0,
-          date: order.dettagliOrdine?.[0]?.data || '',
-          status: order.dettagliOrdine?.[0]?.stato || 'PENDING'
-        }));
-      })
+      map(response => this.mapOrders(response))
+    );
+  }
+
+  getUserOrders(userId: number): Observable<Order[]> {
+    return this.http.get<any>(`http://localhost:8080/ordini/findByUtente?idUtente=${userId}`).pipe(
+      map(response => this.mapOrders(response))
     );
   }
 

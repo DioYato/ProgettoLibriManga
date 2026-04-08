@@ -21,4 +21,5 @@ export const routes: Routes = [
   { path: 'admin', canActivate: [adminGuard], loadComponent: () => import('./pages/admin/admin').then(m => m.Admin) },
   { path: 'admin/prodotti', canActivate: [adminGuard], loadComponent: () => import('./pages/admin-prodotti/admin-prodotti').then(m => m.AdminProdotti) },
   { path: 'ordini-ricevuti', canActivate: [adminGuard], loadComponent: () => import('./pages/ordini-ricevuti/ordini-ricevuti').then(m => m.OrdiniRicevuti) },
+  { path: 'ordini-effettuati', canActivate: [authGuard], loadComponent: () => import('./pages/ordini-effettuati/ordini-effettuati').then(m => m.OrdiniEffettuati) },
 ];

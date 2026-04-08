@@ -11,6 +11,8 @@
       <button routerLink="products" class="button_navbar">Prodotti</button>
       @if (isAdmin()) {
         <button routerLink="ordini-ricevuti" class="button_navbar">Ordini Ricevuti</button>
+      } @else if (isLoggedNonAdmin()) {
+        <button routerLink="ordini-effettuati" class="button_navbar">Ordini Effettuati</button>
       }
 
       @if (!(auth.user$ | async)) {
