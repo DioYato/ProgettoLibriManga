@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminService, Order } from '../../data/admin.service';
 
@@ -8,19 +8,19 @@ import { AdminService, Order } from '../../data/admin.service';
   templateUrl: './ordini-ricevuti.html',
   styleUrl: './ordini-ricevuti.css',
 })
-export class OrdiniRicevuti implements OnInit {
+export class OrdiniRicevuti {
 
   private adminService = inject(AdminService);
 
-  orders: Order[] = [];
+  orders = signal<Order[]>([]);
 
-  ngOnInit() {
+  constructor() {
     this.loadOrders();
   }
 
   loadOrders() {
     this.adminService.getOrders().subscribe({
-      next: (orders) => this.orders = orders,
+      next: (orders) => this.orders.set(orders),
       error: (err) => console.error('Error loading orders', err)
     });
   }
@@ -28,7 +28,10 @@ export class OrdiniRicevuti implements OnInit {
   updateStatus(order: Order, status: string) {
     this.adminService.updateOrderStatus(order.id, status).subscribe({
       next: () => {
-        order.status = status;
+        const updated = this.orders().map(o => 
+          o.id === order.id ? { ...o, status } : o
+        );
+        this.orders.set(updated);
       },
       error: (err) => console.error('Error updating status', err)
     });

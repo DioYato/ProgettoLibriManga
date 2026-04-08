@@ -1,11 +1,11 @@
 <div class="orders-container">
   <h1>Ordini Ricevuti</h1>
 
-  @if (orders.length === 0) {
+  @if (orders().length === 0) {
     <p>Nessun ordine ricevuto.</p>
   } @else {
     <div class="orders-list">
-      @for (order of orders; track order.id) {
+      @for (order of orders(); track order.id) {
         <div class="order-card">
           <div class="order-header">
             <h3>Ordine #{{ order.id }}</h3>
