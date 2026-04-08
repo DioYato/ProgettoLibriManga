@@ -19,6 +19,7 @@ export class Navbar {
 
   readonly user = toSignal(this.auth.user$, {initialValue: null});
   readonly isAdmin = computed(() => this.user()?.ruolo === 'ADMIN');
+  readonly isLoggedNonAdmin = computed(() => !!this.user() && !this.isAdmin());
 
   logout() {
     this.auth.logout();

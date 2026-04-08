@@ -11,7 +11,6 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    // TODO: Quando il backend sarà pronto, questo fornisce HttpClient con interceptor per token JWT
     provideHttpClient()
   ]
 };

@@ -1,0 +1,32 @@
+<div class="orders-container">
+  <h1>Ordini Effettuati</h1>
+
+  @if (orders().length === 0) {
+    <p>Nessun ordine effettuato.</p>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders(); track order.id) {
+        <div class="order-card">
+          <div class="order-header">
+            <h3>Ordine #{{ order.id }}</h3>
+            <span class="order-date">{{ order.date }}</span>
+          </div>
+          <div class="order-products">
+            <strong>Prodotti:</strong>
+            <ul>
+              @for (product of order.products; track product.id) {
+                <li>{{ product.name }} - Quantità: {{ product.quantity }} - Prezzo: €{{ product.price }}</li>
+              }
+            </ul>
+          </div>
+          <div class="order-total">
+            <strong>Totale: €{{ order.total }}</strong>
+          </div>
+          <div class="order-status">
+            <strong>Stato: {{ order.status }}</strong>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

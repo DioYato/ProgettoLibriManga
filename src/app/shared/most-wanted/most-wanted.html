@@ -9,18 +9,18 @@
   </div>
 
   <div class="carosello_carte" #carousel>
-    @for (prodotto of prodotti; track prodotto.id) {
+    @for (prodotto of prodottiSample(); track prodotto.id) {
       <div class="card">
         <div class="img_cont">
-          <img [src]="prodotto.img || 'assets/placeholder-libro.png'" 
+          <img [src]="prodotto.immagine || 'assets/placeholder-libro.png'" 
                alt="Immagine prodotto" />
         </div>
 
         <div class="text-section">
-          <h3>{{ prodotto.title || 'Titolo non disponibile' }}</h3>
+          <h3>{{ prodotto.titolo || 'Titolo non disponibile' }}</h3>
           
           <p class="autore">
-            {{ prodotto.autore }} 
+            {{ prodotto.autore.nome }} {{ prodotto.autore.cognome }}
           </p>
 
           @if (prodotto.quantita > 0) {
@@ -30,12 +30,7 @@
           }
 
           <div class="section_prezzi">
-            <span class="old-price">€{{ prodotto.prezzo }}</span>
-            <span class="new-price">€{{ prodotto.prezzo_scontato || prodotto.prezzo }}</span>
-            
-            @if (prodotto.sconto) {
-              <span class="badge-sconto">-{{ prodotto.sconto }}</span>
-            }
+            <span class="new-price">€{{ prodotto.prezzo }}</span>
           </div>
         </div>
       </div>
