@@ -9,13 +9,19 @@ interface FavoriteRequest {
 
 @Injectable({ providedIn: 'root' })
 export class FavoritesService {
-  private readonly storageKey = 'favorites';
   private readonly backendUrl = 'http://localhost:8080/utenti';
 
-  private readonly _ids = signal<number[]>(this.loadFromStorage());
+  private readonly _ids = signal<number[]>([]);
   readonly ids = computed(() => this._ids());
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Pulisci il vecchio storage key senza userId se l'utente è loggato
+    if (this.isBrowser() && this.getUserId()) {
+      localStorage.removeItem('favorites');
+    }
+    // Carica i dati corretti dopo aver pulito
+    this._ids.set(this.loadFromStorage());
+  }
 
   private isBrowser(): boolean {
     return typeof window !== 'undefined';
@@ -27,10 +33,15 @@ export class FavoritesService {
     return stored ? Number(stored) : null;
   }
 
+  private getStorageKey(): string {
+    const userId = this.getUserId();
+    return userId ? `favorites_${userId}` : 'favorites';
+  }
+
   private loadFromStorage(): number[] {
     if (!this.isBrowser()) return [];
     try {
-      return JSON.parse(localStorage.getItem(this.storageKey) || '[]');
+      return JSON.parse(localStorage.getItem(this.getStorageKey()) || '[]');
     } catch {
       return [];
     }
@@ -38,7 +49,7 @@ export class FavoritesService {
 
   private saveToStorage(ids: number[]) {
     if (!this.isBrowser()) return;
-    localStorage.setItem(this.storageKey, JSON.stringify(ids));
+    localStorage.setItem(this.getStorageKey(), JSON.stringify(ids));
   }
 
   private addFavoriteOnBackend(productId: number) {

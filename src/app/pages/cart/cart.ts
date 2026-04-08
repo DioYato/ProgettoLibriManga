@@ -27,12 +27,30 @@ export class Cart {
     return `http://localhost:8080/images/${copertina}`;
   }
 
-  // ⬇️⬇️⬇️ QUI VA LA FUNZIONE CHE MI HAI CHIESTO ⬇️⬇️⬇️
   sendOrder() {
     const items = this.cart.all(); // prodotti nel carrello
 
-    this.http.post('http://localhost:8080/ordini', {
-      prodotti: items
+    if (!this.isBrowser()) {
+      alert('Impossibile inviare ordine dal server.');
+      return;
+    }
+
+    const stored = localStorage.getItem('user');
+    if (!stored) {
+      alert('Devi essere loggato per inviare un ordine.');
+      return;
+    }
+
+    const user = JSON.parse(stored);
+
+    const prodotti = items.map(item => ({
+      idLibro: item.product.id,
+      quantita: item.quantity
+    }));
+
+    this.http.post('http://localhost:8080/ordini/create', {
+      idUtente: user.id,
+      dettagliOrdini: prodotti
     }).subscribe({
       next: () => {
         alert('Ordine inviato con successo!');
@@ -42,6 +60,10 @@ export class Cart {
         alert('Errore durante l’invio dell’ordine.');
       }
     });
+  }
+
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined';
   }
 }
 
