@@ -1,28 +1,28 @@
-<div class="section">
-  
-  <button class="nav_btn" (click)="scroll(-1)"> < </button>
+<div class="main-wrapper">
+  <h2 class="section-title">Gli autori del momento</h2>
 
-  <div class="carosello_container" #containerCarosello>
-  
-        @for (autore of Autori; track autore.img) {
-          
-            <div class="card_autore">
+  <div class="carousel-container">
+    <button class="nav-btn prev" (click)="scroll(-1)">
+      <span class="chevron">‹</span>
+    </button>
 
-            <div class="cont_img_autore">
-
-               <img [src]="autore.img" alt="Autore">
-                
+    <div class="cards-viewport" #containerCarosello>
+      @for (autore of Autori; track autore.id) {
+        <div class="card-autore">
+          <div class="card-content">
+            <div class="image-box">
+              <img [src]="autore.img" [alt]="autore.nome">
             </div>
-
-            <h4>{{ autore.nome }}</h4>
-
+            <div class="name-banner">
+              {{ autore.nome }}
             </div>
-        }
-
+          </div>
+        </div>
+      }
     </div>
 
-     <button class="nav_btn" (click)="scroll(1)"> > </button>
-
+    <button class="nav-btn next" (click)="scroll(1)">
+      <span class="chevron">›</span>
+    </button>
   </div>
-
-
+</div>
