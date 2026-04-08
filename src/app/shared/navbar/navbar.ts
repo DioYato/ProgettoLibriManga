@@ -4,6 +4,7 @@ import { AuthService } from '../../data/auth.service';
 import { AsyncPipe } from '@angular/common';
 import { CartService } from '../../data/cart.service';
 import { FavoritesService } from '../../data/favorites.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-navbar',
@@ -16,6 +17,9 @@ export class Navbar {
 
   auth = inject(AuthService);
   router = inject(Router);
+
+  readonly user = toSignal(this.auth.user$, {initialValue: null});
+  readonly isAdmin = computed(() => this.user()?.ruolo === 'ADMIN');
 
   logout() {
     this.auth.logout();

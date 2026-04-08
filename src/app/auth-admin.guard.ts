@@ -1,9 +1,7 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
-import { AuthService } from './data/auth.service';
 
-export const authGuard: CanActivateFn = () => {
-  const auth = inject(AuthService);
+export const adminGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   if (typeof window === 'undefined') {
@@ -16,11 +14,10 @@ export const authGuard: CanActivateFn = () => {
   }
 
   const user = JSON.parse(stored);
-  if (user) {
+
+  if (user?.ruolo === 'ADMIN') {
     return true;
   }
 
-  return router.parseUrl('/login');
+  return router.parseUrl('/');
 };
-
-

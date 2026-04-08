@@ -8,11 +8,10 @@ export interface User {
   email: string;
   nome: string;
   cognome: string;
+  ruolo: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 
   private userSubject = new BehaviorSubject<User | null>(null);
@@ -20,18 +19,15 @@ export class AuthService {
 
   private api = 'http://localhost:8080/utenti';
 
-  // Serve per evitare errori con SSR
   private isBrowser(): boolean {
     return typeof window !== 'undefined';
   }
 
   constructor(private http: HttpClient, private router: Router) {
-
-    // Carica l’utente SOLO se siamo nel browser
     if (this.isBrowser()) {
-      const user = localStorage.getItem('user');
-      if (user) {
-        this.userSubject.next(JSON.parse(user));
+      const stored = localStorage.getItem('user');
+      if (stored) {
+        this.userSubject.next(JSON.parse(stored));
       }
     }
   }
@@ -41,23 +37,18 @@ export class AuthService {
   }
 
   login(credentials: { email: string; password: string }) {
-    return this.http.post(`${this.api}/login`, credentials).pipe(
-      tap((user: any) => {
-
-        // Salva SOLO se siamo nel browser
+    return this.http.post<User>(`${this.api}/login`, credentials).pipe(
+      tap((user) => {
         if (this.isBrowser()) {
-          localStorage.setItem('userId', user.id);
+          localStorage.setItem('userId', String(user.id));
           localStorage.setItem('user', JSON.stringify(user));
         }
-
         this.userSubject.next(user);
       })
     );
   }
 
   logout() {
-
-    // Rimuove SOLO se siamo nel browser
     if (this.isBrowser()) {
       localStorage.removeItem('userId');
       localStorage.removeItem('user');
@@ -69,6 +60,7 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     if (!this.isBrowser()) return false;
-    return !!localStorage.getItem('userId');
+    return localStorage.getItem('userId') !== null;
   }
 }
+

@@ -22,8 +22,14 @@ export class CartService {
     const existing = current.find(i => i.product.id === product.id);
 
     if (existing) {
-      existing.quantity++;
-      this.items.set([...current]);
+      // versione immutabile → più sicura e più pulita
+      this.items.set(
+        current.map(i =>
+          i.product.id === product.id
+            ? { ...i, quantity: i.quantity + 1 }
+            : i
+        )
+      );
     } else {
       this.items.set([...current, { product, quantity: 1 }]);
     }

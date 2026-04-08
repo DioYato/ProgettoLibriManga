@@ -47,7 +47,18 @@ export class Profilo {
       return;
     }
 
-    const user = JSON.parse(localStorage.getItem('user')!);
+    if (!this.isBrowser()) {
+      alert('Impossibile salvare dal server.');
+      return;
+    }
+
+    const stored = localStorage.getItem('user');
+    if (!stored) {
+      alert('Utente non trovato.');
+      return;
+    }
+
+    const user = JSON.parse(stored);
 
     this.users.update(user.id, this.form.value).subscribe({
       next: () => {

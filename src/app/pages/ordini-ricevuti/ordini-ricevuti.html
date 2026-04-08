@@ -1,0 +1,42 @@
+<div class="orders-container">
+  <h1>Ordini Ricevuti</h1>
+
+  @if (orders.length === 0) {
+    <p>Nessun ordine ricevuto.</p>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders; track order.id) {
+        <div class="order-card">
+          <div class="order-header">
+            <h3>Ordine #{{ order.id }}</h3>
+            <span class="order-date">{{ order.date }}</span>
+          </div>
+          <div class="order-user">
+            <strong>Utente:</strong> {{ order.userName }} (ID: {{ order.userId }})
+          </div>
+          <div class="order-products">
+            <strong>Prodotti:</strong>
+            <ul>
+              @for (product of order.products; track product.id) {
+                <li>{{ product.name }} - Quantità: {{ product.quantity }} - Prezzo: €{{ product.price }}</li>
+              }
+            </ul>
+          </div>
+          <div class="order-total">
+            <strong>Totale: €{{ order.total }}</strong>
+          </div>
+          <div class="order-status">
+            <strong>Stato:</strong>
+            <select [value]="order.status" (change)="updateStatus(order, $any($event.target).value)">
+              <option value="PENDING">In Attesa</option>
+              <option value="PROCESSING">In Elaborazione</option>
+              <option value="SHIPPED">Spedito</option>
+              <option value="DELIVERED">Consegnato</option>
+              <option value="CANCELLED">Annullato</option>
+            </select>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

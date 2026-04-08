@@ -23,6 +23,10 @@ export class UsersService {
   constructor(private http: HttpClient, private router: Router) {
   }
 
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined';
+  }
+
   update(id: number, data: any) {
     data.id = id;
     if (data.password === '') {
@@ -32,7 +36,9 @@ export class UsersService {
       tap((user: any) => {
         user = { ...user, ...data };
         delete user.password;
-        localStorage.setItem('user', JSON.stringify(user));
+        if (this.isBrowser()) {
+          localStorage.setItem('user', JSON.stringify(user));
+        }
         this.userSubject.next(user);
       })
     );

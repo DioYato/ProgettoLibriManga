@@ -1,4 +1,3 @@
- 
 <nav class="navbar">
   <div class="left">
     <a routerLink="/" class="logo">
@@ -10,6 +9,9 @@
     <div class="center">
       <button routerLink="" class="button_navbar">Home</button>
       <button routerLink="products" class="button_navbar">Prodotti</button>
+      @if (isAdmin()) {
+        <button routerLink="ordini-ricevuti" class="button_navbar">Ordini Ricevuti</button>
+      }
 
       @if (!(auth.user$ | async)) {
         <button routerLink="login" class="button_navbar">Login</button>
@@ -17,7 +19,6 @@
         <button class="button_navbar" (click)="logout()">Logout</button>
       }
     </div>
-
   </div>
 
   <input type="text" class="input" placeholder="Cosa stai cercando?">
@@ -26,8 +27,13 @@
     <button routerLink="mappa" class="img_cart_cont" title="Trova BookStore">
       <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Mappa">
     </button>
-    
-    <!-- OMINO SOLO SE LOGGATO, ACCANTO AL CARRELLO -->
+
+    @if (isAdmin()) {
+      <button routerLink="admin" class="img_cart_cont admin-icon" title="Area Admin">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828859.png" alt="Admin">
+      </button>
+    }
+
     @if (auth.user$ | async) {
       <button class="img_cart_cont" (click)="goToProfile()" title="Profilo">
         <img class="profile-icon"
@@ -45,7 +51,5 @@
       <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Carrello">
       <span class="badge">{{ cartCount() }}</span>
     </button>
-
   </div>
-
 </nav>

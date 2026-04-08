@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, map, of, tap } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 
 interface FavoriteRequest {
   idUtente: number;
@@ -22,15 +22,13 @@ export class FavoritesService {
   }
 
   private getUserId(): number | null {
-    if (!this.isBrowser()) {
-      return null;
-    }
-
+    if (!this.isBrowser()) return null;
     const stored = localStorage.getItem('userId');
     return stored ? Number(stored) : null;
   }
 
   private loadFromStorage(): number[] {
+    if (!this.isBrowser()) return [];
     try {
       return JSON.parse(localStorage.getItem(this.storageKey) || '[]');
     } catch {
@@ -45,46 +43,31 @@ export class FavoritesService {
 
   private addFavoriteOnBackend(productId: number) {
     const userId = this.getUserId();
-    if (!userId) {
-      return;
-    }
+    if (!userId) return;
 
     const req: FavoriteRequest = { idUtente: userId, idLibro: productId };
+
     this.http.post(`${this.backendUrl}/addFavourite`, req)
-      .pipe(
-        catchError((error) => {
-          console.error('Impossibile aggiungere il preferito sul backend:', error);
-          return of(null);
-        }),
-      )
+      .pipe(catchError(() => of(null)))
       .subscribe();
   }
 
   private removeFavoriteOnBackend(productId: number) {
     const userId = this.getUserId();
-    if (!userId) {
-      return;
-    }
+    if (!userId) return;
 
     const params = new HttpParams()
       .set('idUtente', String(userId))
       .set('idLibro', String(productId));
 
     this.http.delete(`${this.backendUrl}/deleteFavourite`, { params })
-      .pipe(
-        catchError((error) => {
-          console.error('Impossibile rimuovere il preferito sul backend:', error);
-          return of(null);
-        }),
-      )
+      .pipe(catchError(() => of(null)))
       .subscribe();
   }
 
   loadFromBackend() {
     const userId = this.getUserId();
-    if (!userId) {
-      return of(this._ids());
-    }
+    if (!userId) return of(this._ids());
 
     const params = new HttpParams().set('id', String(userId));
 
@@ -95,10 +78,7 @@ export class FavoritesService {
         this.saveToStorage(ids);
         return ids;
       }),
-      catchError((error) => {
-        console.error('Errore caricamento preferiti backend:', error);
-        return of(this._ids());
-      }),
+      catchError(() => of(this._ids()))
     );
   }
 
@@ -126,3 +106,4 @@ export class FavoritesService {
     return this._ids().length;
   }
 }
+

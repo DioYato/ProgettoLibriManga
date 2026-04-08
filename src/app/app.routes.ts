@@ -6,6 +6,7 @@ import { Cart } from './pages/cart/cart';
 import { Login } from './pages/login/login';
 import { MapPage } from './pages/map/map';
 import { authGuard } from './auth-guard';
+import { adminGuard } from './auth-admin.guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -15,9 +16,9 @@ export const routes: Routes = [
   { path: 'login', component: Login, data: { mode: 'login' } },
   { path: 'register', component: Login, data: { mode: 'register' } },
   { path: 'mappa', component: MapPage },
-  {path: 'profilo', canActivate: [authGuard], loadComponent: () => import('./pages/profilo/profilo').then(m => m.Profilo)},
-  {path: 'preferiti', loadComponent: () => import('./favorites-page/favorites-page').then(m => m.FavoritesPageComponent)}
+  { path: 'preferiti', loadComponent: () => import('./favorites-page/favorites-page').then(m => m.FavoritesPageComponent) },
+  { path: 'profilo', canActivate: [authGuard], loadComponent: () => import('./pages/profilo/profilo').then(m => m.Profilo) },
+  { path: 'admin', canActivate: [adminGuard], loadComponent: () => import('./pages/admin/admin').then(m => m.Admin) },
+  { path: 'admin/prodotti', canActivate: [adminGuard], loadComponent: () => import('./pages/admin-prodotti/admin-prodotti').then(m => m.AdminProdotti) },
+  { path: 'ordini-ricevuti', canActivate: [adminGuard], loadComponent: () => import('./pages/ordini-ricevuti/ordini-ricevuti').then(m => m.OrdiniRicevuti) },
 ];
-
-
-
