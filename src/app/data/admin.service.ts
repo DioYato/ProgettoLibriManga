@@ -73,10 +73,6 @@ export class AdminService {
     );
   }
 
-  /**
-   * MODIFICATO: Ora accetta un oggetto (JSON) perché il backend 
-   * non supporta multipart/form-data ma vuole application/json.
-   */
   addProduct(libroData: any): Observable<LibriResponse> {
     // Inviando libroData come oggetto, HttpClient imposta automaticamente Content-Type: application/json
     return this.http.post<LibriResponse>(`${this.api}/libri/create`, libroData);

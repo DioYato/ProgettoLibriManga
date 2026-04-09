@@ -214,3 +214,26 @@
 }
 
 
+.admin-delete-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.admin-delete-btn:hover {
+  transform: scale(1.1);
+  background: #cc0000;
+}

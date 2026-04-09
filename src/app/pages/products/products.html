@@ -1,97 +1,47 @@
 <div class="products-page">
-
-  <!-- FILTRI A SINISTRA -->
   <aside class="filters-container">
-    <app-products-filters
-      (filtersChange)="onFiltersChange($event)">
-    </app-products-filters>
+    <app-products-filters (filtersChange)="onFiltersChange($event)"></app-products-filters>
   </aside>
 
-  <!-- CONTENUTO A DESTRA -->
   <main class="products-content">
-
     <section class="wrap">
       <div class="head">
-        <div>
-          <h1>I nostri prodotti</h1>
-          <p class="sub">Dati caricati dal backend.</p>
-        </div>
+        <h1>I nostri prodotti</h1>
       </div>
 
       <select class="sort-select" (change)="onSortChange($event)">
         <option value="">In evidenza</option>
-        <option value="annoAsc">Anno pubblicazione meno recente</option>
-        <option value="annoDesc">Anno pubblicazione più recente</option>
         <option value="prezzoAsc">Prezzo crescente</option>
         <option value="prezzoDesc">Prezzo decrescente</option>
-        <option value="venduti">I più venduti</option>
       </select>
 
       <div class="toolbar">
-        <div class="search">
-          <input
-            type="search"
-            placeholder="Cerca un titolo…"
-            [value]="query()"
-            (input)="onSearch(($any($event.target)).value)"
-          />
-        </div>
-
-        <div class="meta">
-          @if (query().trim()) {
-            <span>Risultati per “{{ query() }}”: {{ products().length }}</span>
-          } @else {
-            <span>Totale prodotti: {{ products().length }}</span>
-          }
-        </div>
+        <input type="search" placeholder="Cerca un titolo…" [value]="query()" (input)="onSearch($any($event.target).value)" />
       </div>
 
       <div class="grid">
         @for (p of products(); track p.id; let i = $index) {
-
           <article class="p-card">
+            
+            <!-- TASTO ELIMINA: Visibile solo se isModerator() è true -->
+            @if (isModerator()) {
+              <button class="admin-delete-btn" (click)="deleteProduct(p.id); $event.stopPropagation()">
+                🗑️ Elimina
+              </button>
+            }
 
-            <!-- CUORE -->
-            <button
-              class="fav-btn"
-              (click)="toggleFavorite(p.id); $event.stopPropagation()"
-            >
+            <button class="fav-btn" (click)="toggleFavorite(p.id); $event.stopPropagation()">
               <span [class.filled]="isFavorite(p.id)">♥</span>
             </button>
 
-            <!-- LINK ALLA PAGINA PRODOTTO -->
             <a class="p-cardLink" [routerLink]="['/products', p.id]">
-
-              <div class="p-card__top">
-                <div class="p-card__rank">{{ i + 1 }}°</div>
-              </div>
-
               <div class="p-card__media">
-                <img
-                  class="p-card__img"
-                  [src]="imageUrl(p.copertina)"
-                  [alt]="p.titolo"
-                />
+                <img class="p-card__img" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
               </div>
-
               <h3 class="p-card__title">{{ p.titolo }}</h3>
-
-              <div class="p-card__author">
-                {{ p.autore.nome }} {{ p.autore.cognome }}
-              </div>
-
-              <div class="p-card__availability">
-                Disponibile
-              </div>
-
-              <div class="p-card__priceRow">
-                €{{ p.prezzo | number: '1.2-2' }}
-              </div>
-
+              <div class="p-card__priceRow">€{{ p.prezzo | number: '1.2-2' }}</div>
             </a>
-
           </article>
-
         }
       </div>
 
@@ -99,7 +49,5 @@
         <p class="empty">Nessun prodotto trovato.</p>
       }
     </section>
-
   </main>
-
 </div>
