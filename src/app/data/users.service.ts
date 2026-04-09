@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, tap } from 'rxjs';
-import { Router } from '@angular/router';
 
 export interface User {
   id: number;
   email: string;
   nome: string;
   cognome: string;
+  ruolo?: string;
 }
 
 @Injectable({
@@ -15,31 +16,56 @@ export interface User {
 })
 export class UsersService {
 
+  // Stato dell'utente per la gestione del profilo
   private userSubject = new BehaviorSubject<User | null>(null);
   public user$ = this.userSubject.asObservable();
 
   private api = 'http://localhost:8080/utenti';
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.initUser();
   }
 
   private isBrowser(): boolean {
-    return typeof window !== 'undefined';
+    return isPlatformBrowser(this.platformId);
   }
 
-  update(id: number, data: any) {
-    data.id = id;
-    if (data.password === '') {
-      delete data.password;
+  // Caricamento iniziale sicuro per SSR
+  private initUser() {
+    if (this.isBrowser()) {
+      const stored = localStorage.getItem('user');
+      if (stored) {
+        this.userSubject.next(JSON.parse(stored));
+      }
     }
-    return this.http.put(`${this.api}/update`, data).pipe(
-      tap((user: any) => {
-        user = { ...user, ...data };
-        delete user.password;
+  }
+
+  // Aggiorna i dati dell'utente sul DB e sincronizza il carrello locale
+  update(id: number, data: any) {
+    const payload = { ...data, id };
+    
+    // Rimuove la password se non è stata modificata
+    if (payload.password === '') {
+      delete payload.password;
+    }
+
+    return this.http.put<User>(`${this.api}/update`, payload).pipe(
+      tap((updatedUser) => {
+        // Uniamo i dati ricevuti per non perdere campi come il 'ruolo'
+        const finalUser = { ...updatedUser, ...payload };
+        delete finalUser.password;
+
         if (this.isBrowser()) {
-          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('user', JSON.stringify(finalUser));
         }
-        this.userSubject.next(user);
+        
+        this.userSubject.next(finalUser);
+        
+        // Nota: Se l'app non si aggiorna ovunque, 
+        // considera di iniettare AuthService e chiamare un metodo di update lì.
       })
     );
   }
