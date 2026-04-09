@@ -17,8 +17,7 @@ export interface Order {
 @Injectable({ providedIn: 'root' })
 export class AdminService {
 
-  // Endpoint per gestione prodotti e ordini
-  private api = 'http://localhost:8080/admin';
+  private api = 'http://localhost:8080';
   private ordiniApi = 'http://localhost:8080/ordini';
 
   constructor(private http: HttpClient) {}
@@ -37,14 +36,12 @@ export class AdminService {
         quantity: detail.quantita || 0,
         price: detail.libro?.prezzo || 0
       })),
-      // Calcolo del totale basato sui singoli dettagli ordine
       total: order.dettagliOrdine?.reduce((sum: number, d: any) => sum + (d.costoTotale || 0), 0) || 0,
       date: order.dettagliOrdine?.[0]?.data || '',
       status: order.dettagliOrdine?.[0]?.stato || 'PENDING'
     }));
   }
 
-  // Recupera la lista globale di tutti gli ordini
   getOrders(): Observable<Order[]> {
     return this.http.get<any>(`${this.ordiniApi}/list`).pipe(
       map(response => this.mapOrders(response)),
@@ -52,7 +49,6 @@ export class AdminService {
     );
   }
 
-  // Recupera lo storico ordini di uno specifico utente tramite ID
   getUserOrders(userId: number): Observable<Order[]> {
     return this.http.get<any>(`${this.ordiniApi}/findByUtente?idUtente=${userId}`).pipe(
       map(response => this.mapOrders(response)),
@@ -60,7 +56,6 @@ export class AdminService {
     );
   }
 
-  // Modifica lo stato (es. Spedito, Consegnato) di un ordine esistente
   updateOrderStatus(orderId: number, status: string): Observable<any> {
     return this.http.put(`${this.api}/orders/${orderId}/status`, { status });
   }
@@ -68,16 +63,21 @@ export class AdminService {
   // --- Gestione Catalogo Prodotti ---
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.api}/products`).pipe(
+    return this.http.get<Product[]>(`${this.api}/libri/list`).pipe(
       catchError(() => of([]))
     );
   }
 
-  addProduct(product: Omit<Product, 'id'>): Observable<Product> {
-    return this.http.post<Product>(`${this.api}/products`, product);
+  /**
+   * MODIFICATO: Ora accetta un oggetto (JSON) perché il backend 
+   * non supporta multipart/form-data ma vuole application/json.
+   */
+  addProduct(libroData: any): Observable<Product> {
+    // Inviando libroData come oggetto, HttpClient imposta automaticamente Content-Type: application/json
+    return this.http.post<Product>(`${this.api}/libri/create`, libroData);
   }
 
   deleteProduct(productId: number): Observable<any> {
-    return this.http.delete(`${this.api}/products/${productId}`);
+    return this.http.delete(`${this.api}/libri/delete?id=${productId}`);
   }
 }
