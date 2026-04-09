@@ -23,12 +23,6 @@
         <input type="number" id="idAutore" [(ngModel)]="newProduct.idAutore" name="idAutore" required>
       </div>
 
-      <!-- Caricamento Immagine (PC -> Base64) -->
-      <div class="form-group">
-        <label for="img">Immagine Copertina (Carica dal PC):</label>
-        <input type="file" id="img" (change)="onFileSelected($event)" accept="image/*" required>
-      </div>
-
       <!-- Prezzo -->
       <div class="form-group">
         <label for="prezzo">Prezzo (€):</label>

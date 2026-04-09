@@ -16,7 +16,7 @@ export class AdminProdotti {
   newProduct = {
     titolo: '',
     descrizione: '',
-    copertina: '', 
+    copertina: '',
     prezzo: 0,
     dataPubblicazione: new Date().toISOString().split('T')[0],
     quantitaDisponibile: 10,
@@ -25,24 +25,10 @@ export class AdminProdotti {
     idCategorie: [1]   // DEVE essere un array di numeri di categorie esistenti
   };
 
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        let base64String = reader.result as string;
-        // Puliamo la stringa: togliamo "data:image/jpeg;base64," se presente
-        // Molti backend preferiscono la stringa "pulita"
-        this.newProduct.copertina = base64String.split(',')[1]; 
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   addProduct() {
     // Verifichiamo che i campi fondamentali ci siano
-    if (!this.newProduct.titolo || !this.newProduct.copertina) {
-      alert("Manca il titolo o l'immagine!");
+    if (!this.newProduct.titolo) {
+      alert("Manca il titolo");
       return;
     }
 
@@ -73,7 +59,5 @@ export class AdminProdotti {
       dataPubblicazione: new Date().toISOString().split('T')[0],
       quantitaDisponibile: 10, idAutore: 1, idCasaEditrice: 1, idCategorie: [1]
     };
-    const fileInput = document.getElementById('img') as HTMLInputElement;
-    if (fileInput) fileInput.value = '';
   }
 }
