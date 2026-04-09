@@ -16,7 +16,6 @@ export class AdminProdotti {
   newProduct = {
     titolo: '',
     descrizione: '',
-    copertina: '',
     prezzo: 0,
     dataPubblicazione: new Date().toISOString().split('T')[0],
     quantitaDisponibile: 10,
@@ -25,10 +24,17 @@ export class AdminProdotti {
     idCategorie: [1]   // DEVE essere un array di numeri di categorie esistenti
   };
 
+  copertina: File | null = null;
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    this.copertina = file;
+  }
+
   addProduct() {
     // Verifichiamo che i campi fondamentali ci siano
-    if (!this.newProduct.titolo) {
-      alert("Manca il titolo");
+    if (!this.newProduct.titolo || !this.copertina) {
+      alert("Manca il titolo o l'immagine!");
       return;
     }
 
@@ -43,6 +49,12 @@ export class AdminProdotti {
 
     this.adminService.addProduct(payload).subscribe({
       next: (res) => {
+        this.adminService.addImageToProduct(res.id, this.copertina!).subscribe({
+          error: (err) => {
+            alert("Errore nel caricare l'immagine");
+          }
+        });
+
         alert('PRODOTTO AGGIUNTO! Ora è visibile nella pagina Prodotti per tutti i clienti.');
         this.resetForm();
       },
@@ -55,9 +67,12 @@ export class AdminProdotti {
 
   resetForm() {
     this.newProduct = {
-      titolo: '', descrizione: '', copertina: '', prezzo: 0,
+      titolo: '', descrizione: '', prezzo: 0,
       dataPubblicazione: new Date().toISOString().split('T')[0],
       quantitaDisponibile: 10, idAutore: 1, idCasaEditrice: 1, idCategorie: [1]
     };
+    this.copertina = null;
+    const fileInput = document.getElementById('img') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 }

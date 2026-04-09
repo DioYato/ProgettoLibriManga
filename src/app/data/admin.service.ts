@@ -14,6 +14,11 @@ export interface Order {
   status: string;
 }
 
+interface LibriResponse {
+  msg: string;
+  id: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AdminService {
 
@@ -72,12 +77,19 @@ export class AdminService {
    * MODIFICATO: Ora accetta un oggetto (JSON) perché il backend 
    * non supporta multipart/form-data ma vuole application/json.
    */
-  addProduct(libroData: any): Observable<Product> {
+  addProduct(libroData: any): Observable<LibriResponse> {
     // Inviando libroData come oggetto, HttpClient imposta automaticamente Content-Type: application/json
-    return this.http.post<Product>(`${this.api}/libri/create`, libroData);
+    return this.http.post<LibriResponse>(`${this.api}/libri/create`, libroData);
   }
 
   deleteProduct(productId: number): Observable<any> {
     return this.http.delete(`${this.api}/libri/delete?id=${productId}`);
+  }
+
+  addImageToProduct(productId: number, image: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('id', productId.toString());
+    return this.http.post(`${this.api}/rest/upload/image`, formData);
   }
 }
