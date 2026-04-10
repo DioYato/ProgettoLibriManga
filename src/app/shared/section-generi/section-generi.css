@@ -1,0 +1,139 @@
+.section_generi {
+    display: flex;
+    background-color: black;
+    height: 600px;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* --- SINISTRA: Respiro immagini --- */
+.png_section {
+    display: flex;
+    width: 40%;
+    align-items: flex-end;
+    padding-left: 50px;
+    box-sizing: border-box;
+}
+
+.png_wrapper {
+    display: flex;
+    gap: 30px;
+    height: 90%;
+}
+
+.png_section_pngs {
+    width: 280px; 
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+}
+
+/* --- DESTRA: Layout Colonna --- */
+.generi_container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra verticalmente tutto il blocco nel nero */
+    min-width: 0;
+    padding-right: 40px;
+}
+
+.section_subtitle {
+    color: white;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 20px 65px; /* 65px allinea il testo esattamente all'inizio delle card */
+    opacity: 0.9;
+}
+
+.carousel_row {
+    display: flex;
+    align-items: center; /* Bottoni centrati verticalmente rispetto alle card */
+    width: 100%;
+    gap: 15px;
+}
+
+.generi_wrapper {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    scroll-behavior: smooth;
+    gap: 30px;
+    padding: 15px 0;
+}
+
+/* --- CARD: Animazioni --- */
+.card_genere {
+    position: relative;
+    flex: 0 0 200px;
+    height: 480px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.card_genere_img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card_info {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.95));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-out;
+}
+
+.card_genere_title {
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* --- HOVER EFFECTS --- */
+.card_genere:hover {
+    transform: scale(1.05);
+}
+
+.card_genere:hover .card_info {
+    transform: translateY(0);
+}
+
+.card_genere:hover .card_genere_img {
+    transform: scale(1.1);
+}
+
+/* --- BOTTONI --- */
+.nav_btn {
+    all: unset;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: 0.3s;
+    flex-shrink: 0;
+}
+
+.nav_btn:hover {
+    background: white;
+    color: black;
+}

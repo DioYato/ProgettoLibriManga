@@ -1,0 +1,108 @@
+/* --- CONTAINER PRINCIPALE --- */
+.banner_container {
+    width: 100%;
+    margin: 20px 0;
+    padding: 0; /* Rimosso padding laterale per toccare i bordi finestra */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(135deg, #fdfdfd 0%, #f7f7f7 100%);
+}
+
+.banner_content_wrapper {
+    display: flex;
+    width: 90%; /* Esteso al 100% della finestra */
+    max-width: none; /* Rimosso il limite di 1200px */
+    border-top: 2px solid #D859B1; /* Bordo solo sopra e sotto per un look full-width */
+    border-bottom: 2px solid #D859B1;
+    /* Se preferisci mantenere il bordo arrotondato "staccato" dai bordi, 
+       lascia 100% ma metti un margin laterale o usa border-radius solo se non tocca i bordi */
+    border-radius: 30px; 
+    padding: 20px 60px; /* Aumentato il padding laterale per dare "aria" agli elementi */
+    box-sizing: border-box;
+    background-color: white;
+    align-items: center;
+    justify-content: space-between; /* Distribuisce il gap equamente tra le 3 sezioni */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* --- SEZIONE SINISTRA: Titolo --- */
+.banner_left {
+    flex: 1; /* Permette di crescere proporzionalmente */
+    max-width: 30%;
+}
+
+.banner_title {
+    color: #552288;
+    font-size: 2.5rem; /* Leggermente più grande visto lo spazio maggiore */
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.1;
+    font-family: 'Arial Black', sans-serif;
+}
+
+/* --- SEZIONE CENTRALE: Illustrazione --- */
+.banner_center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px; /* Gap generoso ai lati dell'omino */
+}
+
+.illustration_wrapper {
+    height: 120px; /* Un po' più grande */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+/* --- SEZIONE DESTRA: Paragrafo e Bottone --- */
+.banner_right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    max-width: 40%;
+}
+
+.banner_info_group {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Gap aumentato tra testo e bottone */
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.banner_paragraph {
+    color: #D859B1;
+    font-size: 1.2rem;
+    margin: 0;
+    line-height: 1.4;
+    text-align: right;
+    max-width: 300px; /* Impedisce al testo di allungarsi troppo */
+}
+
+/* Il Bottone Rosso */
+.banner_action_btn {
+    all: unset;
+    background-color: #A30014;
+    color: white;
+    padding: 15px 35px; /* Padding aumentato per un bottone più importante */
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(163, 0, 20, 0.2);
+}
+
+.banner_action_btn:hover {
+    background-color: #7d000f;
+    transform: translateY(-2px); /* Effetto feedback al passaggio */
+    box-shadow: 0 6px 20px rgba(163, 0, 20, 0.3);
+}

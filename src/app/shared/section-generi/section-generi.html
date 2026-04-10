@@ -1,0 +1,33 @@
+<div class="section_generi">
+  <div class="png_section">
+    <div class="png_wrapper">
+      <img src="https://www.pngarts.com/files/11/Fantasy-Character-Warrior-PNG-Photo.png" alt="Warrior" class="png_section_pngs" />
+      <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/.../clive_rosfield.png" alt="Clive" class="png_section_pngs" style="margin-left: -50px; z-index: 2" />
+    </div>
+  </div>
+
+  <div class="generi_container">
+    <h3 class="section_subtitle">Generi</h3>
+
+    <div class="carousel_row">
+      <button class="nav_btn prev" (click)="scroll(-1)">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <div class="generi_wrapper" #carousel>
+        @for (genere of listaGeneri; track genere.id) {
+          <div class="card_genere">
+            <img [src]="genere.image" [alt]="genere.name" class="card_genere_img" />
+            <div class="card_info">
+              <h3 class="card_genere_title">{{ genere.name }}</h3>
+            </div>
+          </div>
+        }
+      </div>
+
+      <button class="nav_btn next" (click)="scroll(1)">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</div>

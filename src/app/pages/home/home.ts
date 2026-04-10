@@ -1,17 +1,19 @@
 import { Component, computed, signal } from '@angular/core';
 import { ProductsService } from '../../data/products.service';
 import { MostWanted } from "../../shared/most-wanted/most-wanted";
-import { CardRettangolo } from "../../shared/card-rettangolo/card-rettangolo";
 import { CartTipologia } from "../../shared/cart-tipologia/cart-tipologia";
 import { CardAutori } from "../../shared/card-autori/card-autori"; // Corretto nome classe
 import { CarouselHeroComponent } from "../../shared/carosello/carosello";
 import { Spedizioni } from '../../shared/cards-18pp/spedizioni/spedizioni';
 import { PromotionSection } from "../../shared/promotion-section/promotion-section";
-
+import { libriStorici } from '../../shared/libri-storici/libri-storici';
+import { MangaSectionComponent } from '../../shared/libri-manga/libri-manga';
+import { sectionGeneri } from "../../shared/section-generi/section-generi";
+import { Newsletter } from "../../shared/newsletter/newsletter";
 
 @Component({
   selector: 'app-home',
-  imports: [CarouselHeroComponent, MostWanted, CardRettangolo, CartTipologia, CardAutori, Spedizioni, PromotionSection],
+  imports: [CarouselHeroComponent, MostWanted, CartTipologia, CardAutori, Spedizioni, PromotionSection, libriStorici, MangaSectionComponent, sectionGeneri, Newsletter],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

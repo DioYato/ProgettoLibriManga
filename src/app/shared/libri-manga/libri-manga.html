@@ -1,0 +1,33 @@
+<section class="manga-container">
+  <div class="header-section">
+    <h2 class="manga-title-main">Ultimi Arrivi Manga <span>最新マンガ</span></h2>
+    <div class="nav-buttons">
+      <button (click)="scroll(-1)" class="btn-manga">前 (Prev)</button>
+      <button (click)="scroll(1)" class="btn-manga">次 (Next)</button>
+    </div>
+  </div>
+
+  <div class="carousel-wrapper" #carousel>
+    @for (manga of mangaList(); track manga.id) {
+      <div class="manga-card">
+        <div class="onomatopea">ゴゴゴ</div>
+        
+        <div class="image-box">
+          <img [src]="'assets/images/covers/' + manga.copertina" [alt]="manga.titolo">
+          @if (manga.quantita > 0) {
+            <span class="badge-disponibile">Disponibile</span>
+          }
+        </div>
+
+        <div class="manga-info">
+          <h3 class="title">{{ manga.titolo }}</h3>
+          <p class="author">{{ manga.autore }}</p>
+          <div class="price-row">
+            <span class="price">€{{ manga.prezzo }}</span>
+            <button class="buy-btn">Prenota</button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</section>

@@ -2,13 +2,13 @@ import { Component, computed, ElementRef, inject, OnInit, ViewChild,  } from '@a
 import { ProductsService } from '../../data/products.service';
 
 @Component({
-  selector: 'app-most-wanted',
+  selector: 'app-libri-storici',
   imports: [],
-  templateUrl: './most-wanted.html',
-  styleUrl: './most-wanted.css',
+  templateUrl: './libri-storici.html',
+  styleUrl: './libri-storici.css',
 })
 
-export class MostWanted implements OnInit {
+export class libriStorici implements OnInit {
   private productsService = inject(ProductsService);
 
   //view child per abilitare lo scroll del carosello
@@ -18,7 +18,7 @@ export class MostWanted implements OnInit {
   //La funzione computed crea un segnale di sola lettura, Se l'elenco dei prodotti cambia, prodottiSample si ricalcolerà da solo. 
   prodottiSample = computed(() => {
     const tutti = this.productsService.all();
-    return tutti.slice(0, 6); // Prende i primi 6 elementi
+    return tutti.slice(6, 12); // Prende gli indici 6, 7, 8, 9, 10, 11
   });
 
   ngOnInit() {
