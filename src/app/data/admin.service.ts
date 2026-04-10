@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { Product } from '../models/product';
 
 export interface Order {
@@ -14,18 +14,27 @@ export interface Order {
   status: string;
 }
 
+interface LibriResponse {
+  msg: string;
+  id: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AdminService {
 
-  private api = 'http://localhost:8080/admin';
+  private api = 'http://localhost:8080';
+  private ordiniApi = 'http://localhost:8080/ordini';
 
   constructor(private http: HttpClient) {}
 
+  // Trasforma i DTO del server nel modello Order per i componenti
   private mapOrders(response: any): Order[] {
-    return (Array.isArray(response) ? response : []).map(order => ({
+    if (!Array.isArray(response)) return [];
+
+    return response.map(order => ({
       id: order.id,
       userId: order.utente?.id || 0,
-      userName: `${order.utente?.nome || ''} ${order.utente?.cognome || ''}`.trim(),
+      userName: `${order.utente?.nome || ''} ${order.utente?.cognome || ''}`.trim() || 'Utente Sconosciuto',
       products: (order.dettagliOrdine || []).map((detail: any) => ({
         id: detail.libro?.id || 0,
         name: detail.libro?.titolo || 'Prodotto sconosciuto',
@@ -39,14 +48,16 @@ export class AdminService {
   }
 
   getOrders(): Observable<Order[]> {
-    return this.http.get<any>('http://localhost:8080/ordini/list').pipe(
-      map(response => this.mapOrders(response))
+    return this.http.get<any>(`${this.ordiniApi}/list`).pipe(
+      map(response => this.mapOrders(response)),
+      catchError(() => of([])) 
     );
   }
 
   getUserOrders(userId: number): Observable<Order[]> {
-    return this.http.get<any>(`http://localhost:8080/ordini/findByUtente?idUtente=${userId}`).pipe(
-      map(response => this.mapOrders(response))
+    return this.http.get<any>(`${this.ordiniApi}/findByUtente?idUtente=${userId}`).pipe(
+      map(response => this.mapOrders(response)),
+      catchError(() => of([]))
     );
   }
 
@@ -54,15 +65,27 @@ export class AdminService {
     return this.http.put(`${this.api}/orders/${orderId}/status`, { status });
   }
 
+  // --- Gestione Catalogo Prodotti ---
+
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.api}/products`);
+    return this.http.get<Product[]>(`${this.api}/libri/list`).pipe(
+      catchError(() => of([]))
+    );
   }
 
-  addProduct(product: Omit<Product, 'id'>): Observable<Product> {
-    return this.http.post<Product>(`${this.api}/products`, product);
+  addProduct(libroData: any): Observable<LibriResponse> {
+    // Inviando libroData come oggetto, HttpClient imposta automaticamente Content-Type: application/json
+    return this.http.post<LibriResponse>(`${this.api}/libri/create`, libroData);
   }
 
   deleteProduct(productId: number): Observable<any> {
-    return this.http.delete(`${this.api}/products/${productId}`);
+    return this.http.delete(`${this.api}/libri/delete?id=${productId}`);
+  }
+
+  addImageToProduct(productId: number, image: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('id', productId.toString());
+    return this.http.post(`${this.api}/rest/upload/image`, formData);
   }
 }

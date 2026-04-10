@@ -2,49 +2,46 @@
   <h1>Gestisci Prodotti</h1>
 
   <div class="add-product-form">
-    <h2>Aggiungi Nuovo Prodotto</h2>
+    <h2>Aggiungi Nuovo Libro</h2>
     <form (ngSubmit)="addProduct()">
+      
+      <!-- Titolo -->
       <div class="form-group">
-        <label for="name">Nome:</label>
-        <input type="text" id="name" [(ngModel)]="newProduct.name" name="name" required>
+        <label for="titolo">Titolo Libro:</label>
+        <input type="text" id="titolo" [(ngModel)]="newProduct.titolo" name="titolo" required>
       </div>
-      <div class="form-group">
-        <label for="author">Autore:</label>
-        <input type="text" id="author" [(ngModel)]="newProduct.author" name="author" required>
-      </div>
-      <div class="form-group">
-        <label for="img">URL Immagine:</label>
-        <input type="text" id="img" [(ngModel)]="newProduct.img" name="img">
-      </div>
-      <div class="form-group">
-        <label for="price">Prezzo:</label>
-        <input type="number" id="price" [(ngModel)]="newProduct.price" name="price" min="0" step="0.01" required>
-      </div>
-      <div class="form-group">
-        <label for="availableNow">Disponibile:</label>
-        <input type="checkbox" id="availableNow" [(ngModel)]="newProduct.availableNow" name="availableNow">
-      </div>
-      <button type="submit">Aggiungi Prodotto</button>
-    </form>
-  </div>
 
-  <div class="products-list">
-    <h2>Prodotti Esistenti</h2>
-    @if (products.length === 0) {
-      <p>Nessun prodotto trovato.</p>
-    } @else {
-      <div class="products-grid">
-        @for (product of products; track product.id) {
-          <div class="product-card">
-            <img [src]="product.img" [alt]="product.name" class="product-img">
-            <h3>{{ product.name }}</h3>
-            <p>Autore: {{ product.author }}</p>
-            <p>Prezzo: €{{ product.price }}</p>
-            <p>Disponibile: {{ product.availableNow ? 'Sì' : 'No' }}</p>
-            <button (click)="deleteProduct(product.id)" class="delete-btn">Elimina</button>
-          </div>
-        }
+      <!-- Descrizione (Aggiunta perché presente in Swagger) -->
+      <div class="form-group">
+        <label for="descrizione">Descrizione:</label>
+        <textarea id="descrizione" [(ngModel)]="newProduct.descrizione" name="descrizione"></textarea>
       </div>
-    }
+
+      <!-- Autore (ID Numero come richiesto da Swagger) -->
+      <div class="form-group">
+        <label for="idAutore">ID Autore (Numero):</label>
+        <input type="number" id="idAutore" [(ngModel)]="newProduct.idAutore" name="idAutore" required>
+      </div>
+
+      <!-- Caricamento Immagine (PC -> Base64) -->
+      <div class="form-group">
+        <label for="img">Immagine Copertina (Carica dal PC):</label>
+        <input type="file" id="img" (change)="onFileSelected($event)" accept="image/*" required>
+      </div>
+
+      <!-- Prezzo -->
+      <div class="form-group">
+        <label for="prezzo">Prezzo (€):</label>
+        <input type="number" id="prezzo" [(ngModel)]="newProduct.prezzo" name="prezzo" min="0" step="0.01" required>
+      </div>
+
+      <!-- Quantità (Invece di "disponibile" usiamo il numero come vuole il server) -->
+      <div class="form-group">
+        <label for="quantita">Quantità Disponibile:</label>
+        <input type="number" id="quantita" [(ngModel)]="newProduct.quantitaDisponibile" name="quantita" min="0">
+      </div>
+
+      <button type="submit">Salva Prodotto nel Database</button>
+    </form>
   </div>
 </div>

@@ -5,14 +5,15 @@
 
 <div class="carousel-wrapper">
   <div class="freccetta_1">
-    <button class="freccetta_1_butt" (click)="scroll(-1)"> < </button>
+    <button class="freccetta_1_butt" (click)="scroll(-1)"> </button>
   </div>
 
   <div class="carosello_carte" #carousel>
     @for (prodotto of prodottiSample(); track prodotto.id) {
       <div class="card">
         <div class="img_cont">
-          <img [src]="prodotto.immagine || 'assets/placeholder-libro.png'" 
+          <img [src]="imageUrl(prodotto.copertina)">
+ 
                alt="Immagine prodotto" />
         </div>
 

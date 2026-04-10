@@ -24,7 +24,11 @@ export class MostWanted implements OnInit {
   ngOnInit() {
     // Carica i dati (il servizio aggiornerà il signal 'all')
     this.productsService.loadFromBackend();
-  }
+   }
+   imageUrl(copertina?: string) {
+   if (!copertina) return 'assets/placeholder-libro.png';
+   return `http://localhost:8080/images/${copertina}`;
+   }
 
   /**
    * Fa scorrere il carosello dei prodotti più cercati verso sinistra o destra.
@@ -45,8 +49,5 @@ export class MostWanted implements OnInit {
 
   isDisponibile = true;
 
-  
-
-
-
 }
+
