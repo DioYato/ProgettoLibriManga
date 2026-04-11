@@ -1,18 +1,66 @@
-<div class="carousel-container">
-  <div class="carousel-viewport" #carousel>
-    <div class="carousel-track">
-      <img src="1.jpg" alt="Slide 1" />
-      <img src="2.jpg" alt="Slide 2" />
-      <img src="/MHAcollection.jpg" alt="Slide 3" />
+<div class="carousel-wrapper">
+  <div class="carousel-viewport">
+    
+    <div class="carousel-slide" [class.active]="currentIndex === 0">
+      <div class="slide-inner ff-bg">
+        <img class="promotion_img" src="https://cdn11.bigcommerce.com/s-kqbs9oimhc/images/stencil/1280x1280/products/3151/16301/FFXVI_LOGOS_Bookmark_Sheet_GWP_Image_Not_FInal__50183.1749523097.jpg?c=1" alt="FF XVI" />
+        <div class="dark-overlay-bottom">
+          <div class="text-anchor-left">
+            <h3 class="slide-title-white">Square Enix annuncia LOGOS, il libro basato su Final Fantasy XVI</h3>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="carousel-slide" [class.active]="currentIndex === 1">
+      <div class="slide-inner culture-theme">
+        <div class="culture-top-logo">
+          <img src="logo-18-app.webp" alt="Logo Carta Cultura" class="culture-logo-big" />
+        </div>
+        <div class="culture-content-flex">
+          <div class="text-block">
+            <h2 class="slide-title">Sfrutta i tuoi Bonus 2026</h2>
+            <p class="slide-subtitle">Acquista libri, musica e film con la tua Carta Cultura Giovani e Carta del Merito.</p>
+            <div class="promo-badge">CONSEGNA GRATIS PER TE*</div>
+          </div>
+          <div class="culture-side-media">
+            <img src="18-app.webp" alt="Ragazzi" class="ragazzi-full-img" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-slide" [class.active]="currentIndex === 2">
+      <div class="slide-inner books-illustrative-theme">
+        <div class="illustrative-container">
+          <div class="text-block">
+            <span class="pre-title">La grande letteratura italiana</span>
+            <h2 class="slide-title">I Nostri Immancabili</h2>
+            <p class="slide-subtitle">Riscopri i capolavori che hanno fatto la storia.</p>
+            <button class="discover-btn">Scopri i classici</button>
+          </div>
+          <div class="illustrative-media">
+            <div class="shelf-wrapper">
+              <div class="books-shelf">
+                <div class="book-item"><img src="https://placehold.jp/24/8b0000/ffffff/130x200.png?text=DANTE" alt="Dante"></div>
+                <div class="book-item"><img src="https://placehold.jp/24/2f4f4f/ffffff/130x200.png?text=CALVINO" alt="Calvino"></div>
+                <div class="book-item"><img src="https://placehold.jp/24/483d8b/ffffff/130x200.png?text=MANZONI" alt="Manzoni"></div>
+              </div>
+              <div class="shelf-base"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="nav-btn prev" (click)="move(-1)">&#10094;</button>
+    <button class="nav-btn next" (click)="move(1)">&#10095;</button>
 
     <div class="dots-container">
-      <span class="dot" [class.active]="currentIndex === 0" (mouseenter)="goToSlide(0)"></span>
-      <span class="dot" [class.active]="currentIndex === 1" (mouseenter)="goToSlide(1)"></span>
-      <span class="dot" [class.active]="currentIndex === 2" (mouseenter)="goToSlide(2)"></span>
+      <span class="dot" [class.active]="currentIndex === 0" (click)="goToSlide(0)"></span>
+      <span class="dot" [class.active]="currentIndex === 1" (click)="goToSlide(1)"></span>
+      <span class="dot" [class.active]="currentIndex === 2" (click)="goToSlide(2)"></span>
     </div>
-  </div>
 
-  <button class="nav-btn prev" (click)="move(-1)"> < </button>
-  <button class="nav-btn next" (click)="move(1)"> > </button>
+  </div>
 </div>
