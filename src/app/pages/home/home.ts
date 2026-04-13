@@ -13,7 +13,7 @@ import { Newsletter } from "../../shared/newsletter/newsletter";
 
 @Component({
   selector: 'app-home',
-  imports: [CarouselHeroComponent, MostWanted, CartTipologia, CardAutori, Spedizioni, PromotionSection, libriStorici, MangaSectionComponent, sectionGeneri, Newsletter],
+  imports: [CarouselHeroComponent, MostWanted, CartTipologia, CardAutori, Spedizioni,  libriStorici, MangaSectionComponent, sectionGeneri, Newsletter],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

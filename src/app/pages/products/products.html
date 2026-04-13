@@ -9,24 +9,29 @@
         <h1>I nostri prodotti</h1>
       </div>
 
-      <select class="sort-select" (change)="onSortChange($event)">
-        <option value="">In evidenza</option>
-        <option value="prezzoAsc">Prezzo crescente</option>
-        <option value="prezzoDesc">Prezzo decrescente</option>
-      </select>
-
       <div class="toolbar">
-        <input type="search" placeholder="Cerca un titolo…" [value]="query()" (input)="onSearch($any($event.target).value)" />
-      </div>
+  <input 
+    type="search" 
+    class="search-input"
+    placeholder="Cerca un titolo…" 
+    [value]="query()" 
+    (input)="onSearch($any($event.target).value)" 
+  />
+
+  <select class="sort-select" (change)="onSortChange($event)">
+    <option value="">In evidenza</option>
+    <option value="prezzoAsc">Prezzo crescente</option>
+    <option value="prezzoDesc">Prezzo decrescente</option>
+  </select>
+</div>
+
 
       <div class="grid">
         @for (p of products(); track p.id; let i = $index) {
           <article class="p-card">
-            
-            <!-- TASTO ELIMINA: Visibile solo se isModerator() è true -->
             @if (isModerator()) {
               <button class="admin-delete-btn" (click)="deleteProduct(p.id); $event.stopPropagation()">
-                🗑️ Elimina
+                🗑️ 
               </button>
             }
 
