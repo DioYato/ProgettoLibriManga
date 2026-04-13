@@ -25,6 +25,12 @@ export class MangaSectionComponent implements OnInit {
     this.productsService.loadFromBackend();
   }
 
+   imageUrl(copertina?: string) {
+   if (!copertina) return 'assets/placeholder-libro.png';
+   return `http://localhost:8080/images/${copertina}`;
+   }
+
+   
   scroll(direction: number) {
     const scrollAmount = 320; // Larghezza card + gap
     this.carousel.nativeElement.scrollBy({

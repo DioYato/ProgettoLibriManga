@@ -13,7 +13,7 @@
         <div class="onomatopea">ゴゴゴ</div>
         
         <div class="image-box">
-          <img [src]="'assets/images/covers/' + manga.copertina" [alt]="manga.titolo">
+          <img [src]="imageUrl(manga.copertina)" [alt]="manga.titolo">
           @if (manga.quantita > 0) {
             <span class="badge-disponibile">Disponibile</span>
           }
@@ -21,7 +21,7 @@
 
         <div class="manga-info">
           <h3 class="title">{{ manga.titolo }}</h3>
-          <p class="author">{{ manga.autore }}</p>
+          <p class="author">{{ manga.autore.nome }} {{ manga.autore.cognome }}</p>
           <div class="price-row">
             <span class="price">€{{ manga.prezzo }}</span>
             <button class="buy-btn">Prenota</button>

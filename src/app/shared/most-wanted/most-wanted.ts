@@ -45,9 +45,5 @@ export class MostWanted implements OnInit {
     });
   }
 
-  price_1 = "23,99";
-
-  isDisponibile = true;
-
 }
 

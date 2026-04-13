@@ -14,6 +14,12 @@ export class libriStorici implements OnInit {
   //view child per abilitare lo scroll del carosello
   @ViewChild('carousel') carousel! : ElementRef;
 
+  // --- CONFIGURAZIONE IMMAGINI ---
+  // Sostituisci '3000' con la porta effettiva del tuo backend (es. 8080 o 5000)
+  // Questo sposta la ricerca da localhost:4200 al tuo vero server
+  readonly BACKEND_URL = 'http://localhost:8080'; 
+  readonly IMAGE_PATH = '/assets/images/covers';
+
   // Signal derivato: prende tutti i prodotti e ne restituisce solo 6
   //La funzione computed crea un segnale di sola lettura, Se l'elenco dei prodotti cambia, prodottiSample si ricalcolerà da solo. 
   prodottiSample = computed(() => {
@@ -25,6 +31,13 @@ export class libriStorici implements OnInit {
     // Carica i dati (il servizio aggiornerà il signal 'all')
     this.productsService.loadFromBackend();
   }
+
+  getFullImageUrl(copertina: string): string {
+  if (!copertina) return 'assets/placeholder-libro.png';
+  
+  // Rimuovi eventuali percorsi extra: punta direttamente alla cartella 'images' del backend
+  return `http://localhost:8080/images/${copertina}`;
+}
 
   /**
    * Fa scorrere il carosello dei prodotti più cercati verso sinistra o destra.
@@ -40,11 +53,6 @@ export class libriStorici implements OnInit {
       behavior: 'smooth' // Rende lo scorrimento fluido
     });
   }
-
-  price_1 = "23,99";
-
-  isDisponibile = true;
-
   
 
 

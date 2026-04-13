@@ -12,8 +12,8 @@
     @for (prodotto of prodottiSample(); track prodotto.id) {
       <div class="card">
         <div class="img_cont">
-          <img [src]="prodotto.immagine || 'assets/placeholder-libro.png'" 
-               alt="Immagine prodotto" />
+           <img [src]="prodotto.copertina ? getFullImageUrl(prodotto.copertina) : 'assets/placeholder-libro.png'" 
+           [alt]="prodotto.titolo" />
         </div>
 
         <div class="text-section">
