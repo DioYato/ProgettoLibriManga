@@ -1,5 +1,5 @@
 <div class="main-wrapper">
-  <h2 class="section-title">Gli autori del momento</h2>
+  <h2 class="section-title">Gli autori più popolari</h2>
 
   <div class="carousel-container">
     <button class="nav-btn prev" (click)="scroll(-1)">
@@ -8,7 +8,7 @@
 
     <div class="cards-viewport" #containerCarosello>
       @for (autore of Autori; track autore.id) {
-        <div class="card-autore">
+        <div class="card-autore" (click)="navigaPerAutore(autore.nome)">
           <div class="card-content">
             <div class="image-box">
               <img [src]="autore.img" [alt]="autore.nome">

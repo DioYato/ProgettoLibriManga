@@ -1,5 +1,6 @@
 import { Component, computed, ElementRef, inject, OnInit, ViewChild,  } from '@angular/core';
 import { ProductsService } from '../../data/products.service';
+import { Router } from '@angular/router'; // 1. Importa il Router
 
 @Component({
   selector: 'app-libri-storici',
@@ -10,6 +11,7 @@ import { ProductsService } from '../../data/products.service';
 
 export class libriStorici implements OnInit {
   private productsService = inject(ProductsService);
+  private router = inject(Router); 
 
   //view child per abilitare lo scroll del carosello
   @ViewChild('carousel') carousel! : ElementRef;
@@ -30,6 +32,10 @@ export class libriStorici implements OnInit {
   ngOnInit() {
     // Carica i dati (il servizio aggiornerà il signal 'all')
     this.productsService.loadFromBackend();
+  }
+
+   vaiAlDettaglio(id: number) {
+    this.router.navigate(['/products', id]);
   }
 
   getFullImageUrl(copertina: string): string {

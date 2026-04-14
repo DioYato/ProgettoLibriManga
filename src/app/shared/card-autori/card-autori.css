@@ -63,9 +63,22 @@
 
 .image-box img {
   width: 100%;
-  height: 90%;
-  object-fit: contain; /* Per mantenere le proporzioni del busto */
-  filter: grayscale(20%); /* Leggero tocco desaturato se serve */
+  height: 100%; /* Ingrandito dal 90% al 100% per toccare il banner nero */
+  object-fit: cover; /* Cambiato da contain a cover per riempire la card come la Rowling */
+  object-position: top center; /* Mantiene la testa visibile e centra il busto */
+  filter: grayscale(20%); 
+  display: block; /* Toglie spazi bianchi residui */
+}
+
+.image-box img[alt*="akira Toriyama"] {
+  object-fit: cover;
+  /* Centra perfettamente l'inquadratura */
+  object-position: center !important; 
+  /* Ingrandisce l'immagine del 40% */
+  transform: scale(1.3);
+  /* Assicura che l'ingrandimento parta dal centro */
+  transform-origin: center;
+  margin-right: 30px;
 }
 
 /* Fascia Nera */

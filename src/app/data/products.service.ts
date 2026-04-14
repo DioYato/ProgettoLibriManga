@@ -30,7 +30,7 @@ export class ProductsService {
   constructor(private http: HttpClient) {}
 
   // Carica i libri dal backend e aggiorna il signal
-  loadFromBackend(sort?: string, genres?: number[]) {
+  loadFromBackend(sort?: string, genres?: number[], author?: string) {
     let params = new HttpParams();
 
     if (sort) {
@@ -41,6 +41,10 @@ export class ProductsService {
       // Conversione esplicita a string per evitare problemi con HttpParams
       genres.forEach(g => params = params.append('categorie', g.toString()));
     }
+
+    if (author) {
+    params = params.set('autore', author); 
+  }
 
     const request$ = this.http.get<Product[]>(`${this.apiUrl}/list`, { params }).pipe(
       tap(products => this._items.set(products)),

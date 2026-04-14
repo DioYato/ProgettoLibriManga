@@ -53,21 +53,33 @@ export class Products implements OnInit {
   });
 
   ngOnInit() {
+    
     this.route.queryParams.subscribe(params => {
-      const genereNome = params['genere'];
+    const genereNome = params['genere'];
+    const autoreNome = params['autore'];
 
-      if (genereNome) {
-        // Mappiamo il nome della card all'ID del database
-        const idGenere = this.mappaNomeAdId(genereNome);
-        
-        if (idGenere) {
-          this.productsService.loadFromBackend(this.sort(), [idGenere]);
-        }
+    if (autoreNome) {
+      // Filtro per Autore
+      this.productsService.loadFromBackend(this.sort(), [], autoreNome);
+    } 
+    else if (genereNome) {
+      const idGenere = this.mappaNomeAdId(genereNome);
+      
+      if (idGenere) {
+        // Se il genere esiste, filtra
+        this.productsService.loadFromBackend(this.sort(), [idGenere]);
       } else {
-        // Se non c'è parametro, carichiamo tutto normalmente
+        // Se il nome genere è sbagliato/non mappato, carica tutto per non lasciare la pagina vuota
         this.productsService.loadFromBackend(this.sort());
       }
-    });
+    } 
+    else {
+      // Nessun parametro: carica tutto
+      this.productsService.loadFromBackend(this.sort());
+    }
+  });
+
+
   }
 
   private mappaNomeAdId(nome: string): number | null {
@@ -81,7 +93,7 @@ export class Products implements OnInit {
       'Horror': 7,
       'Fantascienza': 8
     };
-    return mappa[nome] || null;
+    return mappa[nome.toLowerCase()] || mappa[nome] || null;
   }
 
   deleteProduct(id: number) {

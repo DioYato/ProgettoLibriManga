@@ -10,7 +10,7 @@
 
   <div class="carosello_carte" #carousel>
     @for (prodotto of prodottiSample(); track prodotto.id) {
-      <div class="card">
+      <div class="card" (click)="vaiAlDettaglio(prodotto.id)">
         <div class="img_cont">
           <img [src]="imageUrl(prodotto.copertina)">
  

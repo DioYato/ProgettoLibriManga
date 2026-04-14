@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router'; // Importa il Router
 
 @Component({
   selector: 'app-newsletter',
@@ -8,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class Newsletter {
 
+  constructor (private router : Router) {} // Inietta il Router
+
+
+
+  NavigateToLogin() {
+    this.router.navigate(['/login']);
+  }
 }
