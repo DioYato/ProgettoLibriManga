@@ -1,13 +1,25 @@
 <div class="section">
     <div class="img_cont">
-        <div class="colonna_1">
-            <img src="4339.jpg" alt="Sezione Libri">
-            <button class="btn-overlay">Vai alla sezione libri</button>
+        <div class="colonna_1 colonna_libri">
+            <img src="sezione_libri.jpg" alt="Sezione Libri">
+            <button class="btn-overlay" (click)="navigaProdotti('libri')">
+              Vai alla sezione libri
+            </button>
         </div>
        
-        <div class="colonna_1">
-            <img src="https://mondadoristore-cdn.thron.com/delivery/public/image/mondadoristore/285bc205-5c56-48e6-a456-807296ff8eb0/h6lkzw/std/636x336/festapapa_double_desktop?format=auto" alt="Sezione Manga">
-            <button class="btn-overlay">Vai alla sezione manga</button>
+        <div class="colonna_1 colonna_manga">
+            
+            <div class="manga-grid">
+              <div class="manga-item" *ngFor="let cover of mangaCovers">
+                <img [src]="cover" alt="Manga Cover">
+              </div>
+            </div>
+
+            <div class="grid-overlay"></div>
+
+            <button class="btn-overlay" (click)="navigaProdotti('manga')">
+              Vai alla sezione manga
+            </button>
         </div>
     </div>
 </div>

@@ -1,86 +1,38 @@
-import { Component, computed, ElementRef, inject, OnInit, ViewChild,  } from '@angular/core';
-import { ProductsService } from '../../data/products.service';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router'; // Importa il Router
 
 @Component({
-  selector: 'app-section-generi',
-  imports: [],
+  selector: 'app-generi',
   templateUrl: './section-generi.html',
-  styleUrl: './section-generi.css',
+  styleUrls: ['./section-generi.css']
 })
+export class GeneriComponent {
+  @ViewChild('carousel') carousel!: ElementRef;
 
-export class sectionGeneri {
-  private productsService = inject(ProductsService);
-
-  //view child per abilitare lo scroll del carosello
-  @ViewChild('carousel') carousel! : ElementRef;
-
-  // Array locale dei generi
-  // Assicurati che le immagini siano in src/assets/images/generi/
+  // Assicurati che i nomi corrispondano esattamente a quelli usati nel filtro prodotti
   listaGeneri = [
-  { 
-    id: 1, name: 'Classici', 
-    image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=300&h=550&auto=format&fit=crop' 
-  },
-  { 
-    id: 2, name: 'Fantasy', 
-    image: 'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=300&h=550&auto=format&fit=crop' 
-  },
-  { 
-    id: 3, name: 'Romanzo Storico', 
-    image: 'https://images.unsplash.com/photo-1464692805480-a69dfaafdb0d?q=80&w=300&h=550&auto=format&fit=crop' 
-  },
-  { 
-    id: 4, name: 'Narrativa', 
-    image: 'https://images.unsplash.com/photo-1543004471-240ce44a675f?q=80&w=300&h=550&auto=format&fit=crop' 
-  },
-  { 
-    id: 5, name: 'Saggistica', 
-    image: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=300&h=550&auto=format&fit=crop' 
-  },
-  { 
-    id: 6, name: 'Giallo', 
-    image: 'https://images.unsplash.com/photo-1595213603417-640167664c39?q=80&w=300&h=550&auto=format&fit=crop' 
-  },
-  { 
-    id: 7, name: 'Horror', 
-    image: 'https://images.unsplash.com/photo-1601513445506-2ab0d4fb4229?q=80&w=300&h=550&auto=format&fit=crop' 
-  },
-  { 
-    id: 8, name: 'Fantascienza', 
-    image: 'https://images.unsplash.com/photo-1614728263952-84ea206f99b6?q=80&w=300&h=550&auto=format&fit=crop' 
-  },
-  { 
-    id: 9, name: 'Seinen', 
-    image: 'https://images.unsplash.com/photo-1613333151271-923f66907405?q=80&w=300&h=550&auto=format&fit=crop' 
-  },
-  { 
-    id: 10, name: 'Shonen', 
-    image: 'https://images.unsplash.com/photo-1607171786544-640a08ed5bb8?q=80&w=300&h=550&auto=format&fit=crop' 
-  }
-];
+    { id: 1, name: 'Classici', image: 'classici.jpg' },
+    { id: 2, name: 'Fantasy', image: 'Fantasy.jpg' },
+    { id: 3, name: 'Romanzo Storico', image: 'clock.jpg' },
+    { id: 4, name: 'Narrativa', image: '6-6bb386e6-29a6-40d7-b52a-8bee1d5e38a7.jpg' },
+    { id: 5, name: 'Saggistica', image: 'saggistica.jpg' },
+    { id: 6, name: 'Giallo', image: '1930s film noir poster.jpg' },
+    { id: 7, name: 'Horror', image: 'Ocean of Doom_ Surreal Horror Tentacle Art.jpg' },
+    { id: 8, name: 'Fantascienza', image: 'fantascienza.jpg' }
+  ];
 
+  constructor(private router: Router) {} // Inietta il router
 
-
-
-
-  /**
-   * Fa scorrere il carosello dei prodotti più cercati verso sinistra o destra.
-   * @param direction 1 per scorrere a destra, -1 per scorrere a sinistra
-   */
-  scroll(direction: number) {
-    // Sposta di 400px (o quanto è larga la tua card + gap)
-    const direzione=400;
-
-   // nativeElement è l'effettivo div HTML
-    this.carousel.nativeElement.scrollBy({
-      left: direction * direzione,
-      behavior: 'smooth' // Rende lo scorrimento fluido
+  // Metodo per navigare e filtrare
+  navigaFiltro(nomeGenere: string) {
+    this.router.navigate(['/products'], { 
+      queryParams: { genere: nomeGenere } 
     });
   }
 
- 
-  
-
-
-
+  scroll(direction: number) {
+    const container = this.carousel.nativeElement;
+    const scrollAmount = 265; 
+    container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+  }
 }

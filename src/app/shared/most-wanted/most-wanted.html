@@ -1,6 +1,7 @@
 <div class="header">
   <h2>In evidenza >></h2>
   <p>I prodotti più ricercati del momento:</p>
+  <p> DIOPORCO</p>
 </div>
 
 <div class="carousel-wrapper">
@@ -10,7 +11,7 @@
 
   <div class="carosello_carte" #carousel>
     @for (prodotto of prodottiSample(); track prodotto.id) {
-      <div class="card">
+      <div class="card" (click)="vaiAlDettaglio(prodotto.id)">
         <div class="img_cont">
           <img [src]="imageUrl(prodotto.copertina)">
  
