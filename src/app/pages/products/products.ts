@@ -1,18 +1,10 @@
-
-
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop'; 
-
-// 1. Product è in models, ProductsService è in data. Van divisi:
 import { ProductsService } from '../../data/products.service';
 import { Product } from '../../models/product'; 
-
-// 2. Controlla se FiltersComponent è davvero in questa cartella (nello screen non lo vedo)
-// Se ti dà ancora errore qui, prova a scriverlo a mano e lascia che VS Code ti suggerisca il percorso
 import { FiltersComponent, ProductFilters } from '../filters/filters.component';
-
 import { FavoritesService } from '../../data/favorites.service';
 import { AdminService } from '../../data/admin.service';
 import { AuthService } from '../../data/auth.service';
@@ -28,7 +20,6 @@ import { ActivatedRoute } from '@angular/router'; // navigazione dalle card gene
   styleUrl: './products.css',
 })
 export class Products implements OnInit {
-  // Il resto del codice che ti ho dato prima rimane identico
   private readonly productsService = inject(ProductsService);
   private readonly favorites = inject(FavoritesService);
   private readonly adminService = inject(AdminService);
@@ -43,7 +34,7 @@ export class Products implements OnInit {
     initialValue: this.authService.getCurrentUser() 
   });
 
-  readonly isModerator = computed(() => this.user()?.ruolo === 'MODERATOR');
+  readonly isModerator = computed(() => this.user()?.ruolo === 'ADMIN');
 
   readonly products = computed(() => {
     const q = this.query().trim().toLowerCase();

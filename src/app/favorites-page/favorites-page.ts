@@ -46,7 +46,7 @@ export class FavoritesPageComponent implements OnInit {
 
 
   imageUrl(fileName: string) {
-    return 'http://localhost:8080/api/images/' + fileName;
+    return 'http://localhost:8080/images/' + fileName;
   }
 }
 
