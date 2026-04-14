@@ -5,7 +5,6 @@ import { CartTipologia } from "../../shared/cart-tipologia/cart-tipologia";
 import { CardAutori } from "../../shared/card-autori/card-autori"; // Corretto nome classe
 import { CarouselHeroComponent } from "../../shared/carosello/carosello";
 import { Spedizioni } from '../../shared/cards-18pp/spedizioni/spedizioni';
-import { PromotionSection } from "../../shared/promotion-section/promotion-section";
 import { libriStorici } from '../../shared/libri-storici/libri-storici';
 import { MangaSectionComponent } from '../../shared/libri-manga/libri-manga';
 import {GeneriComponent } from "../../shared/section-generi/section-generi";
@@ -13,7 +12,7 @@ import { Newsletter } from "../../shared/newsletter/newsletter";
 
 @Component({
   selector: 'app-home',
-  imports: [CarouselHeroComponent, MostWanted, CartTipologia, CardAutori, Spedizioni, PromotionSection, libriStorici, MangaSectionComponent, Newsletter, GeneriComponent],
+  imports: [CarouselHeroComponent, MostWanted, CartTipologia, CardAutori, Spedizioni, libriStorici, MangaSectionComponent, Newsletter, GeneriComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
