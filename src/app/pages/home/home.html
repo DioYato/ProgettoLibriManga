@@ -9,47 +9,71 @@
 
 <app-manga-section></app-manga-section>
 
-<app-section-generi></app-section-generi>
+<app-generi></app-generi>
+
+
+
 
 <section class="promo">
   <div class="promo__inner">
     <div class="promo__media">
-      <img
-        class="promo__img"
-        src="https://picsum.photos/520/360?random=kobo"
-        alt="Offerta del mese"
-        loading="lazy"/>
+      <video 
+        #koboVideo
+        class="promo__video" 
+        autoplay 
+        muted 
+        loop 
+        playsinline
+        controls
+        style="cursor: pointer;">
+        <source src="Kobo Clara Colour now in white.mp4" type="video/mp4">
+      </video>
     </div>
 
     <div class="promo__content">
-      <div class="promo__kicker">IN OFFERTA FINO AL 25 MARZO</div>
+      <div class="promo__kicker">IN OFFERTA ADESSO</div>
       <h2 class="promo__title">Kobo Libra Colour</h2>
       <p class="promo__lead">
-        Grazie alla compatibilità con Kobo Stylus 2, puoi immergerti ancora più profondamente nelle
-        pagine dei tuoi testi preferiti.
+        Scopri il piacere della <strong>lettura digitale evoluta</strong>: con il nuovo Kobo a colori e le 
+        <strong>ultime uscite del nostro store</strong>, ogni storia prende vita con una brillantezza mai vista. 
+        <strong>Comodità e tecnologia</strong> si fondono per l'esperienza definitiva.
       </p>
 
       <ul class="promo__list">
-        <li>Sfoglia e leggi a colori sul display E Ink Kaleido 3 da 7"</li>
-        <li>Scrivi i tuoi pensieri a colori con un numero infinito di quaderni per gli appunti</li>
-        <li>Porta con te migliaia di libri grazie ai 32 GB di memoria e alle settimane di autonomia</li>
-        <li>Acquista dallo store e leggi gli articoli salvati con Pocket</li>
+        <li>Esplora le <strong>novità editoriali</strong> con la vivacità del display a colori <strong>Kaleido 3</strong></li>
+        <li>Personalizza i tuoi acquisti con <strong>note e schizzi fluidi</strong> direttamente sulle pagine</li>
+        <li>Spazio infinito: porta con te <strong>migliaia di titoli</strong> con 32 GB di memoria dedicata</li>
+        <li>Resta <strong>sempre aggiornato</strong> sulle uscite del sito e leggi ovunque in estrema leggerezza</li>
       </ul>
 
       <div class="promo__actions">
-        <a class="promo__link" href="#" (click)="$event.preventDefault()">Acquistalo Nero</a>
-        <a class="promo__link" href="#" (click)="$event.preventDefault()">Acquistalo Bianco</a>
+        <a class="promo__link" 
+           href="https://www.amazon.it/Kobo-antiriflesso-KaleidoTM-Audiolibri-Impermeabile/dp/B0CZXX465Z?th=1" 
+           target="_blank" 
+           rel="noopener noreferrer">
+           Acquistalo Nero
+        </a>
+        <a class="promo__link" 
+           href="https://www.amazon.it/Kobo-antiriflesso-KaleidoTM-Audiolibri-Impermeabile/dp/B0CZXX465Z?th=1" 
+           target="_blank" 
+           rel="noopener noreferrer">
+           Acquistalo Bianco
+        </a>
       </div>
 
       <div class="promo__foot">
-        <span>Acquistabile anche nei BookStore.</span>
-        <a class="promo__link promo__link--inline" href="#" (click)="$event.preventDefault()">
-          Trova BookStore
+        <span>Acquistabile anche nei BookStore autorizzati.</span>
+        <a class="promo__link promo__link--inline" 
+           href="https://www.mondadoristore.it/negozi/punti-vendita/" 
+           target="_blank" 
+           rel="noopener noreferrer">
+           Trova BookStore
         </a>
       </div>
     </div>
   </div>
 </section>
+
 
 
 

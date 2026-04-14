@@ -1,68 +1,120 @@
+/* Layout generale delle colonne */
 .section {
-    padding: 40px;
-    display: flex;
-    justify-content: center; /* Centra tutto il blocco nella pagina */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .img_cont {
-    display: flex;
-    flex-direction: row; /* Mette le colonne una di fianco all'altra */
-    gap: 30px;
-    max-width: 1400px; /* Aumentato per permettere alle 2 immagini di stare affiancate */
-    width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 }
 
 .colonna_1 {
-    position: relative; /* Necessario per posizionare il bottone dentro */
-    flex: 1; /* Fa sì che le due colonne abbiano la stessa larghezza */
-    overflow: hidden; /* Taglia lo zoom dell'immagine ai bordi */
-    border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  height: 350px; /* Altezza fissa per coerenza */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    transition: transform 0.4s ease;
+/* Stile per l'immagine statica dei Libri */
+.colonna_libri img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-/* --- IL BOTTONE SOPRA --- */
+.colonna_libri:hover img {
+  transform: scale(1.05);
+}
+
+/* --- LA GRIGLIA MANGA STILE STEAM --- */
+
+.colonna_manga {
+  background: #101010; /* Sfondo scuro per il wall */
+}
+
+.manga-grid {
+  display: grid;
+  /* Crea colonne di larghezza fissa (es. 90px) che si adattano allo spazio */
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px; /* Spazio tra le copertine */
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Sotto l'overlay e il bottone */
+  transition: transform 0.3s ease;
+}
+
+.manga-item {
+  width: 100%;
+  aspect-ratio: 2/3; /* Proporzione tipica delle copertine */
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.manga-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Overlay scuro per migliorare il contrasto */
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom, 
+    rgba(16, 16, 16, 0.4), /* Trasparente sopra */
+    rgba(16, 16, 16, 0.9)  /* Scuro sotto dove c'è il bottone */
+  );
+  z-index: 2; /* Sopra la griglia, sotto il bottone */
+  transition: opacity 0.3s ease;
+}
+
+/* Effetto Hover sulla card intera */
+.colonna_manga:hover .manga-grid {
+  transform: scale(1.03); /* Zoom leggero della griglia */
+}
+
+.colonna_manga:hover .grid-overlay {
+  background: linear-gradient(
+    to bottom, 
+    rgba(16, 16, 16, 0.2), /* Meno coprente sopra al hover */
+    rgba(16, 16, 16, 0.8)  /* Meno coprente sotto al hover */
+  );
+}
+
+/* --- IL BOTTONE OVERLAY (Stesso stile per entrambi) --- */
 .btn-overlay {
-    position: absolute;
-    bottom: 20px; /* Posizionato in basso */
-    left: 50%;
-    transform: translateX(-50%); /* Centratura perfetta orizzontale */
-    
-    padding: 12px 24px;
-    background-color: rgba(206, 11, 36, 0.9); /* Rosso Mondadori leggermente trasparente */
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.3s ease;
-    z-index: 2; /* Sta sopra l'immagine */
-}
-
-/* --- EFFETTI HOVER --- */
-.colonna_1:hover img {
-    transform: scale(1.1);
-    filter: brightness(0.8); /* Scurisce l'immagine per far risaltare il bottone */
+  position: absolute;
+  bottom: 25px; /* Posizionato in basso */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  background: #fff; /* Bianco e netto stile Steam */
+  color: #101010;
+  border: none;
+  border-radius: 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  z-index: 3; /* Sempre in cima */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: all 0.2s ease;
 }
 
 .btn-overlay:hover {
-    background-color: #ce0b24;
-    transform: translateX(-50%) scale(1.05);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  background: #f0f0f0;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
 }
-
-/* Feedback per tastiera */
-.btn-overlay:focus-visible {
-    outline: 3px solid wheat;
-    outline-offset: 2px;
-}
-
-

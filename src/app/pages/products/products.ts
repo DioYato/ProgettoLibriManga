@@ -16,6 +16,9 @@ import { FiltersComponent, ProductFilters } from '../filters/filters.component';
 import { FavoritesService } from '../../data/favorites.service';
 import { AdminService } from '../../data/admin.service';
 import { AuthService } from '../../data/auth.service';
+import { ActivatedRoute } from '@angular/router'; // navigazione dalle card generi della home
+
+
 
 @Component({
   selector: 'app-products',
@@ -30,9 +33,11 @@ export class Products implements OnInit {
   private readonly favorites = inject(FavoritesService);
   private readonly adminService = inject(AdminService);
   private readonly authService = inject(AuthService);
+  private readonly route = inject(ActivatedRoute); // Inietta la rotta
 
   readonly query = signal('');
   readonly sort = signal('');
+  readonly initialGenre = signal<number | null>(null); // Aggiungi questo
 
   private readonly user = toSignal(this.authService.user$, { 
     initialValue: this.authService.getCurrentUser() 
@@ -48,7 +53,35 @@ export class Products implements OnInit {
   });
 
   ngOnInit() {
-    this.productsService.loadFromBackend();
+    this.route.queryParams.subscribe(params => {
+      const genereNome = params['genere'];
+
+      if (genereNome) {
+        // Mappiamo il nome della card all'ID del database
+        const idGenere = this.mappaNomeAdId(genereNome);
+        
+        if (idGenere) {
+          this.productsService.loadFromBackend(this.sort(), [idGenere]);
+        }
+      } else {
+        // Se non c'è parametro, carichiamo tutto normalmente
+        this.productsService.loadFromBackend(this.sort());
+      }
+    });
+  }
+
+  private mappaNomeAdId(nome: string): number | null {
+    const mappa: { [key: string]: number } = {
+      'Classici': 1,
+      'Fantasy': 2,
+      'Romanzo Storico': 3,
+      'Narrativa': 4,
+      'Saggistica': 5,
+      'Giallo': 6,
+      'Horror': 7,
+      'Fantascienza': 8
+    };
+    return mappa[nome] || null;
   }
 
   deleteProduct(id: number) {
