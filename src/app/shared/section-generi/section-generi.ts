@@ -9,7 +9,6 @@ import { Router } from '@angular/router'; // Importa il Router
 export class GeneriComponent {
   @ViewChild('carousel') carousel!: ElementRef;
 
-  // Assicurati che i nomi corrispondano esattamente a quelli usati nel filtro prodotti
   listaGeneri = [
     { id: 1, name: 'Classici', image: 'classici.jpg' },
     { id: 2, name: 'Fantasy', image: 'Fantasy.jpg' },

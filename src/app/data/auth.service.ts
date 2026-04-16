@@ -83,4 +83,9 @@ export class AuthService {
   getCurrentUser(): User | null {
     return this.userSubject.value;
   }
+
+  sendResetEmail(email: string) {
+  return this.http.post('http://localhost:8080/auth/reset-password', { email });
+}
+
 }

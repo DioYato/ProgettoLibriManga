@@ -8,6 +8,8 @@ import { MapPage } from './pages/map/map';
 import { authGuard } from './auth-guard';
 import { adminGuard } from './auth-admin.guard';
 
+
+
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'products', component: Products },
@@ -22,5 +24,12 @@ export const routes: Routes = [
   { path: 'admin/prodotti', canActivate: [adminGuard], loadComponent: () => import('./pages/admin-prodotti/admin-prodotti').then(m => m.AdminProdotti) },
   { path: 'ordini-ricevuti', canActivate: [adminGuard], loadComponent: () => import('./pages/ordini-ricevuti/ordini-ricevuti').then(m => m.OrdiniRicevuti) },
   { path: 'ordini-effettuati', canActivate: [authGuard], loadComponent: () => import('./pages/ordini-effettuati/ordini-effettuati').then(m => m.OrdiniEffettuati) },
-  {path: 'password-dimenticata',loadComponent: () => import('./pages/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent)},
+  {
+  path: 'forgot-password',
+  loadComponent: () =>
+    import('./pages/forgot-password/forgot-password.component')
+      .then(m => m.ForgotPasswordComponent)
+}
+
+
 ];
