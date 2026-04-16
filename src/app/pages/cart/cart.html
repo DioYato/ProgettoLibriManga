@@ -1,43 +1,50 @@
-<section class="cart">
-  <h1>Carrello</h1>
+<section class="cart-container">
 
-  @if (items().length === 0) {
-    <p class="empty">Il carrello è vuoto.</p>
-  } @else {
+  <!-- COLONNA SINISTRA -->
+  <div class="cart-left">
+    <h1>Carrello</h1>
 
-    <ul class="cart-list">
-      @for (item of items(); track item.product.id) {
-        <li class="cart-card">
+    @if (items().length === 0) {
+      <p class="empty">Il carrello è vuoto.</p>
+    } @else {
 
-          <div class="cart-left">
+      <ul class="cart-list">
+        @for (item of items(); track item.product.id) {
+          <li class="cart-item">
+
             <img class="cart-img"
                  [src]="imageUrl(item.product.copertina)"
                  [alt]="item.product.titolo" />
-          </div>
 
-          <div class="cart-right">
-            <strong class="cart-title">{{ item.product.titolo }}</strong>
-            <div class="cart-author">{{ item.product.autore.nome }} {{ item.product.autore.cognome }}</div>
+            <div class="cart-info">
+              <div class="cart-title">{{ item.product.titolo }}</div>
+              <div class="cart-author">{{ item.product.autore.nome }} {{ item.product.autore.cognome }}</div>
+              <div class="cart-qty">{{ item.quantity }} × €{{ item.product.prezzo }}</div>
 
-            <div class="cart-qty">
-              {{ item.quantity }} × €{{ item.product.prezzo }}
+              <button class="remove-btn" (click)="remove(item.product.id)">
+                Rimuovi
+              </button>
             </div>
-          </div>
 
-           <button class="remove-btn"
-                  (click)="remove(item.product.id)">
-            ✕
-          </button>
-        </li>
-      }
-    </ul>
+          </li>
+        }
+      </ul>
 
-    <h2 class="cart-total">Totale: €{{ total() }}</h2>
-  }
+    }
+  </div>
+
+  <!-- COLONNA DESTRA (BOX TOTALE) -->
+  <div class="cart-right-box">
+    <div class="summary">
+      <div class="summary-total">
+        Totale provvisorio ({{ items().length }} articoli):  
+        <span class="price">€{{ total() }}</span>
+      </div>
+
+      <button class="order-btn" (click)="sendOrder()">
+        Procedi all'ordine
+      </button>
+    </div>
+  </div>
+
 </section>
-
-<button class="order-btn" (click)="sendOrder()">
-  Invia ordine
-</button>
-
-
