@@ -13,7 +13,6 @@ export class CarouselHeroComponent {
   currentIndex = 0;
   totalSlides = 3;
 
-  // Questa funzione sposta FISICAMENTE il binario e tiene l'indice aggiornato
   goToSlide(index: number) {
     this.currentIndex = index;
     const track = this.carousel.nativeElement.querySelector('.carousel-track');
@@ -21,7 +20,6 @@ export class CarouselHeroComponent {
     track.style.transform = `translateX(-${percentage}%)`;
   }
 
-  // Questa funzione gestisce il calcolo +1 / -1
   move(direction: number) {
     this.currentIndex += direction;
 

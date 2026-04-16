@@ -9,5 +9,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './admin.css',
 })
 export class Admin {
-  // Placeholder for admin panel
+  
 }

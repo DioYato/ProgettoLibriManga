@@ -54,7 +54,7 @@ export class UsersService {
 
     return this.http.put<User>(`${this.api}/update`, payload).pipe(
       tap((updatedUser) => {
-        // Uniamo i dati ricevuti per non perdere campi come il 'ruolo'
+        // Uniamo i dati ricevuti per non perdere campi 
         const finalUser = { ...updatedUser, ...payload };
         delete finalUser.password;
 
@@ -64,8 +64,6 @@ export class UsersService {
         
         this.userSubject.next(finalUser);
         
-        // Nota: Se l'app non si aggiorna ovunque, 
-        // considera di iniettare AuthService e chiamare un metodo di update lì.
       })
     );
   }
