@@ -19,7 +19,10 @@
             <div class="cart-info">
               <div class="cart-title">{{ item.product.titolo }}</div>
               <div class="cart-author">{{ item.product.autore.nome }} {{ item.product.autore.cognome }}</div>
-              <div class="cart-qty">{{ item.quantity }} × €{{ item.product.prezzo }}</div>
+              <div class="cart-qty">
+                <input class="cart-qty-input" type="number" [value]="item.quantity" (input)="updateQuantity(item.product.id, $event)" min="1">
+                 × €{{ item.product.prezzo }}
+              </div>
 
               <button class="remove-btn" (click)="remove(item.product.id)">
                 Rimuovi
@@ -37,11 +40,11 @@
   <div class="cart-right-box">
     <div class="summary">
       <div class="summary-total">
-        Totale provvisorio ({{ items().length }} articoli):  
+        Totale ({{ items().length }} articoli):  
         <span class="price">€{{ total() }}</span>
       </div>
 
-      <button class="order-btn" (click)="sendOrder()">
+      <button class="order-btn" (click)="sendOrder()" [disabled]="items().length === 0">
         Procedi all'ordine
       </button>
     </div>

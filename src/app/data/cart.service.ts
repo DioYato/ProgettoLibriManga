@@ -56,6 +56,19 @@ export class CartService {
     }
   }
 
+  updateQuantity(productId: number, quantity: number) {
+    const current = this.items();
+    const existing = current.find(i => i.product.id === productId);
+
+    if (existing) {
+      this.items.set(
+        current.map(i =>
+          i.product.id === productId ? { ...i, quantity } : i
+        )
+      );
+    }
+  }
+
   // Riduce la quantità o rimuove se arriva a zero
   decrease(productId: number) {
     const current = this.items();

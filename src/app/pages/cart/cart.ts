@@ -21,6 +21,17 @@ export class Cart {
     this.cart.remove(id);
   }
 
+  updateQuantity(id: number, event: Event) {
+    const input = event.target as HTMLInputElement;
+    const quantity = parseInt(input.value);
+    if (!isNaN(quantity) && quantity > 0) {
+      this.cart.updateQuantity(id, quantity);
+    } else {
+      input.value = '1'; // reset a 1 se input non valido
+      this.cart.updateQuantity(id, 1);
+    }
+  }
+
   imageUrl(copertina?: string) {
     if (!copertina) return '';
     return `http://localhost:8080/images/${copertina}`;
