@@ -28,7 +28,6 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔥 AGGIUNTO types come 4° parametro
   loadFromBackend(sort?: string, genres?: number[], author?: number, types?: string[]) {
     let params = new HttpParams();
 
@@ -44,7 +43,6 @@ export class ProductsService {
       params = params.set('autore', author.toString());
     }
 
-    // 🔥 ECCO LA PARTE CHE MANCAVA
     if (types?.length) {
       types.forEach(t => params = params.append('tipologia', t));
       // Se il backend usa un nome diverso (tipo "tipo" o "types"), dimmelo e lo cambio

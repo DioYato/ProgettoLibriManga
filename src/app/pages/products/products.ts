@@ -12,12 +12,12 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-products',
-  standalone: true,
   imports: [DecimalPipe, RouterLink, FiltersComponent],
   templateUrl: './products.html',
   styleUrl: './products.css',
 })
 export class Products implements OnInit {
+
   private readonly productsService = inject(ProductsService);
   private readonly favorites = inject(FavoritesService);
   private readonly adminService = inject(AdminService);
@@ -27,9 +27,7 @@ export class Products implements OnInit {
   readonly query = signal('');
   readonly sort = signal('');
   readonly initialGenre = signal<number | null>(null);
-  readonly selectedAuthor = signal<string | null>(null);
 
-  // Mantengo l'oggetto filters per memorizzare lo stato dei filtri (collega)
   filters = {
     types: [] as string[],
     genres: [] as number[]
@@ -41,11 +39,9 @@ export class Products implements OnInit {
 
   readonly isModerator = computed(() => this.user()?.ruolo === 'ADMIN');
 
-  // Computed aggiornato per filtrare per ricerca
   readonly products = computed(() => {
-    let items = this.productsService.all();
     const q = this.query().trim().toLowerCase();
-
+    const items = this.productsService.all(); 
     if (!q) return items;
     return items.filter((p) => p.titolo.toLowerCase().includes(q));
   });
@@ -53,17 +49,18 @@ export class Products implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       const genereNome = params['genere'];
-      const idAutore = params['autore'];
+      const autoreNome = params['autore'];
 
-      this.selectedAuthor.set(idAutore || null);
-
-      if (idAutore) {
-        this.productsService.loadFromBackend(this.sort(), [], idAutore);
+      if (autoreNome) {
+        this.productsService.loadFromBackend(this.sort(), [], autoreNome);
       } 
       else if (genereNome) {
         const idGenere = this.mappaNomeAdId(genereNome);
-        // Risolta logica duplicata: carica solo se esiste l'ID, altrimenti carica tutto
-        this.productsService.loadFromBackend(this.sort(), idGenere ? [idGenere] : []);
+        if (idGenere) {
+          this.productsService.loadFromBackend(this.sort(), [idGenere]);
+        } else {
+          this.productsService.loadFromBackend(this.sort());
+        }
       } 
       else {
         this.productsService.loadFromBackend(this.sort());
@@ -73,22 +70,22 @@ export class Products implements OnInit {
 
   private mappaNomeAdId(nome: string): number | null {
     const mappa: { [key: string]: number } = {
-      'classici': 1,
-      'fantasy': 2,
-      'romanzo storico': 3,
-      'narrativa': 4,
-      'saggistica': 5,
-      'giallo': 6,
-      'horror': 7,
-      'fantascienza': 8
+      'Classici': 1,
+      'Fantasy': 2,
+      'Romanzo Storico': 3,
+      'Narrativa': 4,
+      'Saggistica': 5,
+      'Giallo': 6,
+      'Horror': 7,
+      'Fantascienza': 8
     };
-    return mappa[nome.toLowerCase()] || null;
+    return mappa[nome.toLowerCase()] || mappa[nome] || null;
   }
 
   deleteProduct(id: number) {
     if (confirm('Sei sicuro di voler eliminare questo prodotto?')) {
       this.adminService.deleteProduct(id).subscribe({
-        next: () => this.productsService.loadFromBackend(this.sort(), this.filters.genres, undefined, this.filters.types),
+        next: () => this.productsService.loadFromBackend(this.sort()),
         error: (err) => console.error(err)
       });
     }
@@ -101,17 +98,15 @@ export class Products implements OnInit {
   onSortChange(event: Event) {
     const value = (event.target as HTMLSelectElement)?.value ?? '';
     this.sort.set(value);
-    // Passo anche i filtri correnti quando cambio l'ordinamento
     this.productsService.loadFromBackend(value, this.filters.genres, undefined, this.filters.types);
   }
-
   onFiltersChange(filters: ProductFilters) {
     this.filters = filters;
     this.productsService.loadFromBackend(
       this.sort(),
       filters.genres,
       undefined,
-      filters.types 
+      filters.types
     );
   }
 
