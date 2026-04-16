@@ -8,7 +8,7 @@
 
     <div class="cards-viewport" #containerCarosello>
       @for (autore of Autori; track autore.id) {
-        <div class="card-autore" (click)="navigaPerAutore(autore.nome)">
+        <div class="card-autore" (click)="navigaPerAutore(autore.id)">
           <div class="card-content">
             <div class="image-box">
               <img [src]="autore.img" [alt]="autore.nome">

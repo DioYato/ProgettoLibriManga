@@ -13,17 +13,17 @@ export class CardAutori {
 
 
   Autori = [
-    { id: 1, nome: 'Oscar Wilde', img: 'Oscar-Wilde-1882.png' },
-    { id: 2, nome: 'Stephen King', img: 'Stephen_kingo.png' },
-    { id: 3, nome: 'J k Rowling', img: 'https://variety.com/wp-content/uploads/2019/12/jk_rowling_v3.png' },
-    { id: 4, nome: 'Umberto Eco', img: 'Umberto_eco.png' },
-    { id: 5, nome: 'Masashi Kishimoto', img: 'Masashi_Kishimoto.png' },
-    { id: 6, nome: 'akira Toriyama', img: 'akira-tori.png' }
+    { id: 14, nome: 'Oscar Wilde', img: 'Oscar-Wilde-1882.png' },
+    { id: 8, nome: 'Stephen King', img: 'Stephen_kingo.png' },
+    { id: 4, nome: 'J k Rowling', img: 'https://variety.com/wp-content/uploads/2019/12/jk_rowling_v3.png' },
+    { id: 5, nome: 'Umberto Eco', img: 'Umberto_eco.png' },
+    { id: 24, nome: 'Masashi Kishimoto', img: 'Masashi_Kishimoto.png' },
+    { id: 25, nome: 'akira Toriyama', img: 'akira-tori.png' }
   ];
 
-  navigaPerAutore(nomeAutore: string) {
+  navigaPerAutore(idAutore: number) {
     this.router.navigate(['/products'], { 
-      queryParams: { autore: nomeAutore } 
+      queryParams: { autore: idAutore } 
     });
   }
 

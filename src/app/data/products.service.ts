@@ -29,7 +29,7 @@ export class ProductsService {
   constructor(private http: HttpClient) {}
 
   // 🔥 AGGIUNTO types come 4° parametro
-  loadFromBackend(sort?: string, genres?: number[], author?: string, types?: string[]) {
+  loadFromBackend(sort?: string, genres?: number[], author?: number, types?: string[]) {
     let params = new HttpParams();
 
     if (sort) {
@@ -41,7 +41,7 @@ export class ProductsService {
     }
 
     if (author) {
-      params = params.set('autore', author);
+      params = params.set('autore', author.toString());
     }
 
     // 🔥 ECCO LA PARTE CHE MANCAVA

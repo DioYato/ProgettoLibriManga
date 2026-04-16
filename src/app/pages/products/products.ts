@@ -18,7 +18,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './products.css',
 })
 export class Products implements OnInit {
-
   private readonly productsService = inject(ProductsService);
   private readonly favorites = inject(FavoritesService);
   private readonly adminService = inject(AdminService);
@@ -27,18 +26,14 @@ export class Products implements OnInit {
 
   readonly query = signal('');
   readonly sort = signal('');
-<<<<<<< HEAD
   readonly initialGenre = signal<number | null>(null);
+  readonly selectedAuthor = signal<string | null>(null);
 
-  // 🔥 FILTRI COMPLETI
+  // Mantengo l'oggetto filters per memorizzare lo stato dei filtri (collega)
   filters = {
     types: [] as string[],
     genres: [] as number[]
   };
-=======
-  readonly initialGenre = signal<number | null>(null); 
-  readonly selectedAuthor = signal<string | null>(null); // Aggiungi questo signal
->>>>>>> d7eb50aaf7971c9040c88cdabdbc2be390bd3c4e
 
   private readonly user = toSignal(this.authService.user$, { 
     initialValue: this.authService.getCurrentUser() 
@@ -46,69 +41,29 @@ export class Products implements OnInit {
 
   readonly isModerator = computed(() => this.user()?.ruolo === 'ADMIN');
 
-  /*
-  readonly products = computed(() => {
-    const q = this.query().trim().toLowerCase();
-    const items = this.productsService.all(); 
-    if (!q) return items;
-    return items.filter((p) => p.titolo.toLowerCase().includes(q));
-  });
-
-<<<<<<< HEAD
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      const genereNome = params['genere'];
-      const autoreNome = params['autore'];
-
-      if (autoreNome) {
-=======
-  */
-
+  // Computed aggiornato per filtrare per ricerca
   readonly products = computed(() => {
     let items = this.productsService.all();
     const q = this.query().trim().toLowerCase();
-    const authorFilter = this.selectedAuthor();
 
-    // 1. Filtro per Autore (se il signal è valorizzato)
-    if (authorFilter) {
-      const filterLower = authorFilter.toLowerCase();
-      items = items.filter(p => {
-        // Uniamo nome e cognome per il confronto
-        const nomeCompleto = `${p.autore.nome} ${p.autore.cognome}`.toLowerCase();
-        return nomeCompleto.includes(filterLower);
-      });
-    }
-
-    // 2. Filtro per Ricerca testuale
     if (!q) return items;
     return items.filter((p) => p.titolo.toLowerCase().includes(q));
   });
 
-
-ngOnInit() {
+  ngOnInit() {
     this.route.queryParams.subscribe(params => {
       const genereNome = params['genere'];
-      const autoreNome = params['autore'];
+      const idAutore = params['autore'];
 
-      // Aggiorna il signal dell'autore (così il computed reagisce)
-      this.selectedAuthor.set(autoreNome || null);
+      this.selectedAuthor.set(idAutore || null);
 
-      if (autoreNome) {
-        // Chiamata al backend per caricare i dati filtrati dal server
->>>>>>> d7eb50aaf7971c9040c88cdabdbc2be390bd3c4e
-        this.productsService.loadFromBackend(this.sort(), [], autoreNome);
+      if (idAutore) {
+        this.productsService.loadFromBackend(this.sort(), [], idAutore);
       } 
       else if (genereNome) {
         const idGenere = this.mappaNomeAdId(genereNome);
-<<<<<<< HEAD
-        if (idGenere) {
-          this.productsService.loadFromBackend(this.sort(), [idGenere]);
-        } else {
-          this.productsService.loadFromBackend(this.sort());
-        }
-=======
+        // Risolta logica duplicata: carica solo se esiste l'ID, altrimenti carica tutto
         this.productsService.loadFromBackend(this.sort(), idGenere ? [idGenere] : []);
->>>>>>> d7eb50aaf7971c9040c88cdabdbc2be390bd3c4e
       } 
       else {
         this.productsService.loadFromBackend(this.sort());
@@ -118,22 +73,22 @@ ngOnInit() {
 
   private mappaNomeAdId(nome: string): number | null {
     const mappa: { [key: string]: number } = {
-      'Classici': 1,
-      'Fantasy': 2,
-      'Romanzo Storico': 3,
-      'Narrativa': 4,
-      'Saggistica': 5,
-      'Giallo': 6,
-      'Horror': 7,
-      'Fantascienza': 8
+      'classici': 1,
+      'fantasy': 2,
+      'romanzo storico': 3,
+      'narrativa': 4,
+      'saggistica': 5,
+      'giallo': 6,
+      'horror': 7,
+      'fantascienza': 8
     };
-    return mappa[nome.toLowerCase()] || mappa[nome] || null;
+    return mappa[nome.toLowerCase()] || null;
   }
 
   deleteProduct(id: number) {
     if (confirm('Sei sicuro di voler eliminare questo prodotto?')) {
       this.adminService.deleteProduct(id).subscribe({
-        next: () => this.productsService.loadFromBackend(this.sort()),
+        next: () => this.productsService.loadFromBackend(this.sort(), this.filters.genres, undefined, this.filters.types),
         error: (err) => console.error(err)
       });
     }
@@ -146,17 +101,17 @@ ngOnInit() {
   onSortChange(event: Event) {
     const value = (event.target as HTMLSelectElement)?.value ?? '';
     this.sort.set(value);
+    // Passo anche i filtri correnti quando cambio l'ordinamento
     this.productsService.loadFromBackend(value, this.filters.genres, undefined, this.filters.types);
   }
 
-  // 🔥 ECCO LA FUNZIONE CORRETTA
   onFiltersChange(filters: ProductFilters) {
     this.filters = filters;
     this.productsService.loadFromBackend(
       this.sort(),
       filters.genres,
       undefined,
-      filters.types   // ⬅⬅⬅ AGGIUNTO
+      filters.types 
     );
   }
 
