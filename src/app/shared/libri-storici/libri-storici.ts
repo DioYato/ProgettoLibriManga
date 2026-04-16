@@ -1,6 +1,6 @@
 import { Component, computed, ElementRef, inject, OnInit, ViewChild,  } from '@angular/core';
 import { ProductsService } from '../../data/products.service';
-import { Router } from '@angular/router'; // 1. Importa il Router
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-libri-storici',
