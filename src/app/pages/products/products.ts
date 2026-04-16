@@ -28,7 +28,8 @@ export class Products implements OnInit {
 
   readonly query = signal('');
   readonly sort = signal('');
-  readonly initialGenre = signal<number | null>(null); // Aggiungi questo
+  readonly initialGenre = signal<number | null>(null); 
+  readonly selectedAuthor = signal<string | null>(null); // Aggiungi questo signal
 
   private readonly user = toSignal(this.authService.user$, { 
     initialValue: this.authService.getCurrentUser() 
@@ -36,6 +37,7 @@ export class Products implements OnInit {
 
   readonly isModerator = computed(() => this.user()?.ruolo === 'ADMIN');
 
+  /*
   readonly products = computed(() => {
     const q = this.query().trim().toLowerCase();
     const items = this.productsService.all(); 
@@ -43,34 +45,49 @@ export class Products implements OnInit {
     return items.filter((p) => p.titolo.toLowerCase().includes(q));
   });
 
-  ngOnInit() {
-    
-    this.route.queryParams.subscribe(params => {
-    const genereNome = params['genere'];
-    const autoreNome = params['autore'];
+  */
 
-    if (autoreNome) {
-      // Filtro per Autore
-      this.productsService.loadFromBackend(this.sort(), [], autoreNome);
-    } 
-    else if (genereNome) {
-      const idGenere = this.mappaNomeAdId(genereNome);
-      
-      if (idGenere) {
-        // Se il genere esiste, filtra
-        this.productsService.loadFromBackend(this.sort(), [idGenere]);
-      } else {
-        // Se il nome genere è sbagliato/non mappato, carica tutto per non lasciare la pagina vuota
-        this.productsService.loadFromBackend(this.sort());
-      }
-    } 
-    else {
-      // Nessun parametro: carica tutto
-      this.productsService.loadFromBackend(this.sort());
+  readonly products = computed(() => {
+    let items = this.productsService.all();
+    const q = this.query().trim().toLowerCase();
+    const authorFilter = this.selectedAuthor();
+
+    // 1. Filtro per Autore (se il signal è valorizzato)
+    if (authorFilter) {
+      const filterLower = authorFilter.toLowerCase();
+      items = items.filter(p => {
+        // Uniamo nome e cognome per il confronto
+        const nomeCompleto = `${p.autore.nome} ${p.autore.cognome}`.toLowerCase();
+        return nomeCompleto.includes(filterLower);
+      });
     }
+
+    // 2. Filtro per Ricerca testuale
+    if (!q) return items;
+    return items.filter((p) => p.titolo.toLowerCase().includes(q));
   });
 
 
+ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const genereNome = params['genere'];
+      const autoreNome = params['autore'];
+
+      // Aggiorna il signal dell'autore (così il computed reagisce)
+      this.selectedAuthor.set(autoreNome || null);
+
+      if (autoreNome) {
+        // Chiamata al backend per caricare i dati filtrati dal server
+        this.productsService.loadFromBackend(this.sort(), [], autoreNome);
+      } 
+      else if (genereNome) {
+        const idGenere = this.mappaNomeAdId(genereNome);
+        this.productsService.loadFromBackend(this.sort(), idGenere ? [idGenere] : []);
+      } 
+      else {
+        this.productsService.loadFromBackend(this.sort());
+      }
+    });
   }
 
   private mappaNomeAdId(nome: string): number | null {
