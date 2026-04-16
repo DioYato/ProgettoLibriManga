@@ -3,7 +3,6 @@ import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop'; 
 import { ProductsService } from '../../data/products.service';
-import { Product } from '../../models/product'; 
 import { FiltersComponent, ProductFilters } from '../filters/filters.component';
 import { FavoritesService } from '../../data/favorites.service';
 import { AdminService } from '../../data/admin.service';
@@ -26,7 +25,6 @@ export class Products implements OnInit {
 
   readonly query = signal('');
   readonly sort = signal('');
-  readonly initialGenre = signal<number | null>(null);
 
   filters = {
     types: [] as string[],

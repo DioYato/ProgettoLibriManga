@@ -15,16 +15,18 @@
 <section class="promo">
   <div class="promo__inner">
     <div class="promo__media">
-      <video 
+      <div class="promo__videoShell">
+      <video
         #koboVideo
-        class="promo__video" 
-        autoplay 
+        class="promo__video"
+        autoplay
         [muted]="true"
-        loop 
+        loop
         playsinline
-        style="cursor: pointer;">
+        preload="metadata">
         <source src="Kobo Clara Colour now in white.mp4" type="video/mp4">
       </video>
+      </div>
     </div>
 
     <div class="promo__content">
@@ -44,15 +46,15 @@
       </ul>
 
       <div class="promo__actions">
-        <a class="promo__link" 
-           href="https://www.amazon.it/Kobo-antiriflesso-KaleidoTM-Audiolibri-Impermeabile/dp/B0CZXX465Z?th=1" 
-           target="_blank" 
+        <a class="promo__cta"
+           href="https://www.amazon.it/Kobo-antiriflesso-KaleidoTM-Audiolibri-Impermeabile/dp/B0CZXX465Z?th=1"
+           target="_blank"
            rel="noopener noreferrer">
            Acquistalo Nero
         </a>
-        <a class="promo__link" 
-           href="https://www.amazon.it/Kobo-antiriflesso-KaleidoTM-Audiolibri-Impermeabile/dp/B0CZXX465Z?th=1" 
-           target="_blank" 
+        <a class="promo__cta promo__cta--ghost"
+           href="https://www.amazon.it/Kobo-antiriflesso-KaleidoTM-Audiolibri-Impermeabile/dp/B0CZXX465Z?th=1"
+           target="_blank"
            rel="noopener noreferrer">
            Acquistalo Bianco
         </a>
@@ -82,10 +84,12 @@
 <app-card-autori></app-card-autori>
 
 <section class="services-container">
-  <h2 class="section-title">i nostri servizi</h2>
+  <div class="services-head">
+    <div class="section-eyebrow">Servizi</div>
+    <h2 class="section-title">Un'esperienza di acquisto piu semplice e curata</h2>
+  </div>
 
   <div class="features">
-    
     <div class="feature">
       <div class="icon-box">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -114,10 +118,8 @@
           <path d="M9 12L11 14L15 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <div class="section_test">
       <h3>Qualità garantita</h3>
       <p>Solo articoli selezionati e verificati.</p>
-      </div>
     </div>
   </div>
 </section>

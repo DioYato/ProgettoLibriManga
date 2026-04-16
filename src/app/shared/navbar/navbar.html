@@ -4,8 +4,6 @@
       <img src="logo4.svg" alt="Logo">
     </a>
 
-    <div class="spazziatore"></div>
-
     <div class="center">
       <button routerLink="" class="button_navbar">Home</button>
       <button routerLink="products" class="button_navbar">Prodotti</button>
@@ -45,12 +43,16 @@
 
     <a routerLink="/preferiti" class="nav-fav">
       <span class="heart-icon">♥</span>
-      <span class="fav-badge">{{ favoritesCount() }}</span>
+      @if (favoritesCount() > 0) {
+        <span class="fav-badge">{{ favoritesCount() }}</span>
+      }
     </a>
 
     <button routerLink="cart" class="img_cart_cont" title="Carrello">
       <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Carrello">
-      <span class="badge">{{ cartCount() }}</span>
+      @if (cartCount() > 0) {
+        <span class="badge">{{ cartCount() }}</span>
+      }
     </button>
   </div>
 </nav>

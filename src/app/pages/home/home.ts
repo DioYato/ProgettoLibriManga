@@ -1,8 +1,9 @@
-import { Component, computed, signal , AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { ProductsService } from '../../data/products.service';
 import { MostWanted } from "../../shared/most-wanted/most-wanted";
 import { CartTipologia } from "../../shared/cart-tipologia/cart-tipologia";
-import { CardAutori } from "../../shared/card-autori/card-autori"; // Corretto nome classe
+import { CardAutori } from "../../shared/card-autori/card-autori";
 import { CarouselHeroComponent } from "../../shared/carosello/carosello";
 import { Spedizioni } from '../../shared/cards-18pp/spedizioni/spedizioni';
 import { libriStorici } from '../../shared/libri-storici/libri-storici';
@@ -18,32 +19,24 @@ import { Newsletter } from "../../shared/newsletter/newsletter";
 })
 
 export class Home implements AfterViewInit {
+  private readonly platformId = inject(PLATFORM_ID);
 
   @ViewChild('koboVideo') vRef!: ElementRef<HTMLVideoElement>;
-  readonly featured = computed(() => this.productsService.all().slice(8, 12));
 
   constructor(private readonly productsService: ProductsService) {}
 
   ngAfterViewInit() {
-    // Forziamo il muto e l'autoplay via codice
+    if (!isPlatformBrowser(this.platformId) || !this.vRef?.nativeElement) {
+      return;
+    }
+
     const video = this.vRef.nativeElement;
     video.muted = true;
-    video.defaultMuted = true; // Alcuni browser leggono questa proprietà
-    
-    // Proviamo a far partire il video (necessario se l'autoplay fallisce)
-    video.play().catch(error => {
-      console.log("Autoplay impedito dal browser, ma il video è mutato:", error);
+    video.defaultMuted = true;
+
+    const maybePromise = video.play();
+    maybePromise?.catch(() => {
+      return;
     });
   }
-  
 }
-
-function chunk<T>(items: T[], size: number) {
-
-  const out: T[][] = [];
-  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
-  return out;
-}
-
-
-

@@ -1,34 +1,32 @@
 .filters {
-  width: 240px;
-  padding: 18px;
-  background: #fff;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
+  width: 100%;
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
   display: flex;
   flex-direction: column;
   gap: 22px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
 }
 
-/* Titolo sezione */
 .filters h3 {
   margin: 0;
   font-size: 15px;
   font-weight: 700;
-  color: #b10f1a; /* Rosso Mondadori */
-  padding-bottom: 6px;
-  border-bottom: 2px solid #b10f1a33;
+  color: #b10f1a;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(177, 15, 26, 0.14);
 }
 
-/* Checkbox + label */
 .filters label {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 14px;
-  padding: 4px 0;
+  padding: 6px 0;
   cursor: pointer;
-  color: #333;
+  color: #344054;
   transition: color 0.15s ease;
 }
 
@@ -37,28 +35,30 @@
 }
 
 .filters input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   cursor: pointer;
-  accent-color: #b10f1a; /* checkbox rosso */
+  accent-color: #b10f1a;
 }
 
-/* Pulsante Applica */
 .apply-btn {
   margin-top: 6px;
-  padding: 10px 12px;
-  border-radius: 6px;
+  min-height: 46px;
+  padding: 10px 16px;
+  border-radius: 14px;
   border: none;
-  background: #b10f1a;
+  background: linear-gradient(135deg, #b10f1a, #d13f4a);
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 14px 24px rgba(177, 15, 26, 0.18);
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 .apply-btn:hover {
-  background: #8e0c15;
+  background: linear-gradient(135deg, #a00d17, #c53540);
   transform: translateY(-1px);
+  box-shadow: 0 18px 30px rgba(177, 15, 26, 0.22);
 }
 
 .apply-btn:active {

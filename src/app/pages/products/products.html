@@ -7,23 +7,30 @@
     <section class="wrap">
       <div class="head">
         <h1>I nostri prodotti</h1>
+        <p class="sub">Esplora libri e manga con una navigazione piu pulita, veloce e leggibile.</p>
       </div>
 
       <div class="toolbar">
-  <input 
-    type="search" 
-    class="search-input"
-    placeholder="Cerca un titolo…" 
-    [value]="query()" 
-    (input)="onSearch($any($event.target).value)" 
-  />
+        <div class="toolbar__search">
+          <input
+            type="search"
+            class="search-input"
+            placeholder="Cerca un titolo…"
+            [value]="query()"
+            (input)="onSearch($any($event.target).value)"
+          />
+        </div>
 
-  <select class="sort-select" (change)="onSortChange($event)">
-    <option value="">In evidenza</option>
-    <option value="prezzoAsc">Prezzo crescente</option>
-    <option value="prezzoDesc">Prezzo decrescente</option>
-  </select>
-</div>
+        <div class="toolbar__actions">
+          <div class="results-chip">{{ products().length }} risultati</div>
+
+          <select class="sort-select" (change)="onSortChange($event)">
+            <option value="">In evidenza</option>
+            <option value="prezzoAsc">Prezzo crescente</option>
+            <option value="prezzoDesc">Prezzo decrescente</option>
+          </select>
+        </div>
+      </div>
 
 
       <div class="grid">
@@ -43,8 +50,11 @@
               <div class="p-card__media">
                 <img class="p-card__img" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
               </div>
-              <h3 class="p-card__title">{{ p.titolo }}</h3>
-              <div class="p-card__priceRow">€{{ p.prezzo | number: '1.2-2' }}</div>
+              <div class="p-card__body">
+                <div class="p-card__eyebrow">Disponibile online</div>
+                <h3 class="p-card__title">{{ p.titolo }}</h3>
+                <div class="p-card__priceRow">€{{ p.prezzo | number: '1.2-2' }}</div>
+              </div>
             </a>
           </article>
         }

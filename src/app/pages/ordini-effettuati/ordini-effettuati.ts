@@ -30,7 +30,6 @@ export class OrdiniEffettuati {
   private loadOrders(userId: number) {
     this.adminService.getUserOrders(userId).subscribe({
       next: (orders) => {
-        console.log('Ordini caricati:', orders);
         this.orders.set(orders);
       },
       error: (err) => console.error('Error loading orders', err)
