@@ -23,12 +23,6 @@
             {{ prodotto.autore.nome }} {{ prodotto.autore.cognome }}
           </p>
 
-          @if (prodotto.quantita > 0) {
-            <p class="disponibilita"> Disponibilità: {{ prodotto.quantita }} </p>
-          } @else {
-            <p class="non_disponibile"> Prodotto non disponibile</p>
-          }
-
           <div class="section_prezzi">
             <span class="new-price">€{{ prodotto.prezzo }}</span>
           </div>

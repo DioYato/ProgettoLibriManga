@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal , AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ProductsService } from '../../data/products.service';
 import { MostWanted } from "../../shared/most-wanted/most-wanted";
 import { CartTipologia } from "../../shared/cart-tipologia/cart-tipologia";
@@ -17,10 +17,25 @@ import { Newsletter } from "../../shared/newsletter/newsletter";
   styleUrl: './home.css',
 })
 
-export class Home {
+export class Home implements AfterViewInit {
+
+  @ViewChild('koboVideo') vRef!: ElementRef<HTMLVideoElement>;
   readonly featured = computed(() => this.productsService.all().slice(8, 12));
 
   constructor(private readonly productsService: ProductsService) {}
+
+  ngAfterViewInit() {
+    // Forziamo il muto e l'autoplay via codice
+    const video = this.vRef.nativeElement;
+    video.muted = true;
+    video.defaultMuted = true; // Alcuni browser leggono questa proprietà
+    
+    // Proviamo a far partire il video (necessario se l'autoplay fallisce)
+    video.play().catch(error => {
+      console.log("Autoplay impedito dal browser, ma il video è mutato:", error);
+    });
+  }
+  
 }
 
 function chunk<T>(items: T[], size: number) {
