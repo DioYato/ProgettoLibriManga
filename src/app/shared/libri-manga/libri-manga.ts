@@ -1,6 +1,7 @@
 import { Component, computed, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductsService } from '../../data/products.service';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-manga-section',
@@ -11,6 +12,7 @@ import { ProductsService } from '../../data/products.service';
 })
 export class MangaSectionComponent implements OnInit {
   private productsService = inject(ProductsService);
+  private router = inject(Router); 
 
   @ViewChild('carousel') carousel!: ElementRef;
 
@@ -20,9 +22,14 @@ export class MangaSectionComponent implements OnInit {
     // Filtriamo i prodotti che hanno l'autore o l'ID nel range dei manga inseriti
     return tutti.filter(p => p.id >= 21 && p.id <= 27);
   });
+  
 
   ngOnInit() {
     this.productsService.loadFromBackend();
+  }
+
+  vaiAlDettaglio(id: number) {
+    this.router.navigate(['/products', id]);
   }
 
    imageUrl(copertina?: string) {

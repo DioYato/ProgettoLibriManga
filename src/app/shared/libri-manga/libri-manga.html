@@ -24,7 +24,7 @@
           <p class="author">{{ manga.autore.nome }} {{ manga.autore.cognome }}</p>
           <div class="price-row">
             <span class="price">€{{ manga.prezzo }}</span>
-            <button class="buy-btn">Prenota</button>
+            <button class="buy-btn" (click)="vaiAlDettaglio(manga.id)">acquista</button>
           </div>
         </div>
       </div>
