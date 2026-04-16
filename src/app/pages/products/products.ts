@@ -8,9 +8,7 @@ import { FiltersComponent, ProductFilters } from '../filters/filters.component';
 import { FavoritesService } from '../../data/favorites.service';
 import { AdminService } from '../../data/admin.service';
 import { AuthService } from '../../data/auth.service';
-import { ActivatedRoute } from '@angular/router'; // navigazione dalle card generi della home
-
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -20,15 +18,22 @@ import { ActivatedRoute } from '@angular/router'; // navigazione dalle card gene
   styleUrl: './products.css',
 })
 export class Products implements OnInit {
+
   private readonly productsService = inject(ProductsService);
   private readonly favorites = inject(FavoritesService);
   private readonly adminService = inject(AdminService);
   private readonly authService = inject(AuthService);
-  private readonly route = inject(ActivatedRoute); // Inietta la rotta
+  private readonly route = inject(ActivatedRoute);
 
   readonly query = signal('');
   readonly sort = signal('');
-  readonly initialGenre = signal<number | null>(null); // Aggiungi questo
+  readonly initialGenre = signal<number | null>(null);
+
+  // 🔥 FILTRI COMPLETI
+  filters = {
+    types: [] as string[],
+    genres: [] as number[]
+  };
 
   private readonly user = toSignal(this.authService.user$, { 
     initialValue: this.authService.getCurrentUser() 
@@ -44,33 +49,25 @@ export class Products implements OnInit {
   });
 
   ngOnInit() {
-    
     this.route.queryParams.subscribe(params => {
-    const genereNome = params['genere'];
-    const autoreNome = params['autore'];
+      const genereNome = params['genere'];
+      const autoreNome = params['autore'];
 
-    if (autoreNome) {
-      // Filtro per Autore
-      this.productsService.loadFromBackend(this.sort(), [], autoreNome);
-    } 
-    else if (genereNome) {
-      const idGenere = this.mappaNomeAdId(genereNome);
-      
-      if (idGenere) {
-        // Se il genere esiste, filtra
-        this.productsService.loadFromBackend(this.sort(), [idGenere]);
-      } else {
-        // Se il nome genere è sbagliato/non mappato, carica tutto per non lasciare la pagina vuota
+      if (autoreNome) {
+        this.productsService.loadFromBackend(this.sort(), [], autoreNome);
+      } 
+      else if (genereNome) {
+        const idGenere = this.mappaNomeAdId(genereNome);
+        if (idGenere) {
+          this.productsService.loadFromBackend(this.sort(), [idGenere]);
+        } else {
+          this.productsService.loadFromBackend(this.sort());
+        }
+      } 
+      else {
         this.productsService.loadFromBackend(this.sort());
       }
-    } 
-    else {
-      // Nessun parametro: carica tutto
-      this.productsService.loadFromBackend(this.sort());
-    }
-  });
-
-
+    });
   }
 
   private mappaNomeAdId(nome: string): number | null {
@@ -96,16 +93,25 @@ export class Products implements OnInit {
     }
   }
 
-  onSearch(value: string) { this.query.set(value); }
+  onSearch(value: string) { 
+    this.query.set(value); 
+  }
 
   onSortChange(event: Event) {
     const value = (event.target as HTMLSelectElement)?.value ?? '';
     this.sort.set(value);
-    this.productsService.loadFromBackend(value);
+    this.productsService.loadFromBackend(value, this.filters.genres, undefined, this.filters.types);
   }
 
+  // 🔥 ECCO LA FUNZIONE CORRETTA
   onFiltersChange(filters: ProductFilters) {
-    this.productsService.loadFromBackend(this.sort(), filters.genres);
+    this.filters = filters;
+    this.productsService.loadFromBackend(
+      this.sort(),
+      filters.genres,
+      undefined,
+      filters.types   // ⬅⬅⬅ AGGIUNTO
+    );
   }
 
   imageUrl(copertina?: string) {

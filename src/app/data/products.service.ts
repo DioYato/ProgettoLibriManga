@@ -8,7 +8,7 @@ export type Author = {
 }
 
 export type Product = {
-  immagine: any; // Lasciato any per compatibilità totale con i dati del DB
+  immagine: any;
   id: number;
   titolo: string;
   autore: Author;
@@ -23,14 +23,13 @@ export class ProductsService {
 
   private readonly apiUrl = 'http://localhost:8080/libri';
 
-  // Stato interno e computato per la reattività
   private readonly _items = signal<Product[]>([]);
   readonly all = computed(() => this._items());
 
   constructor(private http: HttpClient) {}
 
-  // Carica i libri dal backend e aggiorna il signal
-  loadFromBackend(sort?: string, genres?: number[], author?: string) {
+  // 🔥 AGGIUNTO types come 4° parametro
+  loadFromBackend(sort?: string, genres?: number[], author?: string, types?: string[]) {
     let params = new HttpParams();
 
     if (sort) {
@@ -38,13 +37,18 @@ export class ProductsService {
     }
 
     if (genres?.length) {
-      // Conversione esplicita a string per evitare problemi con HttpParams
       genres.forEach(g => params = params.append('categorie', g.toString()));
     }
 
     if (author) {
-    params = params.set('autore', author); 
-  }
+      params = params.set('autore', author);
+    }
+
+    // 🔥 ECCO LA PARTE CHE MANCAVA
+    if (types?.length) {
+      types.forEach(t => params = params.append('tipologia', t));
+      // Se il backend usa un nome diverso (tipo "tipo" o "types"), dimmelo e lo cambio
+    }
 
     const request$ = this.http.get<Product[]>(`${this.apiUrl}/list`, { params }).pipe(
       tap(products => this._items.set(products)),
@@ -55,21 +59,16 @@ export class ProductsService {
       })
     );
 
-    // Mantenuto il subscribe interno per far partire la chiamata subito
     request$.subscribe();
     return request$;
   }
 
-  // Restituisce un libro cercandolo nello stato locale (per ID)
   getById(id: string | number | null | undefined) {
     if (!id) return undefined;
-    // Il doppio uguale (==) serve a confrontare stringhe e numeri senza errori
     return this._items().find(p => p.id == id);
   }
 
-  // Recupera i dettagli per una lista specifica di ID (es. carrello)
   getByIds(ids: number[]): Observable<Product[]> {
-    // Corretto l'URL: prima puntava a una cartella '/api' inesistente
     return this.http.post<Product[]>(`${this.apiUrl}/findByIds`, ids).pipe(
       catchError(() => of([]))
     );
