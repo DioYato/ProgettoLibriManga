@@ -1,7 +1,6 @@
-<app-home></app-home>
-
 <div class="auth-overlay">
   <div class="auth-dialog">
+
     <div class="auth-header">
       <h2>{{ mode === 'login' ? 'Accedi' : 'Registrati' }}</h2>
       <button class="auth-close" type="button" (click)="close()">×</button>
@@ -13,6 +12,7 @@
     </div>
 
     @if(mode === 'login') {
+
       <div class="auth-social">
         <span class="label">Accedi con:</span>
         <div class="icons">
@@ -24,6 +24,7 @@
       <hr/>
 
       <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+
         <label>
           <span class="field-label">Email*</span>
           <input type="email" formControlName="email" />
@@ -34,7 +35,8 @@
           <input type="password" formControlName="password" />
         </label>
 
-        <a class="forgot" href="#">Hai dimenticato la password?</a>
+        <!-- 🔥 ORA FUNZIONA -->
+        <a class="forgot" routerLink="/forgot-password">Hai dimenticato la password?</a>
 
         <label class="remember">
           <input type="checkbox" />
@@ -43,8 +45,11 @@
 
         <button type="submit" class="primary-btn">Accedi</button>
       </form>
+
     } @else {
+
       <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+
         <div class="row-2">
           <label>
             <span class="field-label">Nome*</span>
@@ -74,9 +79,9 @@
 
         <button type="submit" class="primary-btn">Crea account</button>
       </form>
+
     }
 
   </div>
 </div>
-
 

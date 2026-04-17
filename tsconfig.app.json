@@ -11,7 +11,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "src/app/pages/forgot-password/forgot-password.component.ts"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]
