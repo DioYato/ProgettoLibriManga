@@ -6,34 +6,6 @@
   <main class="products-content">
     <section class="wrap">
       <div class="head">
-<<<<<<< HEAD
-        <h1>I nostri prodotti</h1>
-        <p class="sub">Esplora libri e manga con una navigazione piu pulita, veloce e leggibile.</p>
-      </div>
-
-      <div class="toolbar">
-        <div class="toolbar__search">
-          <input
-            type="search"
-            class="search-input"
-            placeholder="Cerca un titolo…"
-            [value]="query()"
-            (input)="onSearch($any($event.target).value)"
-          />
-        </div>
-
-        <div class="toolbar__actions">
-          <div class="results-chip">{{ products().length }} risultati</div>
-
-          <select class="sort-select" (change)="onSortChange($event)">
-            <option value="">In evidenza</option>
-            <option value="prezzoAsc">Prezzo crescente</option>
-            <option value="prezzoDesc">Prezzo decrescente</option>
-          </select>
-        </div>
-      </div>
-
-=======
         <h1>Il nostro Catalogo</h1>
       </div>
 
@@ -51,7 +23,6 @@
           <option value="prezzoDesc">Prezzo decrescente</option>
         </select>
       </div>
->>>>>>> 4df9124d8d53319caf37d3a651c6286752ed49f7
 
       <div class="grid">
         @for (p of products(); track p.id) {
@@ -79,22 +50,27 @@
               <div class="p-card__media">
                 <img class="p-card__img" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
               </div>
-<<<<<<< HEAD
-              <div class="p-card__body">
-                <div class="p-card__eyebrow">Disponibile online</div>
-                <h3 class="p-card__title">{{ p.titolo }}</h3>
-                <div class="p-card__priceRow">€{{ p.prezzo | number: '1.2-2' }}</div>
-=======
 
               <div class="p-card__info">
                 <p class="p-card__author">{{ p.autore.nome }} {{ p.autore.cognome }}</p>
                 <h3 class="p-card__title">{{ p.titolo }}</h3>
 
+                <div class="p-card__meta">
+                  @if (p.quantita && p.quantita > 0) {
+                    <span class="stock-dot" style="background: #2ecc71"></span>
+                    <span class="stock-text" style="color: #27ae60"
+                      >Disponibile ({{ p.quantita }})</span
+                    >
+                  } @else {
+                    <span class="stock-dot" style="background: #e74c3c"></span>
+                    <span class="stock-text" style="color: #e74c3c">Esaurito</span>
+                  }
+                </div>
+
                 <div class="p-card__footer">
                   <span class="p-card__price">€{{ p.prezzo | number: '1.2-2' }}</span>
                   <button class="add-mini-btn" (click)="$event.preventDefault()">+</button>
                 </div>
->>>>>>> 4df9124d8d53319caf37d3a651c6286752ed49f7
               </div>
             </a>
           </article>
