@@ -55,18 +55,6 @@
                 <p class="p-card__author">{{ p.autore.nome }} {{ p.autore.cognome }}</p>
                 <h3 class="p-card__title">{{ p.titolo }}</h3>
 
-                <div class="p-card__meta">
-                  @if (p.quantita && p.quantita > 0) {
-                    <span class="stock-dot" style="background: #2ecc71"></span>
-                    <span class="stock-text" style="color: #27ae60"
-                      >Disponibile ({{ p.quantita }})</span
-                    >
-                  } @else {
-                    <span class="stock-dot" style="background: #e74c3c"></span>
-                    <span class="stock-text" style="color: #e74c3c">Esaurito</span>
-                  }
-                </div>
-
                 <div class="p-card__footer">
                   <span class="p-card__price">€{{ p.prezzo | number: '1.2-2' }}</span>
                   <button class="add-mini-btn" (click)="$event.preventDefault()">+</button>
