@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 export interface ProductFilters {
-  types: string[];
   genres: number[];
 }
 
@@ -11,6 +10,11 @@ export interface ProductFilters {
   styleUrl: './filters.component.css',
 })
 export class FiltersComponent {
+
+  tipologie = [
+    { id: 9, categoria: 'Libri' },
+    { id: 10, categoria: 'Manga' },
+  ]
 
   generi = [
     { id: 1, categoria: 'Classici' },
@@ -23,17 +27,9 @@ export class FiltersComponent {
     { id: 8, categoria: 'Fantascienza' },
   ];
 
-  selectedTypes: string[] = [];
   selectedGenres: number[] = [];
 
   @Output() filtersChange = new EventEmitter<ProductFilters>();
-
-  toggleType(type: string, event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    this.selectedTypes = checked
-      ? [...this.selectedTypes, type]
-      : this.selectedTypes.filter(t => t !== type);
-  }
 
   toggleGenre(id: number, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
@@ -44,7 +40,6 @@ export class FiltersComponent {
 
   apply() {
     this.filtersChange.emit({
-      types: this.selectedTypes,
       genres: this.selectedGenres,
     });
   }

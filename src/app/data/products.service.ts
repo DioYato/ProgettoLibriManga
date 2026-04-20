@@ -8,11 +8,10 @@ export type Author = {
 }
 
 export type Product = {
-  immagine: any;
   id: number;
   titolo: string;
   autore: Author;
-  quantita: number;
+  quantitaDisponibile: number;
   prezzo: number;
   descrizione: string;
   copertina?: string;
@@ -28,7 +27,7 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
-  loadFromBackend(sort?: string, genres?: number[], author?: number, types?: string[]) {
+  loadFromBackend(sort?: string, genres?: number[], author?: number) {
     let params = new HttpParams();
 
     if (sort) {
@@ -41,11 +40,6 @@ export class ProductsService {
 
     if (author) {
       params = params.set('autore', author.toString());
-    }
-
-    if (types?.length) {
-      types.forEach(t => params = params.append('tipologia', t));
-      // Se il backend usa un nome diverso (tipo "tipo" o "types"), dimmelo e lo cambio
     }
 
     const request$ = this.http.get<Product[]>(`${this.apiUrl}/list`, { params }).pipe(
