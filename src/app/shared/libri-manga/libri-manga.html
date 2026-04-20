@@ -14,7 +14,7 @@
         
         <div class="image-box">
           <img [src]="imageUrl(manga.copertina)" [alt]="manga.titolo">
-          @if (manga.quantita > 0) {
+          @if (manga.quantitaDisponibile > 0) {
             <span class="badge-disponibile">Disponibile</span>
           }
         </div>
