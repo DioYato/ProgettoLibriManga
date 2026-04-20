@@ -10,10 +10,11 @@ import { libriStorici } from '../../shared/libri-storici/libri-storici';
 import { MangaSectionComponent } from '../../shared/libri-manga/libri-manga';
 import {GeneriComponent } from "../../shared/section-generi/section-generi";
 import { Newsletter } from "../../shared/newsletter/newsletter";
+import { MiniChatbotComponent } from "../../mini-chatbot/mini-chatbot";
 
 @Component({
   selector: 'app-home',
-  imports: [CarouselHeroComponent, MostWanted, CartTipologia, CardAutori, Spedizioni, libriStorici, MangaSectionComponent, Newsletter, GeneriComponent],
+  imports: [CarouselHeroComponent, MostWanted, CartTipologia, CardAutori, Spedizioni, libriStorici, MangaSectionComponent, Newsletter, GeneriComponent, MiniChatbotComponent],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
