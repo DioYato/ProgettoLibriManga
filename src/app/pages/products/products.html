@@ -56,10 +56,10 @@
                 <h3 class="p-card__title">{{ p.titolo }}</h3>
 
                 <div class="p-card__meta">
-                  @if (p.quantita && p.quantita > 0) {
+                  @if (p.quantitaDisponibile > 0) {
                     <span class="stock-dot" style="background: #2ecc71"></span>
                     <span class="stock-text" style="color: #27ae60"
-                      >Disponibile ({{ p.quantita }})</span
+                      >Disponibile ({{ p.quantitaDisponibile }})</span
                     >
                   } @else {
                     <span class="stock-dot" style="background: #e74c3c"></span>

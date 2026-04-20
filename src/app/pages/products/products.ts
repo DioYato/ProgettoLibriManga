@@ -27,7 +27,6 @@ export class Products implements OnInit {
   readonly sort = signal('');
 
   filters = {
-    types: [] as string[],
     genres: [] as number[]
   };
 
@@ -96,15 +95,14 @@ export class Products implements OnInit {
   onSortChange(event: Event) {
     const value = (event.target as HTMLSelectElement)?.value ?? '';
     this.sort.set(value);
-    this.productsService.loadFromBackend(value, this.filters.genres, undefined, this.filters.types);
+    this.productsService.loadFromBackend(value, this.filters.genres, undefined);
   }
   onFiltersChange(filters: ProductFilters) {
     this.filters = filters;
     this.productsService.loadFromBackend(
       this.sort(),
       filters.genres,
-      undefined,
-      filters.types
+      undefined
     );
   }
 
