@@ -47,13 +47,12 @@ export class Products implements OnInit {
   this.route.queryParams.subscribe(params => {
     const genereNome = params['genere'];
     const autoreNome = params['autore'];
-    const categoriaId = params['categoriaId']; // <-- Nuovo parametro dai tuoi bottoni
+    const categoriaId = params['categoriaId']; 
 
     if (autoreNome) {
       this.productsService.loadFromBackend(this.sort(), [], autoreNome);
     } 
     else if (categoriaId) {
-      // Se arriviamo dai bottoni Libri/Manga, usiamo direttamente l'ID
       this.productsService.loadFromBackend(this.sort(), [Number(categoriaId)]);
     }
     else if (genereNome) {
