@@ -8,17 +8,16 @@
 .banner_content_wrapper {
     display: flex;
     width: 95%;
-    max-width: 1400px; /* Evita che su schermi giganti si allontani tutto */
+    max-width: 1400px; 
     border: 2px solid #D859B1;
     border-radius: 20px; 
-    padding: 10px 30px; /* Padding interno ridotto come nell'esempio */
+    padding: 10px 30px; 
     background-color: white;
     align-items: center;
     justify-content: center; 
-    gap: 10px; /* Gap strettissimo per avvicinare i testi all'omino */
+    gap: 10px; 
 }
 
-/* --- SINISTRA --- */
 .banner_left {
     flex: 1;
     text-align: left;
@@ -26,33 +25,31 @@
 
 .banner_title {
     color: #552288;
-    font-size: 1.8rem; /* Font leggermente ridotto per stare su due righe */
+    font-size: 1.8rem; 
     font-weight: 800;
     margin: 0;
     line-height: 1;
     font-family: 'Arial Black', sans-serif;
 }
 
-/* --- CENTRO --- */
 .banner_center {
-    flex: 0 0 auto; /* Non cresce, non rimpicciolisce: occupa solo lo spazio dell'immagine */
+    flex: 0 0 auto; 
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .illustration_img {
-    height: 110px; /* Altezza simile a quella dell'esempio Mondadori */
+    height: 110px; 
     width: auto;
     margin-right: 40px;
 }
 
-/* --- DESTRA --- */
 .banner_right {
     flex: 1;
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Spinge bottone a fine riga ma vicino al testo */
+    justify-content: space-between; 
     gap: 15px;
 }
 
@@ -62,10 +59,9 @@
     font-weight: 600;
     margin: 0;
     line-height: 1.2;
-    text-align: left; /* Nell'esempio Mondadori il testo è a sinistra dell'omino o centrato */
+    text-align: left; 
 }
 
-/* Bottone */
 .banner_action_btn {
     all: unset;
     background-color: #A30014;

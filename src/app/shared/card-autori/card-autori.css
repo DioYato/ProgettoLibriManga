@@ -1,119 +1,112 @@
 .main-wrapper {
-  padding: 40px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .section-title {
-  font-size: 30px;
-  margin-bottom: 25px;
-  font-weight: bold;
-  color: #0c2c6b;
-  font-family: sans-serif;
+    font-size: 30px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    color: #0c2c6b;
+    font-family: sans-serif;
 }
 
 .carousel-container {
-  display: flex;
-  align-items: center;
-  position: relative;
-  gap: 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 20px;
 }
 
 .cards-viewport {
-  display: flex;
-  gap: 20px;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-  padding: 10px 0;
+    display: flex;
+    gap: 20px;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    padding: 10px 0;
 }
 
-/* Stile della Card */
 .card-autore {
-  flex: 0 0 280px; /* Larghezza fissa come da immagine */
-  height: 350px;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+    flex: 0 0 280px; 
+    height: 350px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .card-autore:hover {
-  transform: translateY(-5px);
+    transform: translateY(-5px);
 }
 
 .card-content {
-  width: 100%;
-  height: 100%;
-  /* Sfondo Bordeaux con Pattern a puntini (Halftone) */
-  background-color: #8b002d;
-  background-image: radial-gradient(#a51a43 15%, transparent 16%);
-  background-size: 15px 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    background-color: #8b002d;
+    background-image: radial-gradient(#a51a43 15%, transparent 16%);
+    background-size: 15px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .image-box {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  overflow: hidden;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .image-box img {
-  width: 100%;
-  height: 100%; /* Ingrandito dal 90% al 100% per toccare il banner nero */
-  object-fit: cover; /* Cambiato da contain a cover per riempire la card come la Rowling */
-  object-position: top center; /* Mantiene la testa visibile e centra il busto */
-  filter: grayscale(20%); 
-  display: block; /* Toglie spazi bianchi residui */
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+    object-position: top center; 
+    filter: grayscale(20%); 
+    display: block; 
 }
 
 .image-box img[alt*="akira Toriyama"] {
-  object-fit: cover;
-  /* Centra perfettamente l'inquadratura */
-  object-position: center !important; 
-  /* Ingrandisce l'immagine del 40% */
-  transform: scale(1.3);
-  /* Assicura che l'ingrandimento parta dal centro */
-  transform-origin: center;
-  margin-right: 30px;
+    object-fit: cover;
+    object-position: center !important; 
+    transform: scale(1.3);
+    transform-origin: center;
+    margin-right: 30px;
 }
 
-/* Fascia Nera */
 .name-banner {
-  background-color: #000000;
-  color: #ffffff;
-  text-align: center;
-  padding: 15px 10px;
-  font-weight: bold;
-  font-size: 18px;
-  letter-spacing: 0.5px;
+    background-color: #000000;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px 10px;
+    font-weight: bold;
+    font-size: 18px;
+    letter-spacing: 0.5px;
 }
 
-/* Bottoni Navigazione */
 .nav-btn {
-  width: 60px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background-color: #222;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s;
-  z-index: 10;
+    width: 60px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: #222;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+    z-index: 10;
 }
 
 .nav-btn:hover {
-  background-color: #444;
+    background-color: #444;
 }
 
 .chevron {
-  font-size: 30px;
-  line-height: 0;
-  margin-top: -4px;
+    font-size: 30px;
+    line-height: 0;
+    margin-top: -4px;
 }

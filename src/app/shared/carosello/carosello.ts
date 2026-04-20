@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Importante per [class.active]
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-carousel-hero',
@@ -23,7 +23,6 @@ export class CarouselHeroComponent {
   move(direction: number) {
     this.currentIndex += direction;
 
-    // Logica di loop infinito
     if (this.currentIndex >= this.totalSlides) {
       this.currentIndex = 0;
     } else if (this.currentIndex < 0) {

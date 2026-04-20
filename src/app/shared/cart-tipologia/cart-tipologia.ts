@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common'; // 1. Importa CommonModule
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-cart-tipologia',
-  imports: [CommonModule], // 2. Aggiungilo qui, per l'utilizzo di ngIf, ngFor e property binding delle immagini
+  imports: [CommonModule], 
   templateUrl: './cart-tipologia.html',
   styleUrl: './cart-tipologia.css',
 })
 export class CartTipologia {
 
-  // Lista di copertine manga (URL reali o segnaposto coerenti)
-  // Nota: usa immagini con proporzioni verticali (es. 200x300)
   mangaCovers = [
     'OnePiece.jpg', 
     'Naruto_vol1.jpg', 
@@ -27,10 +25,16 @@ export class CartTipologia {
 
   constructor(private router: Router) {}
 
-  navigaProdotti(categoria: string) {
-    this.router.navigate(['/products'], { 
-      queryParams: { genere: categoria } 
-    });
-  }
+  navigaLibri() {
+  this.router.navigate(['/products'], { 
+    queryParams: { categoriaId: 9 } 
+  });
+}
+
+navigaManga() {
+  this.router.navigate(['/products'], { 
+    queryParams: { categoriaId: 10 } 
+  });
+}
 
 }

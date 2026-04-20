@@ -1,13 +1,11 @@
-/* --- CONTAINER PRINCIPALE --- */
 .section_generi_slim {
   width: 100%;
   padding: 30px 0;
-  background: transparent; /* Si fonde con lo sfondo del sito */
+  background: transparent; 
   display: flex;
   flex-direction: column;
 }
 
-/* --- HEADER --- */
 .header_container {
   padding: 0 5%;
   margin-bottom: 20px;
@@ -17,7 +15,7 @@
 }
 
 .section_subtitle {
-  color: #0c2c6b; /* Blu istituzionale richiesto */
+  color: #0c2c6b; 
   font-size: 1.6rem;
   font-family: 'Arial Black', sans-serif;
   text-transform: uppercase;
@@ -31,7 +29,6 @@
   opacity: 0.2;
 }
 
-/* --- WRAPPER BINARIO (Frecce + Contenitore) --- */
 .carousel_layout_wrapper {
   display: flex;
   align-items: center;
@@ -42,21 +39,20 @@
 
 .carousel_container {
   flex: 1;
-  overflow: hidden; /* Taglia le card prima delle frecce */
+  overflow: hidden; 
   position: relative;
 }
 
 .generi_viewport {
   display: flex;
-  gap: 25px; /* Spazio tra le card */
+  gap: 25px; 
   overflow-x: hidden;
   scroll-behavior: smooth;
   padding: 15px 0;
 }
 
-/* --- CARD GRANDEZZA MEDIA --- */
 .card_genere_medium {
-  flex: 0 0 240px; /* Larghezza media */
+  flex: 0 0 240px;
   height: 340px;
   border-radius: 12px;
   position: relative;
@@ -80,24 +76,21 @@
 }
 
 .card_genere_medium:hover .card_img {
-  transform: scale(1.08); /* Lieve zoom dell'immagine */
+  transform: scale(1.08); 
 }
 
-/* --- OVERLAY HOVER (Sfumatura Nera Bassa) --- */
 .card_overlay_bottom {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 90px;
-  /* Sfumatura nera lieve verso l'alto */
   background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
   display: flex;
   align-items: flex-end;
   justify-content: center;
   padding-bottom: 20px;
   
-  /* Stato iniziale: Nascosto */
   opacity: 0;
   transform: translateY(15px);
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -105,7 +98,7 @@
 
 .card_genere_medium:hover .card_overlay_bottom {
   opacity: 1;
-  transform: translateY(0); /* Appare risalendo dolcemente */
+  transform: translateY(0); 
 }
 
 .card_title {
@@ -118,7 +111,6 @@
   text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-/* --- BOTTONI NAVIGAZIONE --- */
 .nav_btn_side {
   all: unset;
   cursor: pointer;

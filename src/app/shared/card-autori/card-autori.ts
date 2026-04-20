@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Router } from '@angular/router'; // 1. Importa il Router
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-card-autori',
@@ -9,7 +9,7 @@ import { Router } from '@angular/router'; // 1. Importa il Router
 export class CardAutori {
   @ViewChild('containerCarosello') container!: ElementRef;
 
-  constructor(private router: Router) {} // 2. Inietta il Router
+  constructor(private router: Router) {} 
 
 
   Autori = [
@@ -29,7 +29,7 @@ export class CardAutori {
 
 
   scroll(direction: number) {
-    const cardWidth = 300; // Larghezza card + gap
+    const cardWidth = 300; 
     this.container.nativeElement.scrollBy({
       left: direction * cardWidth,
       behavior: 'smooth'

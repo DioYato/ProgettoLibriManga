@@ -1,7 +1,6 @@
 .manga-container {
   padding: 50px 20px;
   background-color: #fcfcfc;
-  /* Pattern retinato (screentone) tipico dei manga */
   background-image: radial-gradient(#d1d1d1 1px, transparent 1px);
   background-size: 15px 15px;
   overflow: hidden;
@@ -20,7 +19,7 @@
   font-size: 2.5rem;
   color: #000;
   text-transform: uppercase;
-  border-left: 10px solid #e60012; /* Rosso Giappone */
+  border-left: 10px solid #e60012; 
   padding-left: 20px;
 }
 
@@ -30,23 +29,21 @@
   color: #666;
 }
 
-/* CAROUSEL LOGIC */
 .carousel-wrapper {
   display: flex;
   gap: 25px;
-  overflow-x: hidden; /* Nascondiamo la barra */
+  overflow-x: hidden; 
   padding: 20px 50px;
   scroll-behavior: smooth;
 }
 
-/* MANGA CARD STYLE */
 .manga-card {
   min-width: 280px;
   background: white;
   border: 4px solid #000;
   position: relative;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 10px 10px 0px #000; /* Ombra netta stile fumetto */
+  box-shadow: 10px 10px 0px #000; 
 }
 
 .manga-card:hover {
@@ -72,7 +69,6 @@
   filter: contrast(110%) brightness(110%);
 }
 
-/* Onomatopea decorativa */
 .onomatopea {
   position: absolute;
   top: -15px;
@@ -120,7 +116,6 @@
   color: #e60012;
 }
 
-/* BUTTONS STYLE */
 .btn-manga {
   background: #fff;
   border: 3px solid #000;
@@ -142,6 +137,6 @@
   border: none;
   padding: 8px 15px;
   font-weight: bold;
-  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); /* Taglio obliquo */
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%); 
   cursor: pointer;
 }

@@ -16,10 +16,8 @@ export class MangaSectionComponent implements OnInit {
 
   @ViewChild('carousel') carousel!: ElementRef;
 
-  // Filtriamo i prodotti per categoria (es. ID 21-27 o categoria 'Manga')
   mangaList = computed(() => {
     const tutti = this.productsService.all();
-    // Filtriamo i prodotti che hanno l'autore o l'ID nel range dei manga inseriti
     return tutti.filter(p => p.id >= 21 && p.id <= 27);
   });
   
@@ -39,7 +37,7 @@ export class MangaSectionComponent implements OnInit {
 
    
   scroll(direction: number) {
-    const scrollAmount = 320; // Larghezza card + gap
+    const scrollAmount = 320; 
     this.carousel.nativeElement.scrollBy({
       left: direction * scrollAmount,
       behavior: 'smooth'

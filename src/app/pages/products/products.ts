@@ -43,27 +43,32 @@ export class Products implements OnInit {
     return items.filter((p) => p.titolo.toLowerCase().includes(q));
   });
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      const genereNome = params['genere'];
-      const autoreNome = params['autore'];
+ ngOnInit() {
+  this.route.queryParams.subscribe(params => {
+    const genereNome = params['genere'];
+    const autoreNome = params['autore'];
+    const categoriaId = params['categoriaId']; // <-- Nuovo parametro dai tuoi bottoni
 
-      if (autoreNome) {
-        this.productsService.loadFromBackend(this.sort(), [], autoreNome);
-      } 
-      else if (genereNome) {
-        const idGenere = this.mappaNomeAdId(genereNome);
-        if (idGenere) {
-          this.productsService.loadFromBackend(this.sort(), [idGenere]);
-        } else {
-          this.productsService.loadFromBackend(this.sort());
-        }
-      } 
-      else {
+    if (autoreNome) {
+      this.productsService.loadFromBackend(this.sort(), [], autoreNome);
+    } 
+    else if (categoriaId) {
+      // Se arriviamo dai bottoni Libri/Manga, usiamo direttamente l'ID
+      this.productsService.loadFromBackend(this.sort(), [Number(categoriaId)]);
+    }
+    else if (genereNome) {
+      const idGenere = this.mappaNomeAdId(genereNome);
+      if (idGenere) {
+        this.productsService.loadFromBackend(this.sort(), [idGenere]);
+      } else {
         this.productsService.loadFromBackend(this.sort());
       }
-    });
-  }
+    } 
+    else {
+      this.productsService.loadFromBackend(this.sort());
+    }
+  });
+}
 
   private mappaNomeAdId(nome: string): number | null {
     const mappa: { [key: string]: number } = {

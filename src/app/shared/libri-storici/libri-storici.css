@@ -4,7 +4,7 @@
 }
 
 
-/* --- Wrapper e Contenitore --- */
+
 .carousel-wrapper {
   display: flex;
   align-items: center;
@@ -20,18 +20,18 @@
   gap: 26px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
-  padding: 20px 10px; /* Spazio per l'ombra dell'hover */
+  scrollbar-width: none; 
+  padding: 20px 10px; 
   margin-right: 5px;
 }
 
 .carosello_carte::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none; 
 }
 
-/* --- La Card --- */
+
 .card {
-  flex: 0 0 340px; /* Dimensione fissa per QoL */
+  flex: 0 0 340px; 
   border-radius: 20px;
   overflow: hidden;
   display: flex;
@@ -47,7 +47,7 @@
   box-shadow: 0 15px 30px rgba(0,0,0,0.4);
 }
 
-/* --- Immagine --- */
+
 .img_cont {
   width: 60%;
   height: 50%;
@@ -62,15 +62,14 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
-  /* border-radius: 20px; */
+
 }
 
 .card:hover img {
-  transform: scale(1.05); /* Piccolo zoom all'hover */
+  transform: scale(1.05); 
 }
 
-/* --- Testi --- */
-/* --- Decorazione Disponibilità (QoL) --- */
+
 .disponibilita {
   margin: 5px 0;
   color: #0c2c6b;
@@ -85,7 +84,6 @@
   margin-bottom: 10px;
 }
 
-/* Opzionale: aggiunge un pallino verde prima del testo per un look professionale */
 .disponibilita::before {
   content: '';
   width: 8px;
@@ -97,7 +95,7 @@
 
 .non_disponibile {
   margin: 5px 0;
-  color: #e74c3c; /* Rosso per l'alert */
+  color: #e74c3c; 
   font-size: 1.1rem;
   font-family: sans-serif;
   font-weight: 500;
@@ -105,12 +103,12 @@
   opacity: 0.8;
 }
 
-/* Ritocco alla text-section per gestire meglio lo spazio con il nuovo elemento */
+
 .text-section {
   padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Ridotto leggermente il gap per non allungare troppo la card */
+  gap: 10px; 
 }
 
 
@@ -137,7 +135,6 @@
   text-decoration: underline;
 }
 
-/* --- Sezione Prezzi --- */
 .section_prezzi .new-price {
   color: #0b3a7b;
   font-weight: 700;
@@ -193,7 +190,7 @@
   text-transform: uppercase;
 }
 
-/* --- Bottoni Freccette --- */
+
 .freccetta_1_butt, .freccetta_2_butt {
   width: 45px;
   height: 45px;

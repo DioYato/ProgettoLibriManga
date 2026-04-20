@@ -1,81 +1,77 @@
 .carousel-wrapper { 
-  width: 100vw; 
-  overflow: hidden; 
-  margin: 0; 
-  padding: 0; 
+    width: 100vw; 
+    overflow: hidden; 
+    margin: 0; 
+    padding: 0; 
 }
 
 .carousel-viewport { 
-  position: relative; 
-  width: 100%; 
-  height: 600px; 
-  overflow: hidden; 
-  background: #000; 
+    position: relative; 
+    width: 100%; 
+    height: 600px; 
+    overflow: hidden; 
+    background: #000; 
 }
 
 .carousel-track { 
-  position: relative;
-  width: 100%;
-  height: 100%;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-/* --- LOGICA DI SOVRAPPOSIZIONE --- */
 .carousel-slide {
-  position: absolute; /* Tutte le slide sono una sopra l'altra */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0; /* Invisibile di base */
-  visibility: hidden;
-  transition: opacity 0.8s ease-in-out; /* Transizione fluida solo per chi appare */
-  z-index: 1;
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; 
+    visibility: hidden;
+    transition: opacity 0.8s ease-in-out; 
+    z-index: 1;
 }
 
-/* Mostriamo solo la slide attiva */
 .carousel-slide.active {
-  opacity: 1;
-  visibility: visible;
-  z-index: 5; /* Sopra le altre slide ma sotto i bottoni */
+    opacity: 1;
+    visibility: visible;
+    z-index: 5; 
 }
 
 .slide-inner { 
-  width: 100%; 
-  height: 100%; 
-  position: relative; 
-  overflow: hidden; 
+    width: 100%; 
+    height: 100%; 
+    position: relative; 
+    overflow: hidden; 
 }
 
-/* --- SLIDE 1: FF XVI --- */
 .ff-bg .promotion_img { width: 100%; height: 100%; object-fit: cover; }
 .dark-overlay-bottom {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
-  display: flex;
-  align-items: flex-end;
-  padding: 0 0 60px 8%;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+    display: flex;
+    align-items: flex-end;
+    padding: 0 0 60px 8%;
 }
 .text-anchor-left { display: flex; flex-direction: row; gap: 20px; max-width: auto; margin-bottom: 10px;}
 .slide-title-white { color: white; font-size: 2.8rem; font-weight: 800; line-height: 1.1; margin: 0; }
 
-/* --- SLIDE 2: CULTURA --- */
 .culture-theme {
-  background-color: #00427a;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 0 0 10%;
+    background-color: #00427a;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 0 0 10%;
 }
 .culture-top-logo { position: absolute; top: 30px; left: 8%; z-index: 10; }
 .culture-logo-big { height: 70px; width: auto; }
 
 .culture-content-flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
 }
 .text-block { max-width: 500px; flex-shrink: 0; z-index: 10; text-align: left; }
 .culture-theme .slide-title { color: white; font-size: 4.2rem; font-weight: 800; margin: 0 0 20px 0; line-height: 1.05; letter-spacing: -1px; }
@@ -83,177 +79,170 @@
 .promo-badge { display: inline-block; background: #f36f21; color: white; padding: 12px 28px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; }
 
 .culture-side-media {
-  flex-grow: 1;
-  height: 80%;
-  display: flex;
-  align-items: flex-end; 
-  justify-content: flex-end;
-  position: relative;
-  right: 2%;
-  z-index: 1;
+    flex-grow: 1;
+    height: 80%;
+    display: flex;
+    align-items: flex-end; 
+    justify-content: flex-end;
+    position: relative;
+    right: 2%;
+    z-index: 1;
 }
 .ragazzi-full-img { 
-  height: 95%; 
-  width: auto;
-  object-fit: contain;
-  transform: scale(1.15); 
-  transform-origin: bottom right;
-  mask-image: linear-gradient(to top, transparent 0%, black 15%);
-  -webkit-mask-image: linear-gradient(to top, transparent 0%, black 15%);
-  filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.1));
+    height: 95%; 
+    width: auto;
+    object-fit: contain;
+    transform: scale(1.15); 
+    transform-origin: bottom right;
+    mask-image: linear-gradient(to top, transparent 0%, black 15%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 15%);
+    filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.1));
 }
 
-
-/* --- SLIDE 3: CLASSICI (LAYOUT OTTIMIZZATO) --- */
 .books-illustrative-theme {
-  background-color: #79d6f1; /* Il celeste che vediamo negli screenshot */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 8%;
+    background-color: #79d6f1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8%;
 }
 
 .illustrative-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 1400px;
-  gap: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1400px;
+    gap: 50px;
 }
 
-/* Blocco Testo a Sinistra */
 .books-illustrative-theme .text-block {
-  flex: 0 0 450px;
-  z-index: 10;
+    flex: 0 0 450px;
+    z-index: 10;
 }
 
 .books-illustrative-theme .pre-title {
-  display: block;
-  font-size: 1.1rem;
-  color: #333;
-  margin-bottom: 10px;
-  font-weight: 500;
+    display: block;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 500;
 }
 
 .books-illustrative-theme .slide-title {
-  font-size: 4rem;
-  font-weight: 900;
-  margin: 0 0 15px 0;
-  color: #1a1a1a;
-  line-height: 1;
+    font-size: 4rem;
+    font-weight: 900;
+    margin: 0 0 15px 0;
+    color: #1a1a1a;
+    line-height: 1;
 }
 
 .books-illustrative-theme .slide-subtitle {
-  font-size: 1.4rem;
-  color: #444;
-  margin-bottom: 35px;
-  max-width: 400px;
+    font-size: 1.4rem;
+    color: #444;
+    margin-bottom: 35px;
+    max-width: 400px;
 }
 
 .discover-btn {
-  background-color: #a50021;
-  color: white;
-  border: none;
-  padding: 14px 35px;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
+    background-color: #a50021;
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 .discover-btn:hover {
-  background-color: #80001a;
+    background-color: #80001a;
 }
 
-/* Area Media (Scaffale e Libri) a Destra */
 .illustrative-media {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .shelf-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-  perspective: 1000px; /* Aggiunge profondità */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    perspective: 1000px; 
 }
 
 .books-shelf {
-  display: flex;
-  gap: 25px;
-  z-index: 10;
-  padding-bottom: 0;
-  transform: translateY(10px); /* Appoggia i libri sullo scaffale */
+    display: flex;
+    gap: 25px;
+    z-index: 10;
+    padding-bottom: 0;
+    transform: translateY(10px); 
 }
 
 .book-item {
-  transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .book-item:hover {
-  transform: translateY(-15px) scale(1.05); /* Effetto interattivo al passaggio del mouse */
+    transform: translateY(-15px) scale(1.05); 
 }
 
 .book-item img {
-  width: 140px;
-  height: 210px;
-  object-fit: cover;
-  border-radius: 2px 5px 5px 2px;
-  box-shadow: 7px 10px 20px rgba(0,0,0,0.3);
-  background-color: #eee; /* Fallback se l'immagine non carica */
+    width: 140px;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 2px 5px 5px 2px;
+    box-shadow: 7px 10px 20px rgba(0,0,0,0.3);
+    background-color: #eee; 
 }
 
-/* Lo Scaffale Fisico */
 .shelf-base {
-  width: 100%;
-  height: 22px;
-  background: #ffffff;
-  border-radius: 4px;
-  box-shadow: 
-    0 10px 25px rgba(0,0,0,0.1),
-    inset 0 -2px 5px rgba(0,0,0,0.1);
-  position: relative;
-  z-index: 5;
+    width: 100%;
+    height: 22px;
+    background: #ffffff;
+    border-radius: 4px;
+    box-shadow: 
+        0 10px 25px rgba(0,0,0,0.1),
+        inset 0 -2px 5px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 5;
 }
 
-/* Effetto ombra sotto lo scaffale */
 .shelf-base::after {
-  content: '';
-  position: absolute;
-  bottom: -15px;
-  left: 5%;
-  width: 90%;
-  height: 10px;
-  background: rgba(0,0,0,0.1);
-  filter: blur(8px);
-  border-radius: 50%;
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 5%;
+    width: 90%;
+    height: 10px;
+    background: rgba(0,0,0,0.1);
+    filter: blur(8px);
+    border-radius: 50%;
 }
 
-/* --- CONTROLLI (Sempre sopra tutto) --- */
 .nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1000 !important; /* Forza i pulsanti sopra lo sfondo azzurro */
-  background: rgba(0, 0, 0, 0.4); 
-  backdrop-filter: blur(8px);
-  border: none;
-  color: white;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000 !important; 
+    background: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(8px);
+    border: none;
+    color: white;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
 }
 
 .nav-btn:hover { background: #fff; color: #000; }
@@ -261,13 +250,13 @@
 .next { right: 40px; }
 
 .dots-container {
-  position: absolute;
-  bottom: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000 !important;
-  display: flex;
-  gap: 12px;
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000 !important;
+    display: flex;
+    gap: 12px;
 }
 
 .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.4); border-radius: 50%; cursor: pointer; transition: 0.3s; }

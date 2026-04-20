@@ -1,4 +1,3 @@
-/* Layout generale delle colonne */
 .section {
   max-width: 1200px;
   margin: 0 auto;
@@ -15,11 +14,10 @@
   position: relative;
   overflow: hidden;
   border-radius: 12px;
-  height: 350px; /* Altezza fissa per coerenza */
+  height: 350px; 
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
-/* Stile per l'immagine statica dei Libri */
 .colonna_libri img {
   width: 100%;
   height: 100%;
@@ -31,30 +29,27 @@
   transform: scale(1.05);
 }
 
-/* --- LA GRIGLIA MANGA STILE STEAM --- */
-
 .colonna_manga {
-  background: #101010; /* Sfondo scuro per il wall */
+  background: #101010; 
 }
 
 .manga-grid {
   display: grid;
-  /* Crea colonne di larghezza fissa (es. 90px) che si adattano allo spazio */
   grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: 10px; /* Spazio tra le copertine */
+  gap: 10px; 
   padding: 10px;
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1; /* Sotto l'overlay e il bottone */
+  z-index: 1; 
   transition: transform 0.3s ease;
 }
 
 .manga-item {
   width: 100%;
-  aspect-ratio: 2/3; /* Proporzione tipica delle copertine */
+  aspect-ratio: 2/3; 
   overflow: hidden;
   border-radius: 4px;
 }
@@ -65,7 +60,6 @@
   object-fit: cover;
 }
 
-/* Overlay scuro per migliorare il contrasto */
 .grid-overlay {
   position: absolute;
   top: 0;
@@ -74,34 +68,32 @@
   height: 100%;
   background: linear-gradient(
     to bottom, 
-    rgba(16, 16, 16, 0.4), /* Trasparente sopra */
-    rgba(16, 16, 16, 0.9)  /* Scuro sotto dove c'è il bottone */
+    rgba(16, 16, 16, 0.4), 
+    rgba(16, 16, 16, 0.9)  
   );
-  z-index: 2; /* Sopra la griglia, sotto il bottone */
+  z-index: 2; 
   transition: opacity 0.3s ease;
 }
 
-/* Effetto Hover sulla card intera */
 .colonna_manga:hover .manga-grid {
-  transform: scale(1.03); /* Zoom leggero della griglia */
+  transform: scale(1.03); 
 }
 
 .colonna_manga:hover .grid-overlay {
   background: linear-gradient(
     to bottom, 
-    rgba(16, 16, 16, 0.2), /* Meno coprente sopra al hover */
-    rgba(16, 16, 16, 0.8)  /* Meno coprente sotto al hover */
+    rgba(16, 16, 16, 0.2), 
+    rgba(16, 16, 16, 0.8)  
   );
 }
 
-/* --- IL BOTTONE OVERLAY (Stesso stile per entrambi) --- */
 .btn-overlay {
   position: absolute;
-  bottom: 25px; /* Posizionato in basso */
+  bottom: 25px; 
   left: 50%;
   transform: translateX(-50%);
   padding: 12px 24px;
-  background: #fff; /* Bianco e netto stile Steam */
+  background: #fff; 
   color: #101010;
   border: none;
   border-radius: 30px;
@@ -109,7 +101,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;
-  z-index: 3; /* Sempre in cima */
+  z-index: 3; 
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   transition: all 0.2s ease;
 }
