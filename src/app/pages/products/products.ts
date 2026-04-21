@@ -2,11 +2,11 @@ import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop'; 
-import { ProductsService } from '../../data/products.service';
+import { ProductsService } from '../../services/products.service';
 import { FiltersComponent, ProductFilters } from '../filters/filters.component';
-import { FavoritesService } from '../../data/favorites.service';
-import { AdminService } from '../../data/admin.service';
-import { AuthService } from '../../data/auth.service';
+import { FavoritesService } from '../../services/favorites.service';
+import { AdminService } from '../../services/admin.service';
+import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

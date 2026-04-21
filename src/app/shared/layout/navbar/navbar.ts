@@ -1,9 +1,9 @@
 import { Component, inject, computed } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../data/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { AsyncPipe } from '@angular/common';
-import { CartService } from '../../data/cart.service';
-import { FavoritesService } from '../../data/favorites.service';
+import { CartService } from '../../../services/cart.service';
+import { FavoritesService } from '../../../services/favorites.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({

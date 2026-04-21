@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ChatService } from '../data/chat.service';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-mini-chatbot',

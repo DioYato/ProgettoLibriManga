@@ -1,39 +1,42 @@
 import { Component, computed, ElementRef, inject, OnInit, ViewChild,  } from '@angular/core';
-import { ProductsService } from '../../data/products.service';
-import { Router } from '@angular/router'; // 1. Importa il Router
-
+import { ProductsService } from '../../../services/products.service';
+import { Router } from '@angular/router'; 
 
 @Component({
-  selector: 'app-most-wanted',
+  selector: 'app-libri-storici',
   imports: [],
-  templateUrl: './most-wanted.html',
-  styleUrl: './most-wanted.css',
+  templateUrl: './libri-storici.html',
+  styleUrl: './libri-storici.css',
 })
 
-export class MostWanted implements OnInit {
+export class libriStorici implements OnInit {
   private productsService = inject(ProductsService);
   private router = inject(Router); 
 
-
   @ViewChild('carousel') carousel! : ElementRef;
 
-    prodottiSample = computed(() => {
+
+  readonly BACKEND_URL = 'http://localhost:8080'; 
+  readonly IMAGE_PATH = '/assets/images/covers';
+
+  prodottiSample = computed(() => {
     const tutti = this.productsService.all();
-    return tutti.slice(0, 6); 
+    return tutti.slice(6, 12); 
   });
 
   ngOnInit() {
     this.productsService.loadFromBackend();
-   }
+  }
 
    vaiAlDettaglio(id: number) {
     this.router.navigate(['/products', id]);
   }
 
-   imageUrl(copertina?: string) {
-   if (!copertina) return 'assets/placeholder-libro.png';
-   return `http://localhost:8080/images/${copertina}`;
-   }
+  getFullImageUrl(copertina: string): string {
+  if (!copertina) return 'assets/placeholder-libro.png';
+  
+  return `http://localhost:8080/images/${copertina}`;
+}
 
   /**
    * Fa scorrere il carosello dei prodotti più cercati verso sinistra o destra.
@@ -47,6 +50,8 @@ export class MostWanted implements OnInit {
       behavior: 'smooth' 
     });
   }
+  
+
+
 
 }
-

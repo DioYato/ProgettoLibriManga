@@ -1,6 +1,6 @@
 import { Component, computed, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductsService } from '../../data/products.service';
+import { ProductsService } from '../../../services/products.service';
 import { Router } from '@angular/router'; 
 
 @Component({

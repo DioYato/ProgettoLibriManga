@@ -5,8 +5,8 @@ import { ProductDetail } from './pages/product-detail/product-detail';
 import { Cart } from './pages/cart/cart';
 import { Login } from './pages/login/login';
 import { MapPage } from './pages/map/map';
-import { authGuard } from './auth-guard';
-import { adminGuard } from './auth-admin.guard';
+import { authGuard } from './guards/auth-guard';
+import { adminGuard } from './guards/auth-admin.guard';
 
 
 

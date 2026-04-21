@@ -1,15 +1,15 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ProductsService } from '../../data/products.service';
-import { MostWanted } from "../../shared/most-wanted/most-wanted";
-import { CartTipologia } from "../../shared/cart-tipologia/cart-tipologia";
-import { CardAutori } from "../../shared/card-autori/card-autori";
-import { CarouselHeroComponent } from "../../shared/carosello/carosello";
-import { Spedizioni } from '../../shared/cards-18pp/spedizioni/spedizioni';
-import { libriStorici } from '../../shared/libri-storici/libri-storici';
-import { MangaSectionComponent } from '../../shared/libri-manga/libri-manga';
-import {GeneriComponent } from "../../shared/section-generi/section-generi";
-import { Newsletter } from "../../shared/newsletter/newsletter";
+import { ProductsService } from '../../services/products.service';
+import { MostWanted } from "../../shared/sections/most-wanted/most-wanted";
+import { CartTipologia } from "../../shared/sections/cart-tipologia/cart-tipologia";
+import { CardAutori } from "../../shared/cards/card-autori/card-autori";
+import { CarouselHeroComponent } from "../../shared/sections/carousel-hero/carosello";
+import { Spedizioni } from '../../shared/cards/cards-18pp/spedizioni/spedizioni';
+import { libriStorici } from '../../shared/sections/libri-storici/libri-storici';
+import { MangaSectionComponent } from '../../shared/sections/libri-manga/libri-manga';
+import {GeneriComponent } from "../../shared/sections/generi/section-generi";
+import { Newsletter } from "../../shared/sections/newsletter/newsletter";
 import { MiniChatbotComponent } from "../../mini-chatbot/mini-chatbot";
 
 @Component({

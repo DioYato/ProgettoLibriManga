@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminService, Order } from '../../data/admin.service';
+import { AdminService, Order } from '../../services/admin.service';
 
 @Component({
   selector: 'app-ordini-ricevuti',

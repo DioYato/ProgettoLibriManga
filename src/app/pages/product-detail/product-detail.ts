@@ -1,8 +1,9 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ProductsService } from '../../data/products.service';
-import { CartService } from '../../data/cart.service';
+import { ActivatedRoute, RouterLink, Router } from '@angular/router';
+import { ProductsService } from '../../services/products.service';
+import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -15,6 +16,9 @@ export class ProductDetail implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
   private readonly products = inject(ProductsService);
+  private readonly cart = inject(CartService);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   readonly tab = signal<'descrizione' | 'dettagli'>('descrizione');
 
@@ -23,7 +27,6 @@ export class ProductDetail implements OnInit {
 
   // Prodotto ottenuto dal service
   readonly product = computed(() => this.products.getById(this.id()));
-  private readonly cart = inject(CartService);
 
   constructor() {}
 
@@ -37,12 +40,19 @@ export class ProductDetail implements OnInit {
   }
 
   addToCart() {
-  const p = this.product();
-  if (!p) return;
+    const user = this.auth.getCurrentUser();
+    if (!user) {
+      alert('Devi effettuare il login per aggiungere prodotti al carrello!');
+      this.router.navigate(['/login']);
+      return;
+    }
 
-  this.cart.add(p);
-  alert('Prodotto aggiunto al carrello!');
-}
+    const p = this.product();
+    if (!p) return;
+
+    this.cart.add(p);
+    alert('Prodotto aggiunto al carrello!');
+  }
 
   imageUrl(copertina?: string) {
     if (!copertina) {

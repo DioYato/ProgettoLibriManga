@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdminService } from '../../data/admin.service';
+import { AdminService } from '../../services/admin.service';
 
 @Component({
   selector: 'app-admin-prodotti',

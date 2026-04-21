@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { CartService } from '../../data/cart.service';
+import { CartService } from '../../services/cart.service';
 import { HttpClient } from '@angular/common/http';
 
 @Component({

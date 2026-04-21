@@ -1,7 +1,7 @@
 import { Component, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminService, Order } from '../../data/admin.service';
-import { AuthService } from '../../data/auth.service';
+import { AdminService, Order } from '../../services/admin.service';
+import { AuthService } from '../../services/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({

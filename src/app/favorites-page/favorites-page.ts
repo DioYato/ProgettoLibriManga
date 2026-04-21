@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { FavoritesService } from '../data/favorites.service';
-import { ProductsService } from '../data/products.service';
-import { Product } from '../data/products.service';
+import { FavoritesService } from '../services/favorites.service';
+import { ProductsService } from '../services/products.service';
+import { Product } from '../services/products.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
