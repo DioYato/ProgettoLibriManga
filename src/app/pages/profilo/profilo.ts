@@ -5,14 +5,16 @@ import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-profilo',
-  imports: [ReactiveFormsModule,],
+  imports: [ReactiveFormsModule],
   templateUrl: './profilo.html',
   styleUrl: './profilo.css'
 })
 export class Profilo {
 
   auth = inject(AuthService);
-  users = inject(UsersService)
+  users = inject(UsersService);
+
+  welcomeMessage = '';
 
   form = new FormGroup({
     nome: new FormControl('', Validators.required),
@@ -26,12 +28,16 @@ export class Profilo {
   }
 
   ngOnInit() {
-    if (!this.isBrowser()) {
-      return;
-    }
+    if (!this.isBrowser()) return;
 
-    const user = JSON.parse(localStorage.getItem('user')!);
+    // Recupero utente dal tuo AuthService (più pulito)
+    const user = this.auth.getCurrentUser();
+
     if (user) {
+      // Messaggio di benvenuto
+      this.welcomeMessage = `Ciao ${user.nome}!`;
+
+      // Precompila il form
       this.form.patchValue({
         nome: user.nome,
         cognome: user.cognome,
@@ -51,13 +57,11 @@ export class Profilo {
       return;
     }
 
-    const stored = localStorage.getItem('user');
-    if (!stored) {
+    const user = this.auth.getCurrentUser();
+    if (!user) {
       alert('Utente non trovato.');
       return;
     }
-
-    const user = JSON.parse(stored);
 
     this.users.update(user.id, this.form.value).subscribe({
       next: () => {
