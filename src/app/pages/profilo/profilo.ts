@@ -47,11 +47,12 @@ export class Profilo implements OnInit {
   // Costruisce l'URL dell'immagine prendendola dal backend
   getProfileImage() {
     const photo = this.userSignal()?.immagineProfilo;
+    // Se la foto esiste e non è quella di default
     if (photo && photo !== 'default-avatar.png') {
-      // Assicurati che l'URL punti alla cartella del tuo backend
-      return `http://localhost:8080/uploads/${photo}`;
+      // Usiamo /images/ perché è il path definito nel buildUrl del tuo backend
+      return `http://localhost:8080/images/${photo}`;
     }
-    // Immagine di default se l'utente non ne ha una
+    // Immagine di default
     return 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
   }
 
@@ -63,12 +64,14 @@ export class Profilo implements OnInit {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('id', currentUser.id.toString());
+      
+      formData.append('tipo', 'utente'); 
 
-      this.http.post('http://localhost:8080/utenti/upload-foto', formData)
+      this.http.post('http://localhost:8080/rest/upload/image', formData)
         .subscribe({
           next: (res: any) => {
-            alert("Foto aggiornata!");
-            // Ricarica i dati utente aggiornati
+            alert("Foto aggiornata con successo!");
+            // Ricarichiamo i dati utente aggiornati per vedere la nuova immagine
             this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
               this.userSignal.set(updatedUser);
               if (isPlatformBrowser(this.platformId)) {
@@ -77,8 +80,10 @@ export class Profilo implements OnInit {
             });
           },
           error: (err: any) => {
-            console.error(err);
-            alert("Errore nel caricamento foto");
+            console.error("Dettaglio errore:", err);
+            // Mostriamo il messaggio d'errore specifico se presente
+            const msg = err.error?.msg || "Errore del server";
+            alert("Errore nel caricamento: " + msg);
           }
         });
     }
