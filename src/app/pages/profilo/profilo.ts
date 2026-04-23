@@ -48,6 +48,7 @@ export class Profilo implements OnInit {
   getProfileImage() {
     const photo = this.userSignal()?.immagineProfilo;
     if (photo && photo !== 'default-avatar.png') {
+      // Assicurati che l'URL punti alla cartella del tuo backend
       return `http://localhost:8080/uploads/${photo}`;
     }
     // Immagine di default se l'utente non ne ha una
@@ -66,20 +67,19 @@ export class Profilo implements OnInit {
       this.http.post('http://localhost:8080/utenti/upload-foto', formData)
         .subscribe({
           next: (res: any) => {
-            alert("Foto caricata con successo!");
-            
-            // Richiamiamo i dati aggiornati dal server
-            this.users.getById(currentUser.id).subscribe({
-              next: (updatedUser: any) => {
-                this.userSignal.set(updatedUser); // Aggiorna l'anteprima subito
-                if (isPlatformBrowser(this.platformId)) {
-                  localStorage.setItem('user', JSON.stringify(updatedUser));
-                }
-              },
-              error: () => location.reload() // Se getById fallisce, ricarichiamo la pagina come piano B
+            alert("Foto aggiornata!");
+            // Ricarica i dati utente aggiornati
+            this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
+              this.userSignal.set(updatedUser);
+              if (isPlatformBrowser(this.platformId)) {
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+              }
             });
           },
-          error: (err: any) => alert("Errore nel caricamento")
+          error: (err: any) => {
+            console.error(err);
+            alert("Errore nel caricamento foto");
+          }
         });
     }
   }
@@ -93,7 +93,7 @@ export class Profilo implements OnInit {
     if (!updateData.password) delete (updateData as any).password;
 
     this.users.update(currentUser.id, updateData)
-      .pipe(first()) 
+      .pipe(first())
       .subscribe({
         next: () => alert("Dati aggiornati con successo!"),
         error: (err: any) => alert('Errore durante il salvataggio')
