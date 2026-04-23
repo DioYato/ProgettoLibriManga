@@ -47,11 +47,19 @@ export class Profilo implements OnInit {
   // Costruisce l'URL dell'immagine prendendola dal backend
   getProfileImage() {
     const photo = this.userSignal()?.immagineProfilo;
+    // Se la foto esiste e non è quella di default
     if (photo && photo !== 'default-avatar.png') {
+<<<<<<< HEAD
+      // Usiamo /images/ perché è il path definito nel buildUrl del tuo backend
+      return `http://localhost:8080/images/${photo}`;
+    }
+    // Immagine di default
+=======
       // Assicurati che l'URL punti alla cartella del tuo backend
       return `http://localhost:8080/images/${photo}`;
     }
     // Immagine di default se l'utente non ne ha una
+>>>>>>> 5d0fbdbcdb758a08cbfff6b5ec84d2f2ece91647
     return 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
   }
 
@@ -60,11 +68,21 @@ export class Profilo implements OnInit {
     const currentUser = this.auth.getCurrentUser();
 
     if (file && currentUser) {
+<<<<<<< HEAD
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('id', currentUser.id.toString());
+      
+      formData.append('tipo', 'utente'); 
+
+      this.http.post('http://localhost:8080/rest/upload/image', formData)
+=======
       this.users.addImage(currentUser.id, file)
+>>>>>>> 5d0fbdbcdb758a08cbfff6b5ec84d2f2ece91647
         .subscribe({
           next: (res: any) => {
-            alert("Foto aggiornata!");
-            // Ricarica i dati utente aggiornati
+            alert("Foto aggiornata con successo!");
+            // Ricarichiamo i dati utente aggiornati per vedere la nuova immagine
             this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
               this.userSignal.set(updatedUser);
               if (isPlatformBrowser(this.platformId)) {
@@ -73,8 +91,10 @@ export class Profilo implements OnInit {
             });
           },
           error: (err: any) => {
-            console.error(err);
-            alert("Errore nel caricamento foto");
+            console.error("Dettaglio errore:", err);
+            // Mostriamo il messaggio d'errore specifico se presente
+            const msg = err.error?.msg || "Errore del server";
+            alert("Errore nel caricamento: " + msg);
           }
         });
     }
