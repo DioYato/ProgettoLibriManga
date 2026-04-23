@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admin-prodotti',
@@ -12,66 +14,137 @@ import { AdminService } from '../../services/admin.service';
 })
 export class AdminProdotti {
   private adminService = inject(AdminService);
+  private http = inject(HttpClient);
+
+  backend = 'http://localhost:8080';
 
   newProduct = {
     titolo: '',
     descrizione: '',
+    tipo: 'libro',
+    autoreNome: '',
+    autoreCognome: '',
+    casaEditrice: '',
     prezzo: 0,
     dataPubblicazione: new Date().toISOString().split('T')[0],
-    quantitaDisponibile: 10,
-    idAutore: 1,      // DEVE essere un numero di un autore esistente
-    idCasaEditrice: 1, // DEVE essere un numero di una casa editrice esistente
-    idCategorie: [1]   // DEVE essere un array di numeri di categorie esistenti
+    quantitaDisponibile: 10
   };
 
   copertina: File | null = null;
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
-    this.copertina = file;
+    this.copertina = event.target.files[0];
   }
 
-  addProduct() {
-    // Verifichiamo che i campi fondamentali ci siano
+  async addProduct() {
     if (!this.newProduct.titolo || !this.copertina) {
       alert("Manca il titolo o l'immagine!");
       return;
     }
 
-    // Assicuriamoci che i numeri siano davvero numeri e non stringhe
-    const payload = {
-      ...this.newProduct,
-      prezzo: Number(this.newProduct.prezzo),
-      idAutore: Number(this.newProduct.idAutore),
-      idCasaEditrice: Number(this.newProduct.idCasaEditrice),
-      quantitaDisponibile: Number(this.newProduct.quantitaDisponibile)
-    };
+    try {
+      const autoreId = await this.getOrCreateAutore(
+        this.newProduct.autoreNome,
+        this.newProduct.autoreCognome
+      );
 
-    this.adminService.addProduct(payload).subscribe({
-      next: (res) => {
-        this.adminService.addImageToProduct(res.id, this.copertina!).subscribe({
-          error: (err) => {
-            alert("Errore nel caricare l'immagine");
-          }
-        });
+      const casaId = await this.getOrCreateCasaEditrice(
+        this.newProduct.casaEditrice
+      );
 
-        alert('PRODOTTO AGGIUNTO! Ora è visibile nella pagina Prodotti per tutti i clienti.');
-        this.resetForm();
-      },
-      error: (err) => {
-        console.error('ERRORE 400 - Dettagli:', err);
-        alert('Errore 400: Controlla che gli ID (Autore, Casa Editrice, Categoria) siano numeri validi ed esistenti nel database.');
-      }
-    });
+      const categoriaId = this.newProduct.tipo === 'libro' ? 9 : 10;
+
+      const payload = {
+        titolo: this.newProduct.titolo,
+        descrizione: this.newProduct.descrizione,
+        prezzo: Number(this.newProduct.prezzo),
+        dataPubblicazione: this.newProduct.dataPubblicazione,
+        quantitaDisponibile: Number(this.newProduct.quantitaDisponibile),
+        idAutore: autoreId,
+        idCasaEditrice: casaId,
+        idCategorie: [categoriaId]
+      };
+
+      this.adminService.addProduct(payload).subscribe({
+        next: (res) => {
+          this.adminService.addImageToProduct(res.id, this.copertina!).subscribe();
+          alert('PRODOTTO AGGIUNTO!');
+          this.resetForm();
+        },
+        error: () => alert('Errore durante la creazione del prodotto.')
+      });
+
+    } catch (err) {
+      console.error(err);
+      alert('Errore nella gestione autore/casa editrice.');
+    }
+  }
+
+  async getOrCreateAutore(nome: string, cognome: string): Promise<number> {
+    const autori = await firstValueFrom(
+      this.http.get<any[]>(`${this.backend}/autori/list`)
+    );
+
+    const esistente = autori.find(a =>
+      a.nome.toLowerCase() === nome.toLowerCase() &&
+      a.cognome.toLowerCase() === cognome.toLowerCase()
+    );
+
+    if (esistente) return esistente.id;
+
+    await firstValueFrom(
+      this.http.post(`${this.backend}/autori/create`, { nome, cognome })
+    );
+
+    const updated = await firstValueFrom(
+      this.http.get<any[]>(`${this.backend}/autori/list`)
+    );
+
+    return updated.find(a =>
+      a.nome.toLowerCase() === nome.toLowerCase() &&
+      a.cognome.toLowerCase() === cognome.toLowerCase()
+    ).id;
+  }
+
+  async getOrCreateCasaEditrice(nome: string): Promise<number> {
+    const caseEd = await firstValueFrom(
+      this.http.get<any[]>(`${this.backend}/case_editrici/list`)
+    );
+
+    const esistente = caseEd.find(c =>
+      c.nome.toLowerCase() === nome.toLowerCase()
+    );
+
+    if (esistente) return esistente.id;
+
+    await firstValueFrom(
+      this.http.post(`${this.backend}/case_editrici/create`, { nome })
+    );
+
+    const updated = await firstValueFrom(
+      this.http.get<any[]>(`${this.backend}/case_editrici/list`)
+    );
+
+    return updated.find(c =>
+      c.nome.toLowerCase() === nome.toLowerCase()
+    ).id;
   }
 
   resetForm() {
     this.newProduct = {
-      titolo: '', descrizione: '', prezzo: 0,
+      titolo: '',
+      descrizione: '',
+      tipo: 'libro',
+      autoreNome: '',
+      autoreCognome: '',
+      casaEditrice: '',
+      prezzo: 0,
       dataPubblicazione: new Date().toISOString().split('T')[0],
-      quantitaDisponibile: 10, idAutore: 1, idCasaEditrice: 1, idCategorie: [1]
+      quantitaDisponibile: 10
     };
+
     this.copertina = null;
+
     const fileInput = document.getElementById('img') as HTMLInputElement;
     if (fileInput) fileInput.value = '';
   }

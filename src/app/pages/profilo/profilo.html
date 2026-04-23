@@ -1,9 +1,8 @@
-
-@if (welcomeMessage) {
+@if (welcomeMessage()) {
   <div class="profile-banner">
-    <h1 class="banner-title">{{ welcomeMessage }}!</h1>
+    <h1 class="banner-title">{{ welcomeMessage() }}!</h1>
     <p class="banner-subtitle">
-      Nel tuo profilo puoi salvare e gestire tutti i dettagli della tua esperienza nel nostro store.
+      Nel tuo profilo puoi salvare e gestire i tuoi dati.
     </p>
   </div>
 }
@@ -11,18 +10,31 @@
 <h2 class="profile-title">Profilo Utente</h2>
 
 <form class="profile-form" [formGroup]="form" (ngSubmit)="salva()">
+  
+  <div class="form-group">
+    <label for="nome" class="profile-label">Nome</label>
+    <input id="nome" class="profile-input" formControlName="nome">
+    @if (form.get('nome')?.invalid && form.get('nome')?.touched) {
+      <small class="error">Il nome è obbligatorio</small>
+    }
+  </div>
 
-  <label class="profile-label">Nome</label>
-  <input class="profile-input" formControlName="nome">
+  <div class="form-group">
+    <label for="cognome" class="profile-label">Cognome</label>
+    <input id="cognome" class="profile-input" formControlName="cognome">
+  </div>
 
-  <label class="profile-label">Cognome</label>
-  <input class="profile-input" formControlName="cognome">
+  <div class="form-group">
+    <label for="email" class="profile-label">Email</label>
+    <input id="email" type="email" class="profile-input" formControlName="email">
+  </div>
 
-  <label class="profile-label">Email</label>
-  <input class="profile-input" formControlName="email">
+  <div class="form-group">
+    <label for="password" class="profile-label">Nuova Password (opzionale)</label>
+    <input id="password" type="password" class="profile-input" formControlName="password">
+  </div>
 
-  <label class="profile-label">Nuova Password (opzionale)</label>
-  <input type="password" class="profile-input" formControlName="password">
-
-  <button type="submit" class="profile-button">Salva modifiche</button>
+  <button type="submit" class="profile-button" [disabled]="form.invalid">
+    Salva modifiche
+  </button>
 </form>

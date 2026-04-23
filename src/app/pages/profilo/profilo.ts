@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, inject, OnInit, PLATFORM_ID, signal, computed } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-profilo',
@@ -9,65 +11,57 @@ import { UsersService } from '../../services/users.service';
   templateUrl: './profilo.html',
   styleUrl: './profilo.css'
 })
-export class Profilo {
+export class Profilo implements OnInit {
+  private fb = inject(FormBuilder);
+  private auth = inject(AuthService);
+  private users = inject(UsersService);
+  private platformId = inject(PLATFORM_ID);
 
-  auth = inject(AuthService);
-  users = inject(UsersService);
+  // Signal per gestire lo stato dell'utente in modo reattivo
+  userSignal = signal<any>(null);
+  welcomeMessage = computed(() => this.userSignal() ? `Ciao ${this.userSignal().nome}` : '');
 
-  welcomeMessage = '';
-
-  form = new FormGroup({
-    nome: new FormControl('', Validators.required),
-    cognome: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('')
+  // Form fortemente tipizzato usando FormBuilder
+  form = this.fb.nonNullable.group({
+    nome: ['', Validators.required],
+    cognome: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['']
   });
 
-  private isBrowser(): boolean {
-    return typeof window !== 'undefined';
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadUserData();
+    }
   }
 
-  ngOnInit() {
-    if (!this.isBrowser()) return;
-
-    // Recupero utente dal tuo AuthService (più pulito)
+  private loadUserData() {
     const user = this.auth.getCurrentUser();
-
     if (user) {
-      // Messaggio di benvenuto
-      this.welcomeMessage = `Ciao ${user.nome}!`;
-
-      // Precompila il form
-      this.form.patchValue({
-        nome: user.nome,
-        cognome: user.cognome,
-        email: user.email
-      });
+      this.userSignal.set(user);
+      // patchValue è sicuro con nonNullable
+      this.form.patchValue(user);
     }
   }
 
   salva() {
-    if (this.form.invalid) {
-      alert("Compila correttamente i campi");
-      return;
-    }
+    if (this.form.invalid || !isPlatformBrowser(this.platformId)) return;
 
-    if (!this.isBrowser()) {
-      alert('Impossibile salvare dal server.');
-      return;
-    }
+    const currentUser = this.auth.getCurrentUser();
+    if (!currentUser) return;
 
-    const user = this.auth.getCurrentUser();
-    if (!user) {
-      alert('Utente non trovato.');
-      return;
-    }
+    // Estraiamo i dati dal form (senza password se vuota)
+    const updateData = { ...this.form.getRawValue() };
+    if (!updateData.password) delete (updateData as any).password;
 
-    this.users.update(user.id, this.form.value).subscribe({
-      next: () => {
-        alert("Dati aggiornati");
-      },
-      error: (err: any) => alert('Errore: ' + (err?.message || 'impossibile registrare'))
-    });
+    this.users.update(currentUser.id, updateData)
+      .pipe(first()) 
+      .subscribe({
+        next: () => alert("Dati aggiornati con successo!"),
+        error: (err) => {
+          console.error(err);
+          alert('Errore durante il salvataggio');
+        }
+      });
   }
 }
