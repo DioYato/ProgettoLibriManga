@@ -11,7 +11,6 @@ export class CardAutori {
 
   constructor(private router: Router) {} 
 
-
   Autori = [
     { id: 14, nome: 'Oscar Wilde', img: 'Oscar-Wilde-1882.png' },
     { id: 8, nome: 'Stephen King', img: 'Stephen_kingo.png' },
@@ -26,7 +25,6 @@ export class CardAutori {
       queryParams: { autore: idAutore } 
     });
   }
-
 
   scroll(direction: number) {
     const cardWidth = 300; 

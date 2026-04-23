@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, PLATFORM_ID, signal, computed } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http'; // Fondamentale per l'upload
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
 import { first } from 'rxjs';
@@ -20,11 +20,9 @@ export class Profilo implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private http = inject(HttpClient);
 
-  // Signal per gestire lo stato dell'utente
   userSignal = signal<any>(null);
   welcomeMessage = computed(() => this.userSignal() ? `Ciao ${this.userSignal().nome}` : '');
 
-  // Form fortemente tipizzato
   form = this.fb.nonNullable.group({
     nome: ['', Validators.required],
     cognome: ['', Validators.required],
@@ -46,17 +44,16 @@ export class Profilo implements OnInit {
     }
   }
 
-  // Gestione dell'immagine di profilo
+  // Costruisce l'URL dell'immagine prendendola dal backend
   getProfileImage() {
     const photo = this.userSignal()?.immagineProfilo;
     if (photo && photo !== 'default-avatar.png') {
-      // Assicurati che l'URL punti alla cartella del tuo backend
       return `http://localhost:8080/uploads/${photo}`;
     }
+    // Immagine di default se l'utente non ne ha una
     return 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
   }
 
-  // Metodo per caricare la foto
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     const currentUser = this.auth.getCurrentUser();
@@ -69,26 +66,26 @@ export class Profilo implements OnInit {
       this.http.post('http://localhost:8080/utenti/upload-foto', formData)
         .subscribe({
           next: (res: any) => {
-            alert("Foto aggiornata!");
-            // Ricarica i dati utente aggiornati
-            this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
-              this.userSignal.set(updatedUser);
-              if (isPlatformBrowser(this.platformId)) {
-                localStorage.setItem('user', JSON.stringify(updatedUser));
-              }
+            alert("Foto caricata con successo!");
+            
+            // Richiamiamo i dati aggiornati dal server
+            this.users.getById(currentUser.id).subscribe({
+              next: (updatedUser: any) => {
+                this.userSignal.set(updatedUser); // Aggiorna l'anteprima subito
+                if (isPlatformBrowser(this.platformId)) {
+                  localStorage.setItem('user', JSON.stringify(updatedUser));
+                }
+              },
+              error: () => location.reload() // Se getById fallisce, ricarichiamo la pagina come piano B
             });
           },
-          error: (err: any) => {
-            console.error(err);
-            alert("Errore nel caricamento foto");
-          }
+          error: (err: any) => alert("Errore nel caricamento")
         });
     }
   }
 
   salva() {
     if (this.form.invalid || !isPlatformBrowser(this.platformId)) return;
-
     const currentUser = this.auth.getCurrentUser();
     if (!currentUser) return;
 
@@ -99,10 +96,7 @@ export class Profilo implements OnInit {
       .pipe(first()) 
       .subscribe({
         next: () => alert("Dati aggiornati con successo!"),
-        error: (err: any) => {
-          console.error(err);
-          alert('Errore durante il salvataggio');
-        }
+        error: (err: any) => alert('Errore durante il salvataggio')
       });
   }
 }

@@ -41,7 +41,6 @@ export class Navbar {
     return this.favorites.count();
   }
 
-  // 🔥 usa solo router + query param
   onSearch(value: string) {
     const q = value.trim();
     if (!q) return;
