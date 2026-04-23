@@ -60,11 +60,7 @@ export class Profilo implements OnInit {
     const currentUser = this.auth.getCurrentUser();
 
     if (file && currentUser) {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('id', currentUser.id.toString());
-
-      this.http.post('http://localhost:8080/utenti/upload-foto', formData)
+      this.users.addImage(currentUser.id, file)
         .subscribe({
           next: (res: any) => {
             alert("Foto aggiornata!");
