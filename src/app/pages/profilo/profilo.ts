@@ -49,7 +49,7 @@ export class Profilo implements OnInit {
     const photo = this.userSignal()?.immagineProfilo;
     if (photo && photo !== 'default-avatar.png') {
       // Assicurati che l'URL punti alla cartella del tuo backend
-      return `http://localhost:8080/uploads/${photo}`;
+      return `http://localhost:8080/images/${photo}`;
     }
     // Immagine di default se l'utente non ne ha una
     return 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
