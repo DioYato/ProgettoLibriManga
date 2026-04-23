@@ -43,6 +43,10 @@ export class UsersService {
     }
   }
 
+getById(id: number) {
+  return this.http.get<any>(`http://localhost:8080/utenti/findById?id=${id}`);
+}
+
   // Aggiorna i dati dell'utente sul DB e sincronizza il carrello locale
   update(id: number, data: any) {
     const payload = { ...data, id };

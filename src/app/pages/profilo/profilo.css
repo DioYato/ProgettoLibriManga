@@ -1,108 +1,56 @@
-.profile-banner {
-  width: 100%;
-  background: #3a2fd3;
-  color: white;
-  padding: 32px 20px;
-  text-align: center;
-  margin-bottom: 30px;
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
+/* ... (tieni i tuoi stili esistenti) ... */
 
-.banner-title {
-  font-size: 32px;
-  font-weight: 700;
-  margin: 0 0 8px 0;
-}
-
-.banner-subtitle {
-  font-size: 15px;
-  opacity: 0.9;
-  margin: 0;
-}
-
-.profile-title {
-  text-align: center;
-  margin-bottom: 24px;
-  font-size: 26px;
-  font-weight: 700;
-  color: #1f2937;
-}
-
-/* --- Stili Esistenti Aggiornati --- */
-.profile-form {
-  max-width: 420px;
-  margin: 0 auto 50px auto; /* Aggiunto margine sotto */
-  padding: 30px;
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+.profile-pic-section {
   display: flex;
-  flex-direction: column;
-  gap: 20px; /* Spazio uniforme tra i gruppi */
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
-/* --- Novità: Gestione allineamento --- */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px; /* Spazio tra label e input */
-  text-align: left; /* Allinea tutto a sinistra */
-}
-
-.profile-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #374151;
-}
-
-.profile-input {
-  width: 100%; /* Fondamentale: occupa tutto lo spazio del form */
-  box-sizing: border-box; /* Evita che il padding sballi la larghezza */
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  font-size: 15px;
-  transition: all 0.2s ease;
-}
-
-.profile-input:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
-  outline: none;
-}
-
-
-
-/* --- Banner e Titoli (Ritocchi estetici) --- */
-.profile-banner {
-  width: 100%;
-  background: #3a2fd3;
-  color: white;
-  padding: 40px 20px;
-  text-align: center;
-  margin-bottom: 40px;
-  border-radius: 0 0 20px 20px;
-}
-
-.profile-button {
-  width: 100%; /* Il bottone ora è largo quanto il form */
-  padding: 14px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #4f46e5, #6366f1);
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
+.profile-pic-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
   cursor: pointer;
-  margin-top: 10px;
-  transition: all 0.2s ease;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #6366f1;
+  transition: transform 0.2s;
 }
 
-.profile-button:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+.profile-pic-wrapper:hover {
+  transform: scale(1.05);
 }
 
+.profile-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 35%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.profile-pic-wrapper:hover .overlay {
+  opacity: 1;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 5px;
+}
