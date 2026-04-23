@@ -21,6 +21,10 @@ export class Navbar {
   readonly isAdmin = computed(() => this.user()?.ruolo === 'ADMIN');
   readonly isLoggedNonAdmin = computed(() => !!this.user() && !this.isAdmin());
 
+  private readonly cart = inject(CartService);
+
+  constructor(private favorites: FavoritesService) {}
+
   logout() {
     this.auth.logout();
   }
@@ -29,18 +33,18 @@ export class Navbar {
     this.router.navigate(['/profilo']);
   }
 
-private readonly cart = inject(CartService);
-
   readonly cartCount = computed(() =>
-  this.cart.all().reduce((sum, item) => sum + item.quantity, 0)
-);
+    this.cart.all().reduce((sum, item) => sum + item.quantity, 0)
+  );
 
-constructor(private favorites: FavoritesService) {}
+  favoritesCount() {
+    return this.favorites.count();
+  }
 
-favoritesCount() {
-  return this.favorites.count();
+  // 🔥 usa solo router + query param
+  onSearch(value: string) {
+    const q = value.trim();
+    if (!q) return;
+    this.router.navigate(['/products'], { queryParams: { q } });
+  }
 }
-
-
-}
-

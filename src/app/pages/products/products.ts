@@ -1,7 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop'; 
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ProductsService } from '../../services/products.service';
 import { FiltersComponent, ProductFilters } from '../filters/filters.component';
 import { FavoritesService } from '../../services/favorites.service';
@@ -30,44 +30,49 @@ export class Products implements OnInit {
     genres: [] as number[]
   };
 
-  private readonly user = toSignal(this.authService.user$, { 
-    initialValue: this.authService.getCurrentUser() 
+  private readonly user = toSignal(this.authService.user$, {
+    initialValue: this.authService.getCurrentUser()
   });
 
   readonly isModerator = computed(() => this.user()?.ruolo === 'ADMIN');
 
   readonly products = computed(() => {
     const q = this.query().trim().toLowerCase();
-    const items = this.productsService.all(); 
+    const items = this.productsService.all();
     if (!q) return items;
     return items.filter((p) => p.titolo.toLowerCase().includes(q));
   });
 
- ngOnInit() {
-  this.route.queryParams.subscribe(params => {
-    const genereNome = params['genere'];
-    const autoreNome = params['autore'];
-    const categoriaId = params['categoriaId']; 
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      const genereNome = params['genere'];
+      const autoreNome = params['autore'];
+      const categoriaId = params['categoriaId'];
+      const q = params['q'];
 
-    if (autoreNome) {
-      this.productsService.loadFromBackend(this.sort(), [], autoreNome);
-    } 
-    else if (categoriaId) {
-      this.productsService.loadFromBackend(this.sort(), [Number(categoriaId)]);
-    }
-    else if (genereNome) {
-      const idGenere = this.mappaNomeAdId(genereNome);
-      if (idGenere) {
-        this.productsService.loadFromBackend(this.sort(), [idGenere]);
-      } else {
+      if (q) {
+        this.query.set(q);
+      }
+
+      if (autoreNome) {
+        this.productsService.loadFromBackend(this.sort(), [], autoreNome);
+      }
+      else if (categoriaId) {
+        this.productsService.loadFromBackend(this.sort(), [Number(categoriaId)]);
+      }
+      else if (genereNome) {
+        const idGenere = this.mappaNomeAdId(genereNome);
+        if (idGenere) {
+          this.productsService.loadFromBackend(this.sort(), [idGenere]);
+        } else {
+          this.productsService.loadFromBackend(this.sort());
+        }
+      }
+      else {
         this.productsService.loadFromBackend(this.sort());
       }
-    } 
-    else {
-      this.productsService.loadFromBackend(this.sort());
-    }
-  });
-}
+    });
+  }
 
   private mappaNomeAdId(nome: string): number | null {
     const mappa: { [key: string]: number } = {
@@ -92,8 +97,8 @@ export class Products implements OnInit {
     }
   }
 
-  onSearch(value: string) { 
-    this.query.set(value); 
+  onSearch(value: string) {
+    this.query.set(value);
   }
 
   onSortChange(event: Event) {
@@ -101,6 +106,7 @@ export class Products implements OnInit {
     this.sort.set(value);
     this.productsService.loadFromBackend(value, this.filters.genres, undefined);
   }
+
   onFiltersChange(filters: ProductFilters) {
     this.filters = filters;
     this.productsService.loadFromBackend(
