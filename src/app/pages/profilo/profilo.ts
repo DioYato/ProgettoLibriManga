@@ -60,22 +60,23 @@ export class Profilo implements OnInit {
     const currentUser = this.auth.getCurrentUser();
 
     if (file && currentUser) {
-      this.users.addImage(currentUser.id, file).subscribe({
-        next: (res: any) => {
-          alert("Foto aggiornata!");
-          // Ricarica i dati utente aggiornati
-          this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
-            this.userSignal.set(updatedUser);
-            if (isPlatformBrowser(this.platformId)) {
-              localStorage.setItem('user', JSON.stringify(updatedUser));
-            }
-          });
-        },
-        error: (err: any) => {
-          console.error(err);
-          alert("Errore nel caricamento foto");
-        }
-      });
+      this.users.addImage(currentUser.id, file)
+        .subscribe({
+          next: (res: any) => {
+            alert("Foto aggiornata!");
+            // Ricarica i dati utente aggiornati
+            this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
+              this.userSignal.set(updatedUser);
+              if (isPlatformBrowser(this.platformId)) {
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+              }
+            });
+          },
+          error: (err: any) => {
+            console.error(err);
+            alert("Errore nel caricamento foto");
+          }
+        });
     }
   }
 
