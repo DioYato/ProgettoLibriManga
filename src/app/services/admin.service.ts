@@ -86,6 +86,7 @@ export class AdminService {
     const formData = new FormData();
     formData.append('file', image);
     formData.append('id', productId.toString());
+    formData.append('tipo', 'libro');
     return this.http.post(`${this.api}/rest/upload/image`, formData);
   }
 }
