@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 export interface User {
   id: number;
@@ -70,5 +70,13 @@ getById(id: number) {
         
       })
     );
+  }
+
+  addImage(id: number, image: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('id', id.toString());
+    formData.append('tipo', 'utente');
+    return this.http.post('http://localhost:8080/rest/upload/image', formData);
   }
 }
