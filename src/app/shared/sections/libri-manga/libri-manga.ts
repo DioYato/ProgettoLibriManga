@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manga-section',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './libri-manga.html',
   styleUrl: './libri-manga.css',
@@ -21,7 +20,6 @@ export class MangaSectionComponent implements OnInit {
     return tutti.filter(p => p.id >= 21 && p.id <= 27);
   });
   
-
   ngOnInit() {
     this.productsService.loadFromBackend();
   }
@@ -35,7 +33,6 @@ export class MangaSectionComponent implements OnInit {
    return `http://localhost:8080/images/${copertina}`;
    }
 
-   
   scroll(direction: number) {
     const scrollAmount = 320; 
     this.carousel.nativeElement.scrollBy({
