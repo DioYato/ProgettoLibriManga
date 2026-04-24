@@ -5,26 +5,51 @@
     <p>Nessun ordine ricevuto.</p>
   } @else {
     <div class="orders-list">
+
       @for (order of orders(); track order.id) {
+
         <div class="order-card">
+
+          <!-- HEADER -->
           <div class="order-header">
-            <h3>Ordine #{{ order.id }}</h3>
-            <span class="order-date">{{ order.date }}</span>
+            <div class="order-header-left">
+              <h3>Ordine #{{ order.id }}</h3>
+              <span class="order-date">📅 {{ order.date }}</span>
+            </div>
+
+            <div class="order-status-badge status-{{ order.status }}">
+              {{ order.status }}
+            </div>
           </div>
-          <div class="order-user">
-            <strong>Utente:</strong> {{ order.userName }} (ID: {{ order.userId }})
+
+          <!-- UTENTE -->
+          <div class="order-section">
+            <strong>👤 Utente:</strong>
+            <span>{{ order.userName }} (ID: {{ order.userId }})</span>
           </div>
-          <div class="order-products">
-            <strong>Prodotti:</strong>
-            <ul>
+
+          <!-- PRODOTTI -->
+          <div class="order-section">
+            <strong>🧺 Prodotti:</strong>
+
+            <div class="order-products-table">
               @for (product of order.products; track product.id) {
-                <li>{{ product.name }} - Quantità: {{ product.quantity }} - Prezzo: €{{ product.price }}</li>
+                <div class="order-product-row">
+                  <div class="op-name">{{ product.name }}</div>
+                  <div class="op-qty">Quantità: {{ product.quantity }}</div>
+                  <div class="op-price">€{{ product.price }}</div>
+                </div>
               }
-            </ul>
+            </div>
           </div>
+
+          <!-- TOTALE -->
           <div class="order-total">
-            <strong>Totale: €{{ order.total }}</strong>
+            <strong>Totale:</strong>
+            <span class="total-amount">€{{ order.total }}</span>
           </div>
+
+          <!-- CAMBIO STATO -->
           <div class="order-status">
             <strong>Stato:</strong>
             <select [value]="order.status" (change)="updateStatus(order, $any($event.target).value)">
@@ -35,8 +60,11 @@
               <option value="CANCELLED">Annullato</option>
             </select>
           </div>
+
         </div>
+
       }
+
     </div>
   }
 </div>

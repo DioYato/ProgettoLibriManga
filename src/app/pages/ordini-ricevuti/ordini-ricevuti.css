@@ -1,6 +1,7 @@
+/* CONTAINER */
 .orders-container {
   padding: 20px;
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   font-family: "Inter", system-ui, sans-serif;
 }
@@ -9,86 +10,151 @@
   text-align: center;
   margin-bottom: 35px;
   font-size: 2rem;
-  font-weight: 600;
-  color: #222;
+  font-weight: 700;
+  color: #1f2937;
 }
 
+/* LISTA ORDINI */
 .orders-list {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 26px;
 }
 
+/* CARD */
 .order-card {
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
-  padding: 22px;
-  background: #fff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 22px 26px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .order-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.10);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.10);
 }
 
+/* HEADER */
 .order-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 
-.order-header h3 {
+.order-header-left h3 {
   margin: 0;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #333;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
 }
 
 .order-date {
-  color: #777;
+  display: block;
   font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 4px;
 }
 
-.order-user,
-.order-products,
-.order-total,
-.order-status {
-  margin-bottom: 12px;
+/* BADGE STATO */
+.order-status-badge {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white;
+}
+
+.status-PENDING { background: #f59e0b; }
+.status-PROCESSING { background: #3b82f6; }
+.status-SHIPPED { background: #6366f1; }
+.status-DELIVERED { background: #10b981; }
+.status-CANCELLED { background: #ef4444; }
+
+/* SEZIONI */
+.order-section {
+  margin-bottom: 18px;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.order-section strong {
+  color: #111827;
+}
+
+/* TABELLA PRODOTTI */
+.order-products-table {
+  margin-top: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.order-product-row {
+  display: grid;
+  grid-template-columns: 1.6fr 0.7fr 0.7fr;
+  padding: 10px 14px;
+  border-bottom: 1px solid #f3f4f6;
+  background: #fff;
   font-size: 0.95rem;
 }
 
-.order-products ul {
-  margin: 6px 0;
-  padding-left: 22px;
+.order-product-row:last-child {
+  border-bottom: none;
 }
 
-.order-products li {
-  margin-bottom: 4px;
+.op-name {
+  font-weight: 600;
+  color: #111827;
 }
 
-.order-total strong {
-  font-size: 1.05rem;
-  color: #111;
+.op-qty {
+  color: #374151;
+}
+
+.op-price {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* TOTALE */
+.order-total {
+  margin-top: 14px;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  color: #111827;
+}
+
+.total-amount {
+  color: #b91c1c;
+}
+
+/* SELECT STATO */
+.order-status {
+  margin-top: 16px;
+  font-size: 0.95rem;
 }
 
 .order-status select {
   margin-left: 10px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #fafafa;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .order-status select:hover {
-  border-color: #888;
+  border-color: #6b7280;
 }
 
 .order-status select:focus {
   outline: none;
-  border-color: #333;
-  background: #fff;
+  border-color: #111827;
+  background: #ffffff;
 }

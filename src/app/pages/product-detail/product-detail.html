@@ -1,78 +1,67 @@
 <section class="pdp">
   @if (product(); as p) {
 
-    <div class="pdp__crumbs">
+    <div class="pdp__crumbs pdp__crumbs--big">
       <a routerLink="/products" class="pdp__crumb">Prodotti</a>
-      <span class="pdp__sep">/</span>
+      <span class="pdp__sep">›</span>
       <span class="pdp__current">{{ p.titolo }}</span>
     </div>
 
     <div class="pdp__grid">
+
+  
       <div class="pdp__media">
-        <img class="pdp__thumb" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
         <img class="pdp__cover" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
       </div>
 
       <div class="pdp__info">
-        <div class="pdp__metaRow">
-          <span class="pdp__tag">Libro</span>
-        </div>
+
+        <span class="pdp__tag">#1 più venduto</span>
 
         <h1 class="pdp__title">{{ p.titolo }}</h1>
 
         <a class="pdp__author" href="#" (click)="$event.preventDefault()">
-          {{ p.autore.nome }} {{ p.autore.cognome }}
+          {{ $any(p).autore?.nome || '' }} {{ $any(p).autore?.cognome || '' }}
         </a>
+
+        <div class="pdp__ratingRow">
+          <span class="pdp__stars">⭐⭐⭐⭐⭐</span>
+          <span class="pdp__ratingCount">770 recensioni</span>
+        </div>
 
         <div class="pdp__bullets">
           <div class="pdp__bullet">
-            <span class="dot dot--ok" aria-hidden="true"></span>
-            <span>Disponibile</span>
+            <span class="dot dot--ok"></span>
+            Disponibile
           </div>
           <div class="pdp__bullet">
-            <span class="dot dot--sale" aria-hidden="true"></span>
-            <span>5% su libri online</span>
+            <span class="dot dot--sale"></span>
+            5% su libri online
           </div>
         </div>
 
-        <div class="pdp__price">
-          €{{ p.prezzo | number: '1.2-2' }}
+        <div class="pdp__longDesc">
+          {{ p.descrizione }}
         </div>
+
+      </div>
+
+      <div class="pdp__buyBox">
+        <div class="pdp__price">
+          €{{ p.prezzo | number:'1.2-2' }}
+        </div>
+
+        <div class="pdp__ship">Spedizione gratuita</div>
 
         <button class="pdp__cta" type="button" (click)="addToCart()">
           Aggiungi al carrello
         </button>
 
         <div class="pdp__note">
-          Articolo acquistabile con i buoni Carta Cultura o Carta Docente
+          Articolo acquistabile con Carta Cultura o Carta Docente
         </div>
       </div>
-    </div>
 
-    <div class="pdp__tabs">
-      <button
-        class="pdp__tab"
-        [class.is-active]="tab() === 'descrizione'"
-        type="button"
-        (click)="setTab('descrizione')"
-      >
-        Descrizione
-      </button>
-
-      <button
-        class="pdp__tab"
-        [class.is-active]="tab() === 'dettagli'"
-        type="button"
-        (click)="setTab('dettagli')"
-      >
-        Dettagli
-      </button>
-    </div>
-
-    <div class="pdp__panel">
-      @if (tab() === 'descrizione') {
-        <p class="pdp__text">{{ p.descrizione }}</p>
-      }
     </div>
 
   } @else {
@@ -82,5 +71,4 @@
     </div>
   }
 </section>
-
 

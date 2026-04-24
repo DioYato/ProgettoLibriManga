@@ -1,18 +1,69 @@
-<h2 class="profile-title">Profilo Utente</h2>
+<div class="profile-page-container">
+  @if (welcomeMessage()) {
+    <div class="profile-banner">
+      <div class="banner-content">
+        <h1 class="banner-title">{{ welcomeMessage() }}!</h1>
+        <p class="banner-subtitle">Gestisci le tue informazioni personali e la tua sicurezza.</p>
+      </div>
+    </div>
+  }
 
-<form class="profile-form" [formGroup]="form" (ngSubmit)="salva()">
+  <div class="profile-card">
+    <div class="card-header">
+      <h2 class="card-title">Il Tuo Profilo</h2>
+      <p class="card-desc">Modifica i dettagli del tuo account</p>
+    </div>
 
-  <label class="profile-label">Nome</label>
-  <input class="profile-input" formControlName="nome">
+    <form class="profile-form" [formGroup]="form" (ngSubmit)="salva()">
+      
+      <!-- SEZIONE FOTO -->
+      <div class="photo-upload-section">
+        <div class="photo-wrapper" (click)="fileInput.click()" title="Clicca per cambiare foto">
+          <img [src]="getProfileImage()" class="photo-img" alt="Profilo">
+          <div class="photo-overlay">
+            <i class="camera-icon">📷</i>
+            <span>Aggiorna</span>
+          </div>
+        </div>
+        <input #fileInput type="file" hidden accept="image/*" (change)="onFileSelected($event)">
+      </div>
 
-  <label class="profile-label">Cognome</label>
-  <input class="profile-input" formControlName="cognome">
+      <!-- CAMPI INPUT -->
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Nome</label>
+          <div class="input-wrapper">
+            <input class="form-input" formControlName="nome" placeholder="Inserisci nome">
+          </div>
+        </div>
 
-  <label class="profile-label">Email</label>
-  <input class="profile-input" formControlName="email">
+        <div class="form-group">
+          <label class="form-label">Cognome</label>
+          <div class="input-wrapper">
+            <input class="form-input" formControlName="cognome" placeholder="Inserisci cognome">
+          </div>
+        </div>
 
-  <label class="profile-label">Nuova Password (opzionale)</label>
-  <input type="password" class="profile-input" formControlName="password">
+        <div class="form-group full-width">
+          <label class="form-label">Email</label>
+          <div class="input-wrapper">
+            <input type="email" class="form-input" formControlName="email" placeholder="nome@esempio.com">
+          </div>
+        </div>
 
-  <button type="submit" class="profile-button">Salva modifiche</button>
-</form>
+        <div class="form-group full-width">
+          <label class="form-label">Nuova Password</label>
+          <div class="input-wrapper">
+            <input type="password" class="form-input" formControlName="password" placeholder="Lascia vuoto per non cambiare">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-save" [disabled]="form.invalid">
+          Salva Modifiche
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,19 +1,15 @@
-<!-- PULSANTE FLOTTANTE -->
 <div class="chat-button" (click)="toggleChat()">
   💬
 </div>
 
-<!-- FINESTRA CHAT -->
 @if (isOpen()) {
   <div class="chat-window">
 
-    <!-- HEADER -->
     <div class="chat-header">
       <span>Chatta con noi</span>
       <button class="close-btn" (click)="toggleChat()">✖</button>
     </div>
 
-    <!-- AREA MESSAGGI -->
     <div class="messages">
       @for (m of messages(); track $index) {
         <div class="{{ m.from }}">
@@ -22,7 +18,6 @@
       }
     </div>
 
-    <!-- INPUT -->
     <div class="input-area">
       <input 
         [value]="userMessage()" 
