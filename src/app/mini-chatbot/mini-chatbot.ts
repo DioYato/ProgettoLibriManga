@@ -3,7 +3,6 @@ import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-mini-chatbot',
-  standalone: true,
   templateUrl: './mini-chatbot.html',
   styleUrls: ['./mini-chatbot.css']
 })
