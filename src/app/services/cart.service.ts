@@ -1,5 +1,4 @@
-import { Injectable, signal, computed, effect, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { computed, effect, Injectable, signal } from '@angular/core';
 import { Product } from './products.service';
 
 export type CartItem = {
@@ -23,20 +22,16 @@ export class CartService {
     this.items().reduce((sum, item) => sum + item.quantity, 0)
   );
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor() {
     // Caricamento iniziale sicuro solo lato client
-    if (isPlatformBrowser(this.platformId)) {
-      const stored = localStorage.getItem('cart');
-      if (stored) {
-        this.items.set(JSON.parse(stored));
-      }
+    const stored = localStorage.getItem('cart');
+    if (stored) {
+      this.items.set(JSON.parse(stored));
     }
 
     // Sincronizzazione automatica con localStorage solo nel browser
     effect(() => {
-      if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem('cart', JSON.stringify(this.items()));
-      }
+      localStorage.setItem('cart', JSON.stringify(this.items()));
     });
   }
 

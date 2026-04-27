@@ -1,8 +1,7 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 
 export interface User {
   id: number;
@@ -15,38 +14,16 @@ export interface User {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  // Stato dell'utente corrente
-  private userSubject = new BehaviorSubject<User | null>(null);
-  public user$ = this.userSubject.asObservable();
+  private readonly _user = signal<User | undefined>(undefined);
+
+  public readonly user = this._user.asReadonly();
 
   private api = 'http://localhost:8080/utenti';
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object // Identifica la piattaforma (Server o Browser)
-  ) {
-    this.hydrateUser();
-  }
-
-  // Restituisce true se il codice è in esecuzione nel browser
-  private isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
-  }
-
-  // Ripristina la sessione dal localStorage all'avvio
-  private hydrateUser() {
-    if (this.isBrowser()) {
-      const stored = localStorage.getItem('user');
-      if (stored) {
-        try {
-          this.userSubject.next(JSON.parse(stored));
-        } catch (e) {
-          localStorage.removeItem('user');
-        }
-      }
-    }
-  }
+  ) { }
 
   // Registrazione nuovo utente
   register(data: any): Observable<any> {
@@ -56,36 +33,17 @@ export class AuthService {
   // Login utente e persistenza sessione
   login(credentials: { email: string; password: string }): Observable<User> {
     return this.http.post<User>(`${this.api}/login`, credentials).pipe(
-      tap((user) => {
-        if (this.isBrowser() && user) {
-          localStorage.setItem('user', JSON.stringify(user));
-        }
-        this.userSubject.next(user);
-      })
+      tap((user) => this._user.set(user))
     );
   }
 
   // Logout e pulizia dati locali
   logout(): void {
-    if (this.isBrowser()) {
-      localStorage.removeItem('user');
-    }
-    this.userSubject.next(null);
+    this._user.set(undefined)
     this.router.navigate(['/']);
   }
 
-  // Controllo rapido stato autenticazione
-  isLoggedIn(): boolean {
-    return !!this.userSubject.value;
-  }
-
-  // Ritorna l'utente attualmente loggato
-  getCurrentUser(): User | null {
-    return this.userSubject.value;
-  }
-
   sendResetEmail(email: string) {
-  return this.http.post('http://localhost:8080/auth/reset-password', { email });
-}
-
+    return this.http.post('http://localhost:8080/auth/reset-password', { email });
+  }
 }

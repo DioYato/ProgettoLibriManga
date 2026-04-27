@@ -1,5 +1,4 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, PLATFORM_ID, inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { ProductsService } from '../../services/products.service';
 import { MostWanted } from "../../shared/sections/most-wanted/most-wanted";
 import { CartTipologia } from "../../shared/sections/cart-tipologia/cart-tipologia";
@@ -20,14 +19,12 @@ import { MiniChatbotComponent } from "../../mini-chatbot/mini-chatbot";
 })
 
 export class Home implements AfterViewInit {
-  private readonly platformId = inject(PLATFORM_ID);
-
   @ViewChild('koboVideo') vRef!: ElementRef<HTMLVideoElement>;
 
   constructor(private readonly productsService: ProductsService) {}
 
   ngAfterViewInit() {
-    if (!isPlatformBrowser(this.platformId) || !this.vRef?.nativeElement) {
+    if (!this.vRef?.nativeElement) {
       return;
     }
 

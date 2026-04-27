@@ -1,5 +1,5 @@
-import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { computed, Injectable, signal } from '@angular/core';
 import { catchError, map, of } from 'rxjs';
 
 interface FavoriteRequest {
@@ -19,15 +19,7 @@ export class FavoritesService {
     this.initFavorites();
   }
 
-  // Verifica se siamo nel browser o sul server
-  private isBrowser(): boolean {
-    return typeof window !== 'undefined';
-  }
-
-  // Inizializzazione sicura per SSR
   private initFavorites() {
-    if (!this.isBrowser()) return;
-
     const userId = this.getUserId();
     // Pulizia vecchia chiave generica se esiste un utente loggato
     if (userId && localStorage.getItem('favorites')) {
@@ -38,9 +30,7 @@ export class FavoritesService {
     this._ids.set(this.loadFromStorage());
   }
 
-  // Estrae l'ID utente dal profilo salvato
   private getUserId(): number | null {
-    if (!this.isBrowser()) return null;
     const stored = localStorage.getItem('user');
     if (!stored) return null;
     try {
@@ -58,7 +48,6 @@ export class FavoritesService {
 
   // Legge i dati dal localStorage in modo sicuro
   private loadFromStorage(): number[] {
-    if (!this.isBrowser()) return [];
     try {
       const data = localStorage.getItem(this.getStorageKey());
       return data ? JSON.parse(data) : [];
@@ -69,9 +58,7 @@ export class FavoritesService {
 
   // Salva i dati nel localStorage in modo sicuro
   private saveToStorage(ids: number[]) {
-    if (this.isBrowser()) {
-      localStorage.setItem(this.getStorageKey(), JSON.stringify(ids));
-    }
+    localStorage.setItem(this.getStorageKey(), JSON.stringify(ids));
   }
 
   // --- Chiamate al Backend ---

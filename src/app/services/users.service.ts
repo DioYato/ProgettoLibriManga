@@ -1,6 +1,5 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 export interface User {
@@ -24,33 +23,26 @@ export class UsersService {
 
   constructor(
     private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.initUser();
   }
 
-  private isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
-  }
-
   // Caricamento iniziale sicuro per SSR
   private initUser() {
-    if (this.isBrowser()) {
-      const stored = localStorage.getItem('user');
-      if (stored) {
-        this.userSubject.next(JSON.parse(stored));
-      }
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      this.userSubject.next(JSON.parse(stored));
     }
   }
 
-getById(id: number) {
-  return this.http.get<any>(`http://localhost:8080/utenti/findById?id=${id}`);
-}
+  getById(id: number) {
+    return this.http.get<any>(`http://localhost:8080/utenti/findById?id=${id}`);
+  }
 
   // Aggiorna i dati dell'utente sul DB e sincronizza il carrello locale
   update(id: number, data: any) {
     const payload = { ...data, id };
-    
+
     // Rimuove la password se non è stata modificata
     if (payload.password === '') {
       delete payload.password;
@@ -62,12 +54,10 @@ getById(id: number) {
         const finalUser = { ...updatedUser, ...payload };
         delete finalUser.password;
 
-        if (this.isBrowser()) {
-          localStorage.setItem('user', JSON.stringify(finalUser));
-        }
-        
+        localStorage.setItem('user', JSON.stringify(finalUser));
+
         this.userSubject.next(finalUser);
-        
+
       })
     );
   }

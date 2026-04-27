@@ -40,11 +40,6 @@ export class Cart {
   sendOrder() {
     const items = this.cart.all(); // prodotti nel carrello
 
-    if (!this.isBrowser()) {
-      alert('Impossibile inviare ordine dal server.');
-      return;
-    }
-
     const stored = localStorage.getItem('user');
     if (!stored) {
       alert('Devi essere loggato per inviare un ordine.');
@@ -70,10 +65,6 @@ export class Cart {
         alert('Errore durante l’invio dell’ordine.');
       }
     });
-  }
-
-  private isBrowser(): boolean {
-    return typeof window !== 'undefined';
   }
 }
 

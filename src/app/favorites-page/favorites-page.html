@@ -5,15 +5,15 @@
     @for (p of items(); track p.id) {
       <article class="p-card">
         <a class="p-cardLink" [routerLink]="['/products', p.id]">
-          <img class="p-card__img" [src]="imageUrl(p.copertina || '')" />
+          @if (p.copertina) {
+            <img class="p-card__img" [src]="imageUrl(p.copertina)" />
+          }
           <h3>{{ p.titolo }}</h3>
           <p>{{ p.autore.nome }} {{ p.autore.cognome }}</p>
         </a>
       </article>
+    } @empty {
+      <p class="empty">Nessun preferito salvato.</p>
     }
   </div>
-
- @if (items().length === 0) {
-  <p class="empty">Nessun preferito salvato.</p>
-}
 </section>

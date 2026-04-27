@@ -20,7 +20,6 @@ export class Products implements OnInit {
   private readonly productsService = inject(ProductsService);
   private readonly favorites = inject(FavoritesService);
   private readonly adminService = inject(AdminService);
-  private readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
 
   readonly query = signal('');
@@ -30,12 +29,11 @@ export class Products implements OnInit {
     genres: [] as number[]
   };
 
-  private readonly user = toSignal(this.authService.user$, {
-    initialValue: this.authService.getCurrentUser()
-  });
+  private readonly user = inject(AuthService).user;
 
   readonly isModerator = computed(() => this.user()?.ruolo === 'ADMIN');
 
+  // La ricerca si fa lato server tramite query, non sul client con tutti i dati, è una follia
   readonly products = computed(() => {
     const q = this.query().trim().toLowerCase();
     const items = this.productsService.all();

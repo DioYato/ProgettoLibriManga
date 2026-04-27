@@ -13,7 +13,7 @@
         <button routerLink="ordini-effettuati" class="button_navbar">Ordini Effettuati</button>
       }
 
-      @if (!(auth.user$ | async)) {
+      @if (!auth.user()) {
         <button routerLink="login" class="button_navbar">Login</button>
       } @else {
         <button class="button_navbar" (click)="logout()">Logout</button>
@@ -41,7 +41,7 @@
       </button>
     }
 
-    @if (auth.user$ | async) {
+    @if (auth.user()) {
       <button class="img_cart_cont" (click)="goToProfile()" title="Profilo">
         <img class="profile-icon"
              src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
@@ -64,3 +64,5 @@
     </button>
   </div>
 </nav>
+
+

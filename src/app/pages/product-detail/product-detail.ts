@@ -28,7 +28,7 @@ export class ProductDetail implements OnInit {
   // Prodotto ottenuto dal service
   readonly product = computed(() => this.products.getById(this.id()));
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     // Carica i prodotti dal backend se non sono già presenti
@@ -40,7 +40,7 @@ export class ProductDetail implements OnInit {
   }
 
   addToCart() {
-    const user = this.auth.getCurrentUser();
+    const user = this.auth.user;
     if (!user) {
       alert('Devi effettuare il login per aggiungere prodotti al carrello!');
       this.router.navigate(['/login']);

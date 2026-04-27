@@ -1,10 +1,8 @@
-import { Component, inject, OnInit, PLATFORM_ID, signal, computed } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { first } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
-import { first } from 'rxjs';
 
 @Component({
   selector: 'app-profilo',
@@ -18,7 +16,6 @@ export class Profilo implements OnInit {
   private auth = inject(AuthService);
   private users = inject(UsersService);
   private platformId = inject(PLATFORM_ID);
-  private http = inject(HttpClient);
 
   userSignal = signal<any>(null);
   welcomeMessage = computed(() => this.userSignal() ? `Ciao ${this.userSignal().nome}` : '');
@@ -31,13 +28,11 @@ export class Profilo implements OnInit {
   });
 
   ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.loadUserData();
-    }
+    this.loadUserData();
   }
 
   private loadUserData() {
-    const user = this.auth.getCurrentUser();
+    const user = this.auth.user();
     if (user) {
       this.userSignal.set(user);
       this.form.patchValue(user);
@@ -58,7 +53,7 @@ export class Profilo implements OnInit {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    const currentUser = this.auth.getCurrentUser();
+    const currentUser = this.auth.user();
 
     if (file && currentUser) {
       this.users.addImage(currentUser.id, file)
@@ -68,9 +63,7 @@ export class Profilo implements OnInit {
             // Ricarichiamo i dati utente aggiornati per vedere la nuova immagine
             this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
               this.userSignal.set(updatedUser);
-              if (isPlatformBrowser(this.platformId)) {
-                localStorage.setItem('user', JSON.stringify(updatedUser));
-              }
+              localStorage.setItem('user', JSON.stringify(updatedUser));
             });
           },
           error: (err: any) => {
@@ -84,8 +77,8 @@ export class Profilo implements OnInit {
   }
 
   salva() {
-    if (this.form.invalid || !isPlatformBrowser(this.platformId)) return;
-    const currentUser = this.auth.getCurrentUser();
+    if (this.form.invalid) return;
+    const currentUser = this.auth.user();
     if (!currentUser) return;
 
     const updateData = { ...this.form.getRawValue() };

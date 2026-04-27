@@ -12,19 +12,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class OrdiniEffettuati {
 
-  private adminService = inject(AdminService);
-  private authService = inject(AuthService);
+  private readonly adminService = inject(AdminService);
   
-  readonly user = toSignal(this.authService.user$, { initialValue: null });
-  orders = signal<Order[]>([]);
+  private readonly _user = inject(AuthService).user;
+  
+  protected readonly orders = signal<Order[]>([]);
 
   constructor() {
-    effect(() => {
-      const user = this.user();
-      if (user?.id) {
-        this.loadOrders(user.id);
-      }
-    });
+    this.loadOrders(this._user()!.id);
   }
 
   private loadOrders(userId: number) {
