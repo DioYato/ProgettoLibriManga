@@ -9,39 +9,51 @@
 
     <div class="pdp__grid">
 
-  
       <div class="pdp__media">
         <img class="pdp__cover" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
       </div>
 
       <div class="pdp__info">
 
-        <span class="pdp__tag">#1 più venduto</span>
+        <h4 class="pdp__tag">#1 più venduto</h4>
+
+        <div class="pdp__subHeader">
+          <span class="pdp__catLabel">{{ productType() }}</span>
+          <span class="pdp__pipe">|</span>
+          <span class="pdp__authorName">{{ p.autore?.nome }} {{ p.autore?.cognome }}</span>
+        </div>
 
         <h1 class="pdp__title">{{ p.titolo }}</h1>
-
-        <a class="pdp__author" href="#" (click)="$event.preventDefault()">
-          {{ $any(p).autore?.nome || '' }} {{ $any(p).autore?.cognome || '' }}
-        </a>
 
         <div class="pdp__ratingRow">
           <span class="pdp__stars">⭐⭐⭐⭐⭐</span>
           <span class="pdp__ratingCount">770 recensioni</span>
         </div>
 
-        <div class="pdp__bullets">
-          <div class="pdp__bullet">
-            <span class="dot dot--ok"></span>
-            Disponibile
-          </div>
-          <div class="pdp__bullet">
-            <span class="dot dot--sale"></span>
-            5% su libri online
-          </div>
+        <hr class="pdp__divider">
+
+        <div class="pdp__availability" [class.pdp__availability--red]="p.quantitaDisponibile === 0">
+           @if (p.quantitaDisponibile > 0) {
+             <span class="pdp__statusText">Disponibilità immediata</span>
+             <span class="pdp__qtyText">({{ p.quantitaDisponibile }} unità disponibili)</span>
+           } @else {
+             <span class="pdp__statusText">Attualmente non disponibile</span>
+           }
         </div>
 
-        <div class="pdp__longDesc">
-          {{ p.descrizione }}
+        <div class="pdp__descriptionBox">
+          <h3>Descrizione:</h3>
+          <p>{{ p.descrizione }}</p>
+        </div>
+
+        <div class="pdp__bonus">
+          <div class="pdp__bonusIcons">
+            <img src="carte-cultura.jpg" alt="18app">
+            <img src="carta-docente.jpg" alt="Docente">
+          </div>
+          <p class="pdp__bonusText">
+            Articolo acquistabile con i buoni <strong>Carta Cultura</strong> o <strong>Carta Docente</strong>.
+          </p>
         </div>
 
       </div>
@@ -50,16 +62,11 @@
         <div class="pdp__price">
           €{{ p.prezzo | number:'1.2-2' }}
         </div>
-
-        <div class="pdp__ship">Spedizione gratuita</div>
-
+        <div class="pdp__ship">Spedizione <strong>gratuita</strong></div>
         <button class="pdp__cta" type="button" (click)="addToCart()">
           Aggiungi al carrello
         </button>
-
-        <div class="pdp__note">
-          Articolo acquistabile con Carta Cultura o Carta Docente
-        </div>
+        <div class="pdp__note">Verifica  <strong>i termini</strong> e <strong>le condizioni</strong> </div>
       </div>
 
     </div>
@@ -71,4 +78,3 @@
     </div>
   }
 </section>
-

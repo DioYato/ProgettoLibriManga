@@ -7,10 +7,18 @@ export type Author = {
   cognome: string;
 }
 
+// per il componente product-detail
+export type Category = {
+  id?: number;
+  categoria: string;
+}
+
+
 export type Product = {
   id: number;
   titolo: string;
   autore: Author;
+  categorie: Category[];
   quantitaDisponibile: number;
   prezzo: number;
   descrizione: string;
