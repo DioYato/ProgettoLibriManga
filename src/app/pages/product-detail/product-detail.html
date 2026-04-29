@@ -9,20 +9,16 @@
 
     <div class="pdp__grid">
 
-      <!-- COVER -->
       <div class="pdp__media">
         <img class="pdp__cover" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
       </div>
 
-      <!-- INFO -->
       <div class="pdp__info">
-
         <h4 class="pdp__tag">#1 più venduto</h4>
 
         <div class="pdp__subHeader">
-         
           <span class="pdp__authorName">
-            {{ p.autore.nome || '' }} {{ p.autore.cognome || '' }}
+            {{ p.autore?.nome || '' }} {{ p.autore?.cognome || '' }}
           </span>
         </div>
 
@@ -57,23 +53,17 @@
             Articolo acquistabile con i buoni <strong>Carta Cultura</strong> o <strong>Carta Docente</strong>.
           </p>
         </div>
-
       </div>
 
-      <!-- BUY BOX -->
       <div class="pdp__buyBox">
-
-        <!-- PREZZO AGGIORNATO IN TEMPO REALE -->
         <div class="pdp__price">
           €{{ totalPrice() | number:'1.2-2' }}
         </div>
 
         <div class="pdp__ship">Spedizione gratuita</div>
 
-        <!-- QUANTITY SELECTOR -->
         <div class="pdp__qty">
           <button class="qty-btn" type="button" (click)="decreaseQty()">−</button>
-
           <input 
             class="qty-input" 
             type="number" 
@@ -81,18 +71,34 @@
             (ngModelChange)="quantity.set($event)" 
             min="1"
           />
-
           <button class="qty-btn" type="button" (click)="increaseQty()">+</button>
         </div>
 
-        <!-- CTA -->
         <button class="pdp__cta" type="button" (click)="addToCart()">
           Aggiungi al carrello
         </button>
 
-        <div class="pdp__note">Verifica i termini e le condizioni</div>
-      </div>
+        <div class="pdp__extraDetails">
+          <div class="pdp__detailRow">
+            <span class="pdp__label">Editore:</span>
+            <span class="pdp__value">{{ p.casaEditrice?.nome }}</span>
+          </div>
+          <div class="pdp__detailRow">
+            <span class="pdp__label">Formato:</span>
+            <span class="pdp__value">{{ productType() || 'Cartaceo' }}</span>
+          </div>
+          <div class="pdp__detailRow">
+            <span class="pdp__label">Lingua:</span>
+            <span class="pdp__value">Italiano</span>
+          </div>
 
-    </div>
-  }
+          <div class="pdp__location">
+            <i class="fa-solid fa-location-dot"></i>
+            <a routerLink="/mappa" class="pdp__locationLink">
+              <span>Consegna nella tua zona</span>
+              <i class="fa-solid fa-box-open pdp__miniIcon"></i>
+            </a>
+          </div>
+        </div> <div class="pdp__note">Verifica i termini e le condizioni</div>
+      </div> </div> }
 </section>

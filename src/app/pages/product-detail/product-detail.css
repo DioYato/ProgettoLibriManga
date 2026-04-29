@@ -268,10 +268,6 @@
   opacity: 0.8;
 }
 
-/* --------------------------------------------- */
-/* FIX MINIMALE: SCRITTE SOPRA IL BOTTONE        */
-/* --------------------------------------------- */
-
 .pdp__soldBy,
 .pdp__delivery,
 .pdp__return,
@@ -281,4 +277,67 @@
 
 .pdp__cta {
   order: 5;
+}
+
+.pdp__extraDetails {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 12px;
+}
+
+.pdp__detailRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 19px;
+  line-height: 1.4;
+}
+
+.pdp__label {
+  color: #565959;
+  font-weight: 400;
+}
+
+.pdp__value {
+  color: #0f1111;
+  font-weight: 600;
+  text-align: right;
+}
+
+
+
+.pdp__location {
+  margin-top: 8px;
+  margin-left: 17px;
+  display: flex;
+  align-items: center; /* Allineamento centrale verticale */
+  gap: 8px;
+  font-size: 20px;
+}
+
+.pdp__locationLink {
+  color: #007185;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center; /* Allinea il testo e la mini-icona */
+  gap: 10px;           /* Spazio tra testo e iconcina */
+  transition: color 0.2s;
+}
+
+.pdp__miniIcon {
+  color: #000;         /* Nero */
+  font-size: 24px;     /* Leggermente più piccola del testo per sembrare proporzionata */
+  filter: grayscale(1); /* Forza il bianco e nero */
+}
+
+.pdp__locationLink:hover {
+  color: #c45500;
+  text-decoration: underline;
+}
+
+.pdp__locationLink:hover .pdp__miniIcon {
+  color: #c45500;      /* L'iconcina cambia colore insieme al link */
 }

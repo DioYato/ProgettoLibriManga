@@ -13,12 +13,18 @@ export type Category = {
   categoria: string;
 }
 
+export type Publisher = {
+  id: number;
+  nome: string;
+  sede: string;
+}
 
 export type Product = {
   id: number;
   titolo: string;
   autore: Author;
   categorie: Category[];
+  casaEditrice: Publisher;
   quantitaDisponibile: number;
   prezzo: number;
   descrizione: string;
