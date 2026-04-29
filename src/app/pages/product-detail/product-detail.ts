@@ -73,4 +73,17 @@ export class ProductDetail implements OnInit {
     return `http://localhost:8080/images/${copertina}`;
   }
 
+
+  readonly productType = computed(() => {
+    const p = this.product();
+    if (!p) return 'Prodotto';
+
+    const categorieArray = (p as any).categorie;
+    const isManga = Array.isArray(categorieArray) && categorieArray.some((c: any) => 
+      c.categoria?.toLowerCase().includes('manga')
+    );
+
+    return isManga ? 'Manga' : 'Libro';
+  });
+
 }
