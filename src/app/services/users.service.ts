@@ -8,6 +8,7 @@ export interface User {
   nome: string;
   cognome: string;
   ruolo?: string;
+  immagineProfilo?: string; // Aggiunto per coerenza con il componente
 }
 
 @Injectable({
@@ -29,17 +30,19 @@ export class UsersService {
 
   // Caricamento iniziale sicuro per SSR
   private initUser() {
-    const stored = localStorage.getItem('user');
-    if (stored) {
-      this.userSubject.next(JSON.parse(stored));
+    if (typeof window !== 'undefined') { // Controllo per SSR
+      const stored = localStorage.getItem('user');
+      if (stored) {
+        this.userSubject.next(JSON.parse(stored));
+      }
     }
   }
 
   getById(id: number) {
-    return this.http.get<any>(`http://localhost:8080/utenti/findById?id=${id}`);
+    return this.http.get<any>(`${this.api}/findById?id=${id}`);
   }
 
-  // Aggiorna i dati dell'utente sul DB e sincronizza il carrello locale
+  // Aggiorna i dati dell'utente sul DB e sincronizza lo stato locale
   update(id: number, data: any) {
     const payload = { ...data, id };
 
@@ -50,14 +53,12 @@ export class UsersService {
 
     return this.http.put<User>(`${this.api}/update`, payload).pipe(
       tap((updatedUser) => {
-        // Uniamo i dati ricevuti per non perdere campi 
-        const finalUser = { ...updatedUser, ...payload };
+        // Uniamo i dati ricevuti per non perdere campi (come l'immagineProfilo)
+        const finalUser = { ...this.userSubject.getValue(), ...updatedUser, ...payload };
         delete finalUser.password;
 
         localStorage.setItem('user', JSON.stringify(finalUser));
-
         this.userSubject.next(finalUser);
-
       })
     );
   }
@@ -68,5 +69,22 @@ export class UsersService {
     formData.append('id', id.toString());
     formData.append('tipo', 'utente');
     return this.http.post('http://localhost:8080/rest/upload/image', formData);
+  }
+
+  /**
+   * Elimina l'utente dal database
+   */
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.api}/delete?id=${id}`);
+  }
+
+  /**
+   * Effettua il logout pulendo localStorage e lo stato dell'utente
+   */
+  logout() {
+    localStorage.removeItem('user');
+    // Se usi un token di autenticazione, rimuovilo qui:
+    // localStorage.removeItem('token'); 
+    this.userSubject.next(null);
   }
 }

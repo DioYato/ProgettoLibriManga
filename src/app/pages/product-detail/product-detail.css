@@ -192,20 +192,55 @@
   background: #ffffff; 
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
 }
 
+/* PREZZO */
 .pdp__price {
   font-size: 32px; 
   font-weight: 700;
   color: #b12704;
 }
 
+/* SPEDIZIONE */
 .pdp__ship {
   font-size: 18px; 
   font-weight: 500;
   color: #007600;
+}
+
+/* QUANTITY SELECTOR (AMAZON STYLE) */
+.pdp__qty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 4px;
+}
+
+.qty-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.qty-btn:hover {
+  background: #f3f4f6;
+}
+
+.qty-input {
+  width: 60px;
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
 .pdp__cta {
@@ -225,21 +260,22 @@
   background: #f7ca00;
 }
 
+/* AMAZON DETAILS */
+.pdp__soldBy,
+.pdp__delivery,
+.pdp__return {
+  font-size: 13px;
+  color: #374151;
+  margin-top: -2px;
+  line-height: 1.4;
+}
+
+.pdp__soldBy strong,
+.pdp__delivery strong {
+  font-weight: 700;
+}
+
 .pdp__note {
-  font-size: 17px;
-  color: #565959;
-  line-height: 1.3;
-}
-
-/* --- NOT FOUND STATE --- */
-.pdp__notFound {
-  text-align: center;
-  padding: 100px 20px;
-}
-
-.pdp__back {
-  display: inline-block;
-  margin-top: 20px;
-  color: #007185;
-  text-decoration: none;
+  font-size: 11px;
+  opacity: 0.8;
 }

@@ -44,4 +44,8 @@ export class Navbar {
     if (!q) return;
     this.router.navigate(['/products'], { queryParams: { q } });
   }
+
+  imageUrl(fileName: string) {
+    return 'http://localhost:8080/images/' + fileName;
+  }
 }

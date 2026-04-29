@@ -1,64 +1,79 @@
-<div class="admin-prodotti-container">
-  <h1>Gestisci Prodotti</h1>
+<div class="admin-container">
+  <div class="form-card">
+    <header class="form-header">
+      <h1>Gestisci Prodotti</h1>
+      <p>Inserisci i dettagli del nuovo libro o manga nel catalogo</p>
+    </header>
 
-  <div class="add-product-form">
-    <h2>Aggiungi Nuovo Libro / Manga</h2>
-
-    <form (ngSubmit)="addProduct()">
-
-      <!-- Titolo -->
-      <div class="form-group">
-        <label for="titolo">Titolo:</label>
-        <input type="text" id="titolo" [(ngModel)]="newProduct.titolo" name="titolo" required>
+    <form (ngSubmit)="addProduct()" class="modern-form">
+      
+      <!-- Sezione Titolo e Tipologia -->
+      <div class="form-row">
+        <div class="form-group flex-3">
+          <label for="titolo">Titolo Opera</label>
+          <input type="text" id="titolo" [(ngModel)]="newProduct.titolo" name="titolo" placeholder="Esempio: Il Signore degli Anelli" required>
+        </div>
+        <div class="form-group flex-1">
+          <label for="tipo">Tipologia</label>
+          <select id="tipo" [(ngModel)]="newProduct.tipo" name="tipo" required>
+            <option value="libro">Libro</option>
+            <option value="manga">Manga</option>
+          </select>
+        </div>
       </div>
 
       <!-- Descrizione -->
       <div class="form-group">
-        <label for="descrizione">Descrizione:</label>
-        <textarea id="descrizione" [(ngModel)]="newProduct.descrizione" name="descrizione"></textarea>
+        <label for="descrizione">Descrizione</label>
+        <textarea id="descrizione" [(ngModel)]="newProduct.descrizione" name="descrizione" rows="4" placeholder="Breve trama o dettagli..."></textarea>
       </div>
 
-      <!-- Libro / Manga -->
-      <div class="form-group">
-        <label for="tipo">Tipologia:</label>
-        <select id="tipo" [(ngModel)]="newProduct.tipo" name="tipo" required>
-          <option value="libro">Libro</option>
-          <option value="manga">Manga</option>
-        </select>
+      <!-- Autore (Accoppiati) -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome Autore</label>
+          <input type="text" [(ngModel)]="newProduct.autoreNome" name="autoreNome" placeholder="Es: J.R.R." required>
+        </div>
+        <div class="form-group">
+          <label>Cognome Autore</label>
+          <input type="text" [(ngModel)]="newProduct.autoreCognome" name="autoreCognome" placeholder="Es: Tolkien" required>
+        </div>
       </div>
 
-      <!-- Autore -->
-      <div class="form-group">
-        <label>Autore:</label>
-        <input type="text" placeholder="Nome" [(ngModel)]="newProduct.autoreNome" name="autoreNome" required>
-        <input type="text" placeholder="Cognome" [(ngModel)]="newProduct.autoreCognome" name="autoreCognome" required>
+      <!-- Casa Editrice e Copertina -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="casa">Casa Editrice</label>
+          <input type="text" id="casa" [(ngModel)]="newProduct.casaEditrice" name="casaEditrice" placeholder="Es: Mondadori" required>
+        </div>
+        <div class="form-group">
+          <label for="img">Immagine Copertina</label>
+          <div class="file-input-wrapper">
+            <input type="file" id="img" (change)="onFileSelected($event)" accept="image/*" required>
+          </div>
+        </div>
       </div>
 
-      <!-- Casa Editrice -->
-      <div class="form-group">
-        <label for="casa">Casa Editrice:</label>
-        <input type="text" id="casa" [(ngModel)]="newProduct.casaEditrice" name="casaEditrice" required>
+      <!-- Prezzo e Quantità -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="prezzo">Prezzo (€)</label>
+          <input type="number" id="prezzo" [(ngModel)]="newProduct.prezzo" name="prezzo" min="0" step="0.01" placeholder="0.00" required>
+        </div>
+        <div class="form-group">
+          <label for="quantita">Quantità Disponibile</label>
+          <input type="number" id="quantita" [(ngModel)]="newProduct.quantitaDisponibile" name="quantita" min="0" placeholder="10" required>
+        </div>
       </div>
 
-      <!-- Immagine -->
-      <div class="form-group">
-        <label for="img">Copertina:</label>
-        <input type="file" id="img" (change)="onFileSelected($event)" accept="image/*" required>
-      </div>
+      <!-- ... resto del form sopra ... -->
 
-      <!-- Prezzo -->
-      <div class="form-group">
-        <label for="prezzo">Prezzo (€):</label>
-        <input type="number" id="prezzo" [(ngModel)]="newProduct.prezzo" name="prezzo" min="0" step="0.01" required>
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          Salva Prodotto nel Database
+        </button>
       </div>
-
-      <!-- Quantità -->
-      <div class="form-group">
-        <label for="quantita">Quantità Disponibile:</label>
-        <input type="number" id="quantita" [(ngModel)]="newProduct.quantitaDisponibile" name="quantita" min="0" required>
-      </div>
-
-      <button type="submit">Salva Prodotto nel Database</button>
     </form>
   </div>
 </div>

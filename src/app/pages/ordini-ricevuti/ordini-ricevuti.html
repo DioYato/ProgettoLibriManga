@@ -5,66 +5,58 @@
     <p>Nessun ordine ricevuto.</p>
   } @else {
     <div class="orders-list">
-
       @for (order of orders(); track order.id) {
-
         <div class="order-card">
-
-          <!-- HEADER -->
+          
           <div class="order-header">
             <div class="order-header-left">
               <h3>Ordine #{{ order.id }}</h3>
               <span class="order-date">📅 {{ order.date }}</span>
             </div>
-
             <div class="order-status-badge status-{{ order.status }}">
               {{ order.status }}
             </div>
           </div>
 
-          <!-- UTENTE -->
           <div class="order-section">
             <strong>👤 Utente:</strong>
             <span>{{ order.userName }} (ID: {{ order.userId }})</span>
           </div>
 
-          <!-- PRODOTTI -->
           <div class="order-section">
             <strong>🧺 Prodotti:</strong>
-
             <div class="order-products-table">
               @for (product of order.products; track product.id) {
                 <div class="order-product-row">
                   <div class="op-name">{{ product.name }}</div>
-                  <div class="op-qty">Quantità: {{ product.quantity }}</div>
+                  <div class="op-qty">Qtà: {{ product.quantity }}</div>
                   <div class="op-price">€{{ product.price }}</div>
                 </div>
               }
             </div>
           </div>
 
-          <!-- TOTALE -->
           <div class="order-total">
             <strong>Totale:</strong>
             <span class="total-amount">€{{ order.total }}</span>
           </div>
 
-          <!-- CAMBIO STATO -->
-          <div class="order-status">
-            <strong>Stato:</strong>
-            <select [value]="order.status" (change)="updateStatus(order, $any($event.target).value)">
-              <option value="PENDING">In Attesa</option>
-              <option value="PROCESSING">In Elaborazione</option>
-              <option value="SHIPPED">Spedito</option>
-              <option value="DELIVERED">Consegnato</option>
-              <option value="CANCELLED">Annullato</option>
-            </select>
+          <div class="order-footer-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; padding-top: 10px; border-top: 1px solid #eee;">
+            <div class="order-status">
+              <strong>Stato:</strong>
+              <select [value]="order.status" (change)="updateStatus(order, $any($event.target).value)">
+                <option value="IN_CONSEGNA">IN CONSEGNA</option>
+                <option value="CONSEGNATO">CONSEGNATO</option>
+                <option value="CANCELLATO">CANCELLATO</option>
+              </select>
+            </div>
+
+            <button class="btn-delete" (click)="deleteOrder(order.id)" style="background: none; border: 1px solid red; color: red; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+              🗑️ Elimina
+            </button>
           </div>
-
         </div>
-
       }
-
     </div>
   }
 </div>

@@ -4,6 +4,7 @@
       <img src="logo4.svg" alt="Logo">
     </a>
 
+    
     <div class="center">
       <button routerLink="" class="button_navbar">Home</button>
       <button routerLink="products" class="button_navbar">Prodotti</button>
@@ -30,7 +31,17 @@
     </div>
   </div>
 
+
+  
   <div class="right">
+
+      @if (auth.user()) {
+      <button class="img_cart_cont" (click)="goToProfile()" title="Profilo">
+        <img class="profile-icon"
+             [src]="auth.user()!.immagineProfilo ? imageUrl(auth.user()!.immagineProfilo!) : 'https://cdn-icons-png.flaticon.com/512/1144/1144760.png'"
+             alt="Profilo">
+      </button>
+    }
     <button routerLink="mappa" class="img_cart_cont" title="Trova BookStore">
       <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Mappa">
     </button>
@@ -38,14 +49,6 @@
     @if (isAdmin()) {
       <button routerLink="admin" class="img_cart_cont admin-icon" title="Area Admin">
         <img src="https://cdn-icons-png.flaticon.com/512/1828/1828859.png" alt="Admin">
-      </button>
-    }
-
-    @if (auth.user()) {
-      <button class="img_cart_cont" (click)="goToProfile()" title="Profilo">
-        <img class="profile-icon"
-             src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png"
-             alt="Profilo">
       </button>
     }
 
@@ -62,6 +65,8 @@
         <span class="badge">{{ cartCount() }}</span>
       }
     </button>
+
+    
   </div>
 </nav>
 

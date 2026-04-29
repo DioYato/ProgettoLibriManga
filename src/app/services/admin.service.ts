@@ -21,16 +21,13 @@ interface LibriResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
-
   private api = 'http://localhost:8080';
   private ordiniApi = 'http://localhost:8080/ordini';
 
   constructor(private http: HttpClient) {}
 
-  // Trasforma i DTO del server nel modello Order per i componenti
   private mapOrders(response: any): Order[] {
     if (!Array.isArray(response)) return [];
-
     return response.map(order => ({
       id: order.id,
       userId: order.utente?.id || 0,
@@ -62,19 +59,19 @@ export class AdminService {
   }
 
   updateOrderStatus(orderId: number, status: string): Observable<any> {
-    return this.http.put(`${this.api}/orders/${orderId}/status`, { status });
+    return this.http.put(`${this.ordiniApi}/updateStatus`, { id: orderId, status });
   }
 
-  // --- Gestione Catalogo Prodotti ---
+  deleteOrder(orderId: number): Observable<any> {
+    return this.http.delete(`${this.ordiniApi}/delete?id=${orderId}`);
+  }
 
+  // --- Catalogo ---
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.api}/libri/list`).pipe(
-      catchError(() => of([]))
-    );
+    return this.http.get<Product[]>(`${this.api}/libri/list`).pipe(catchError(() => of([])));
   }
 
   addProduct(libroData: any): Observable<LibriResponse> {
-    // Inviando libroData come oggetto, HttpClient imposta automaticamente Content-Type: application/json
     return this.http.post<LibriResponse>(`${this.api}/libri/create`, libroData);
   }
 

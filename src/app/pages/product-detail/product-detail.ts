@@ -1,14 +1,14 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../../services/products.service';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 
-
 @Component({
   selector: 'app-product-detail',
-  imports: [RouterLink, DecimalPipe],
+  imports: [RouterLink, DecimalPipe, FormsModule],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',
 })
@@ -22,21 +22,35 @@ export class ProductDetail implements OnInit {
 
   readonly tab = signal<'descrizione' | 'dettagli'>('descrizione');
 
-  // ID preso dalla rotta
   private readonly id = computed(() => this.route.snapshot.paramMap.get('id'));
 
-  // Prodotto ottenuto dal service
   readonly product = computed(() => this.products.getById(this.id()));
 
-  constructor() { }
+  // Quantità come SIGNAL (così aggiorna il prezzo)
+  quantity = signal(1);
+
+  // Prezzo totale aggiornato in tempo reale
+  readonly totalPrice = computed(() => {
+    const p = this.product();
+    return p ? p.prezzo * this.quantity() : 0;
+  });
+
+  constructor() {}
 
   ngOnInit() {
-    // Carica i prodotti dal backend se non sono già presenti
     this.products.loadFromBackend();
   }
 
   setTab(tab: 'descrizione' | 'dettagli') {
     this.tab.set(tab);
+  }
+
+  increaseQty() {
+    this.quantity.update(q => q + 1);
+  }
+
+  decreaseQty() {
+    this.quantity.update(q => Math.max(1, q - 1));
   }
 
   addToCart() {
@@ -50,31 +64,13 @@ export class ProductDetail implements OnInit {
     const p = this.product();
     if (!p) return;
 
-    this.cart.add(p);
+    this.cart.add(p, this.quantity());
     alert('Prodotto aggiunto al carrello!');
   }
 
   imageUrl(copertina?: string) {
-    if (!copertina) {
-      return ''
-    }
+    if (!copertina) return '';
     return `http://localhost:8080/images/${copertina}`;
   }
 
-    readonly productType = computed(() => {
-    const p = this.product();
-    if (!p) return 'Prodotto';
-
-    
-    const categorieArray = (p as any).categorie;
-    
-    const isManga = Array.isArray(categorieArray) && categorieArray.some((c: any) => 
-      c.categoria?.toLowerCase().includes('manga')
-    );
-
-    return isManga ? 'Manga' : 'Libro';
-  });
-
 }
-
-

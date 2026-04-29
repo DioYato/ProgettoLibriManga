@@ -9,10 +9,12 @@
 
     <div class="pdp__grid">
 
+  
       <div class="pdp__media">
         <img class="pdp__cover" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
       </div>
 
+      <!-- INFO -->
       <div class="pdp__info">
 
         <h4 class="pdp__tag">#1 più venduto</h4>
@@ -58,15 +60,23 @@
 
       </div>
 
+      <!-- BUY BOX -->
       <div class="pdp__buyBox">
+
+        <!-- PREZZO AGGIORNATO IN TEMPO REALE -->
         <div class="pdp__price">
-          €{{ p.prezzo | number:'1.2-2' }}
+          €{{ totalPrice() | number:'1.2-2' }}
         </div>
-        <div class="pdp__ship">Spedizione <strong>gratuita</strong></div>
+
+        <div class="pdp__ship">Spedizione gratuita</div>
+
         <button class="pdp__cta" type="button" (click)="addToCart()">
           Aggiungi al carrello
         </button>
-        <div class="pdp__note">Verifica  <strong>i termini</strong> e <strong>le condizioni</strong> </div>
+
+        <div class="pdp__note">
+          Articolo acquistabile con Carta Cultura o Carta Docente
+        </div>
       </div>
 
     </div>
@@ -78,3 +88,4 @@
     </div>
   }
 </section>
+
