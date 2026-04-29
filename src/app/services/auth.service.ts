@@ -23,7 +23,21 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-  ) { }
+  ) {
+    this.hydrateUser();
+  }
+
+  // Ripristina la sessione dal localStorage all'avvio
+  private hydrateUser() {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      try {
+        this._user.set(JSON.parse(stored));
+      } catch (e) {
+        localStorage.removeItem('user');
+      }
+    }
+  }
 
   // Registrazione nuovo utente
   register(data: any): Observable<any> {
@@ -33,7 +47,10 @@ export class AuthService {
   // Login utente e persistenza sessione
   login(credentials: { email: string; password: string }): Observable<User> {
     return this.http.post<User>(`${this.api}/login`, credentials).pipe(
-      tap((user) => this._user.set(user))
+      tap((user) => {
+        localStorage.setItem('user', JSON.stringify(user));
+        this._user.set(user);
+      })
     );
   }
 
