@@ -1,7 +1,8 @@
 <section class="cart-container">
 
+  <!-- SINISTRA -->
   <div class="cart-left">
-    <h1>Carrello</h1>
+    <h1 class="cart-title-main">Carrello</h1>
 
     @if (items().length === 0) {
       <p class="empty">Il carrello è vuoto.</p>
@@ -9,41 +10,107 @@
 
       <ul class="cart-list">
         @for (item of items(); track item.product.id) {
+
           <li class="cart-item">
 
+            <!-- IMMAGINE -->
             <img class="cart-img"
                  [src]="imageUrl(item.product.copertina)"
                  [alt]="item.product.titolo" />
 
+            <!-- INFO PRODOTTO -->
             <div class="cart-info">
+
               <div class="cart-title">{{ item.product.titolo }}</div>
               <div class="cart-author">{{ item.product.autore.nome }} {{ item.product.autore.cognome }}</div>
-              <div class="cart-qty">
-                <input class="cart-qty-input" type="number" [value]="item.quantity" (input)="updateQuantity(item.product.id, $event)" min="1">
-                 × €{{ item.product.prezzo }}
+
+              <!-- Disponibilità -->
+              <div class="cart-availability">
+                Disponibile
               </div>
 
-              <button class="remove-btn" (click)="remove(item.product.id)">
-                Rimuovi
-              </button>
+              
+
+              <!-- Prezzo singolo -->
+              <div class="cart-price-line">
+                <span class="cart-price">€{{ item.product.prezzo }}</span>
+              </div>
+
+              <!-- Quantità -->
+              <div class="cart-qty">
+                <label class="qty-label">Quantità:</label>
+                <input class="cart-qty-input"
+                       type="number"
+                       [value]="item.quantity"
+                       (input)="updateQuantity(item.product.id, $event)"
+                       min="1">
+                <span class="cart-total-line">= €{{ item.product.prezzo * item.quantity }}</span>
+              </div>
+
+              <!-- Venduto da -->
+              <div class="cart-seller">
+                Venduto da <strong>LaTuaLibreria</strong>
+              </div>
+
+              <!-- Consegna stimata -->
+              <div class="cart-delivery">
+                Consegna stimata: <strong>Domani</strong>
+              </div>
+
+              <!-- Azioni -->
+              <div class="cart-actions">
+                <button class="remove-btn" (click)="remove(item.product.id)">Rimuovi</button>
+                <span class="sep">|</span>
+                <a class="save-btn" href="#">Salva per dopo</a>
+              </div>
+
             </div>
           </li>
+
         }
       </ul>
     }
   </div>
 
+  <!-- DESTRA (RIEPILOGO ORDINE) -->
   <div class="cart-right-box">
+
     <div class="summary">
+
+      <!-- SPEDIZIONE GRATUITA (VERSIONE AMAZON ORIGINALE) -->
+      <div class="summary-free-ship">
+        <div class="ship-icon">✔</div>
+        <div class="ship-text">
+          <strong>Spedizione GRATUITA</strong> disponibile per il tuo ordine<br>
+          <span class="ship-small">Si applicano restrizioni</span><br>
+          <span class="ship-small">Selezionare questa opzione al momento della conferma dell'ordine.</span>
+        </div>
+      </div>
+
+      <!-- TOTALE -->
       <div class="summary-total">
-        Totale ({{ items().length }} articoli):  
+        Totale provvisorio ({{ items().length }} articoli):
         <span class="price">€{{ total() }}</span>
       </div>
 
+      <!-- CHECKBOX REGALO -->
+      <div class="summary-gift">
+        <input type="checkbox" id="gift-check">
+        <label for="gift-check">Questo ordine contiene un regalo</label>
+      </div>
+
+      <!-- BOTTONE -->
       <button class="order-btn" (click)="sendOrder()" [disabled]="items().length === 0">
         Procedi all'ordine
       </button>
+
+      <!-- NOTA -->
+      <div class="summary-note">
+        L'ordine contiene un regalo? <a href="#">Scopri di più</a>
+      </div>
+
     </div>
+
   </div>
 
 </section>
