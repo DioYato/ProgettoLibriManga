@@ -23,7 +23,13 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-  ) { }
+  ) {
+    // 🔥 RICARICA UTENTE DA LOCALSTORAGE
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      this._user.set(JSON.parse(stored));
+    }
+  }
 
   // Registrazione nuovo utente
   register(data: any): Observable<any> {
@@ -32,7 +38,12 @@ export class AuthService {
 
   login(credentials: { email: string; password: string }): Observable<User> {
     return this.http.post<User>(`${this.api}/login`, credentials).pipe(
-      tap((user) => this._user.set(user))
+      tap((user) => {
+        this._user.set(user);
+
+        // 🔥 SALVA UTENTE
+        localStorage.setItem('user', JSON.stringify(user));
+      })
     );
   }
 
