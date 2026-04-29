@@ -60,10 +60,16 @@
       </div>
 
       <div class="form-actions">
-        <button type="submit" class="btn-save" [disabled]="form.invalid">
+        <button type="submit" class="btn btn-save" [disabled]="form.invalid">
           Salva Modifiche
         </button>
       </div>
+      
     </form>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-delete " (click)="eliminaAccount()">
+          Elimina Account
+        </button>
+      </div>
   </div>
 </div>

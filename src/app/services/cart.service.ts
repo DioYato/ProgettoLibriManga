@@ -9,7 +9,6 @@ export type CartItem = {
 @Injectable({ providedIn: 'root' })
 export class CartService {
 
-  // Signal per lo stato del carrello
   private readonly items = signal<CartItem[]>([]);
 
   readonly all = computed(() => this.items());
@@ -23,31 +22,31 @@ export class CartService {
   );
 
   constructor() {
-    // Caricamento iniziale sicuro solo lato client
     const stored = localStorage.getItem('cart');
     if (stored) {
       this.items.set(JSON.parse(stored));
     }
 
-    // Sincronizzazione automatica con localStorage solo nel browser
     effect(() => {
       localStorage.setItem('cart', JSON.stringify(this.items()));
     });
   }
 
-  // Aggiunge un prodotto o ne incrementa la quantità
-  add(product: Product) {
+  // Aggiunge un prodotto con quantità personalizzata
+  add(product: Product, qty: number = 1) {
     const current = this.items();
     const existing = current.find(i => i.product.id === product.id);
 
     if (existing) {
       this.items.set(
         current.map(i =>
-          i.product.id === product.id ? { ...i, quantity: i.quantity + 1 } : i
+          i.product.id === product.id
+            ? { ...i, quantity: i.quantity + qty }
+            : i
         )
       );
     } else {
-      this.items.set([...current, { product, quantity: 1 }]);
+      this.items.set([...current, { product, quantity: qty }]);
     }
   }
 
@@ -64,7 +63,6 @@ export class CartService {
     }
   }
 
-  // Riduce la quantità o rimuove se arriva a zero
   decrease(productId: number) {
     const current = this.items();
     const existing = current.find(i => i.product.id === productId);
@@ -80,12 +78,10 @@ export class CartService {
     }
   }
 
-  // Rimuove completamente un prodotto
   remove(productId: number) {
     this.items.update(prev => prev.filter(i => i.product.id !== productId));
   }
 
-  // Svuota il carrello
   clear() {
     this.items.set([]);
   }

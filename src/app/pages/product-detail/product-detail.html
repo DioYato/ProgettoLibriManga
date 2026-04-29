@@ -9,11 +9,12 @@
 
     <div class="pdp__grid">
 
-  
+      <!-- COVER -->
       <div class="pdp__media">
         <img class="pdp__cover" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
       </div>
 
+      <!-- INFO -->
       <div class="pdp__info">
 
         <span class="pdp__tag">#1 più venduto</span>
@@ -46,20 +47,53 @@
 
       </div>
 
+      <!-- BUY BOX -->
       <div class="pdp__buyBox">
+
+        <!-- PREZZO AGGIORNATO IN TEMPO REALE -->
         <div class="pdp__price">
-          €{{ p.prezzo | number:'1.2-2' }}
+          €{{ totalPrice() | number:'1.2-2' }}
         </div>
 
         <div class="pdp__ship">Spedizione gratuita</div>
 
+        <!-- QUANTITY SELECTOR -->
+        <div class="pdp__qty">
+          <button class="qty-btn" type="button" (click)="decreaseQty()">−</button>
+
+          <input 
+            class="qty-input" 
+            type="number" 
+            [ngModel]="quantity()" 
+            (ngModelChange)="quantity.set($event)" 
+            min="1"
+          />
+
+          <button class="qty-btn" type="button" (click)="increaseQty()">+</button>
+        </div>
+
+        <!-- CTA -->
         <button class="pdp__cta" type="button" (click)="addToCart()">
           Aggiungi al carrello
         </button>
 
+        <!-- AMAZON-LIKE DETAILS -->
+        <div class="pdp__soldBy">
+          Venduto da <strong>LaTuaLibreria</strong> · Spedito da <strong>LaTuaLibreria</strong>
+        </div>
+
+        <div class="pdp__delivery">
+          Consegna stimata: <strong>Domani</strong>
+        </div>
+
+        <div class="pdp__return">
+          Reso gratuito entro 30 giorni
+        </div>
+
         <div class="pdp__note">
           Articolo acquistabile con Carta Cultura o Carta Docente
         </div>
+
       </div>
 
     </div>
@@ -71,4 +105,3 @@
     </div>
   }
 </section>
-

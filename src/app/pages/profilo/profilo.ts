@@ -1,11 +1,13 @@
 import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router'; // <--- Importa il Router
 import { first } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-profilo',
+  standalone: true, // Assicurati che sia standalone se usi gli imports
   imports: [ReactiveFormsModule],
   templateUrl: './profilo.html',
   styleUrl: './profilo.css'
@@ -15,6 +17,7 @@ export class Profilo implements OnInit {
   private auth = inject(AuthService);
   private users = inject(UsersService);
   private platformId = inject(PLATFORM_ID);
+  private router = inject(Router); // <--- Inject del Router
 
   userSignal = signal<any>(null);
   welcomeMessage = computed(() => this.userSignal() ? `Ciao ${this.userSignal().nome}` : '');
@@ -38,15 +41,11 @@ export class Profilo implements OnInit {
     }
   }
 
-  // Costruisce l'URL dell'immagine prendendola dal backend
   getProfileImage() {
     const photo = this.userSignal()?.immagineProfilo;
-    // Se la foto esiste e non è quella di default
     if (photo && photo !== 'default-avatar.png') {
-      // Assicurati che l'URL punti alla cartella del tuo backend
       return `http://localhost:8080/images/${photo}`;
     }
-    // Immagine di default se l'utente non ne ha una
     return 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
   }
 
@@ -59,7 +58,6 @@ export class Profilo implements OnInit {
         .subscribe({
           next: (res: any) => {
             alert("Foto aggiornata con successo!");
-            // Ricarichiamo i dati utente aggiornati per vedere la nuova immagine
             this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
               this.userSignal.set(updatedUser);
               localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -67,7 +65,6 @@ export class Profilo implements OnInit {
           },
           error: (err: any) => {
             console.error("Dettaglio errore:", err);
-            // Mostriamo il messaggio d'errore specifico se presente
             const msg = err.error?.msg || "Errore del server";
             alert("Errore nel caricamento: " + msg);
           }
@@ -89,5 +86,37 @@ export class Profilo implements OnInit {
         next: () => alert("Dati aggiornati con successo!"),
         error: (err: any) => alert('Errore durante il salvataggio')
       });
+  }
+
+  // --- NUOVA FUNZIONE ELIMINA ACCOUNT ---
+  eliminaAccount() {
+    const currentUser = this.auth.user();
+    if (!currentUser) return;
+
+    // Chiedi conferma all'utente
+    const conferma = confirm("Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile e verrai disconnesso.");
+
+    if (conferma) {
+      this.users.delete(currentUser.id).subscribe({
+        next: () => {
+          alert("Account eliminato correttamente.");
+          
+          // Esegui il logout (pulisci localStorage e stato)
+          // Nota: Assicurati che il tuo AuthService abbia un metodo logout()
+          // Altrimenti puoi farlo manualmente:
+          localStorage.removeItem('user');
+          localStorage.removeItem('token'); // Se lo usi
+          
+          // Reindirizza l'utente alla home o al login
+          this.router.navigate(['/login']).then(() => {
+            window.location.reload(); // Opzionale: forza il refresh per resettare tutti i signal
+          });
+        },
+        error: (err) => {
+          console.error(err);
+          alert("Errore durante l'eliminazione dell'account.");
+        }
+      });
+    }
   }
 }
