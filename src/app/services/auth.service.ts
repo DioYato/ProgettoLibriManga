@@ -23,24 +23,16 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-  ) {
-    
-    const saved = localStorage.getItem('user');
-    if (saved) {
-      this._user.set(JSON.parse(saved));
-    }
-  }
+  ) { }
 
+  // Registrazione nuovo utente
   register(data: any): Observable<any> {
     return this.http.post(`${this.api}/create`, data);
   }
 
   login(credentials: { email: string; password: string }): Observable<User> {
     return this.http.post<User>(`${this.api}/login`, credentials).pipe(
-      tap((user) => {
-        this._user.set(user);
-        localStorage.setItem('user', JSON.stringify(user)); 
-      })
+      tap((user) => this._user.set(user))
     );
   }
 
