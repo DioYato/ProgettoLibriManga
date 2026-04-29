@@ -7,7 +7,6 @@
 
 .pdp__grid {
   display: grid;
-  /* La parte centrale (.pdp__info) è la più larga per estendersi verso l'immagine */
   grid-template-columns: 1.1fr 1.7fr 0.8fr; 
   gap: 40px; 
   align-items: start;
@@ -35,7 +34,7 @@
   opacity: 0.7;
 }
 
-/* --- MEDIA (IMMAGINE COPERTINA) --- */
+/* --- MEDIA --- */
 .pdp__media {
   text-align: center;
 }
@@ -47,19 +46,18 @@
   border-radius: 12px;
 }
 
-/* --- INFO CENTRALE (DETTAGLI PRODOTTO) --- */
+/* --- INFO CENTRALE --- */
 .pdp__info {
   display: flex;
   flex-direction: column;
 }
 
-/* Tag Bestseller: Lunghezza relativa al testo e font evidente */
 .pdp__tag {
   background: #ffa41c;
   color: #000;
   padding: 4px 10px;
   border-radius: 4px;
-  font-size: 14px; /* Dimensione simile a h4 */
+  font-size: 14px;
   font-weight: 700;
   display: inline-block;
   width: fit-content;
@@ -67,7 +65,6 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Nuova riga: Categoria e Autore */
 .pdp__subHeader {
   font-size: 1.1rem;
   margin-bottom: 4px;
@@ -89,7 +86,6 @@
   font-weight: 500;
 }
 
-/* Titolo Prodotto */
 .pdp__title {
   font-size: 2.2rem; 
   font-weight: 800;
@@ -98,7 +94,6 @@
   color: #0f1111;
 }
 
-/* Rating */
 .pdp__ratingRow {
   display: flex;
   align-items: center;
@@ -123,16 +118,15 @@
   margin: 10px 0 20px;
 }
 
-/* Status Disponibilità Dinamico */
 .pdp__availability {
   font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 10px;
-  color: #007600; /* Verde di default */
+  color: #007600;
 }
 
 .pdp__availability--red {
-  color: #b12704; /* Rosso se non disponibile */
+  color: #b12704;
 }
 
 .pdp__qtyText {
@@ -142,7 +136,6 @@
   margin-left: 8px;
 }
 
-/* Descrizione (Sola lettura) */
 .pdp__descriptionBox {
   margin-top: 16px;
 }
@@ -154,7 +147,6 @@
   text-align: justify;
 }
 
-/* Sezione ADV (Bonus Cultura) */
 .pdp__bonus {
   margin-top: 30px;
   padding: 16px;
@@ -184,7 +176,7 @@
   line-height: 1.4;
 }
 
-/* --- BUY BOX (COLONNA DESTRA) --- */
+/* --- BUY BOX --- */
 .pdp__buyBox {
   border: 1px solid #d5d9d9;
   border-radius: 12px;
@@ -196,21 +188,18 @@
   box-shadow: 0 4px 14px rgba(0,0,0,0.08);
 }
 
-/* PREZZO */
 .pdp__price {
   font-size: 32px; 
   font-weight: 700;
   color: #b12704;
 }
 
-/* SPEDIZIONE */
 .pdp__ship {
   font-size: 18px; 
   font-weight: 500;
   color: #007600;
 }
 
-/* QUANTITY SELECTOR (AMAZON STYLE) */
 .pdp__qty {
   display: flex;
   align-items: center;
@@ -260,7 +249,6 @@
   background: #f7ca00;
 }
 
-/* AMAZON DETAILS */
 .pdp__soldBy,
 .pdp__delivery,
 .pdp__return {
@@ -278,4 +266,19 @@
 .pdp__note {
   font-size: 11px;
   opacity: 0.8;
+}
+
+/* --------------------------------------------- */
+/* FIX MINIMALE: SCRITTE SOPRA IL BOTTONE        */
+/* --------------------------------------------- */
+
+.pdp__soldBy,
+.pdp__delivery,
+.pdp__return,
+.pdp__note {
+  order: 4;
+}
+
+.pdp__cta {
+  order: 5;
 }

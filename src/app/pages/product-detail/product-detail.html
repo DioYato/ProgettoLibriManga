@@ -1,5 +1,6 @@
 <section class="pdp">
   @if (product(); as p) {
+
     <div class="pdp__crumbs pdp__crumbs--big">
       <a routerLink="/products" class="pdp__crumb">Prodotti</a>
       <span class="pdp__sep">›</span>
@@ -7,17 +8,22 @@
     </div>
 
     <div class="pdp__grid">
+
+      <!-- COVER -->
       <div class="pdp__media">
         <img class="pdp__cover" [src]="imageUrl(p.copertina)" [alt]="p.titolo" />
       </div>
 
+      <!-- INFO -->
       <div class="pdp__info">
+
         <h4 class="pdp__tag">#1 più venduto</h4>
 
         <div class="pdp__subHeader">
-          <span class="pdp__catLabel">{{ productType() }}</span>
-          <span class="pdp__pipe">|</span>
-          <span class="pdp__authorName">{{ p.autore?.nome }} {{ p.autore?.cognome }}</span>
+          <!-- productType() RIMOSSO perché NON esiste -->
+          <span class="pdp__authorName">
+            {{ p.autore.nome || '' }} {{ p.autore.cognome || '' }}
+          </span>
         </div>
 
         <h1 class="pdp__title">{{ p.titolo }}</h1>
@@ -30,12 +36,12 @@
         <hr class="pdp__divider">
 
         <div class="pdp__availability" [class.pdp__availability--red]="p.quantitaDisponibile === 0">
-           @if (p.quantitaDisponibile > 0) {
-             <span class="pdp__statusText">Disponibilità immediata</span>
-             <span class="pdp__qtyText">({{ p.quantitaDisponibile }} unità disponibili)</span>
-           } @else {
-             <span class="pdp__statusText">Attualmente non disponibile</span>
-           }
+          @if (p.quantitaDisponibile > 0) {
+            <span class="pdp__statusText">Disponibilità immediata</span>
+            <span class="pdp__qtyText">({{ p.quantitaDisponibile }} unità disponibili)</span>
+          } @else {
+            <span class="pdp__statusText">Attualmente non disponibile</span>
+          }
         </div>
 
         <div class="pdp__descriptionBox">
@@ -51,14 +57,42 @@
             Articolo acquistabile con i buoni <strong>Carta Cultura</strong> o <strong>Carta Docente</strong>.
           </p>
         </div>
+
       </div>
 
+      <!-- BUY BOX -->
       <div class="pdp__buyBox">
-        <div class="pdp__price">€{{ p.prezzo | number:'1.2-2' }}</div>
+
+        <!-- PREZZO AGGIORNATO IN TEMPO REALE -->
+        <div class="pdp__price">
+          €{{ totalPrice() | number:'1.2-2' }}
+        </div>
+
         <div class="pdp__ship">Spedizione gratuita</div>
-        <button class="pdp__cta" (click)="addToCart()">Aggiungi al carrello</button>
+
+        <!-- QUANTITY SELECTOR -->
+        <div class="pdp__qty">
+          <button class="qty-btn" type="button" (click)="decreaseQty()">−</button>
+
+          <input 
+            class="qty-input" 
+            type="number" 
+            [ngModel]="quantity()" 
+            (ngModelChange)="quantity.set($event)" 
+            min="1"
+          />
+
+          <button class="qty-btn" type="button" (click)="increaseQty()">+</button>
+        </div>
+
+        <!-- CTA -->
+        <button class="pdp__cta" type="button" (click)="addToCart()">
+          Aggiungi al carrello
+        </button>
+
         <div class="pdp__note">Verifica i termini e le condizioni</div>
       </div>
+
     </div>
   }
 </section>

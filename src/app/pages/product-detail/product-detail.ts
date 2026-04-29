@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [RouterLink, DecimalPipe, FormsModule],
+  imports: [FormsModule, RouterLink, DecimalPipe],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',
 })
@@ -73,13 +73,13 @@ export class ProductDetail implements OnInit {
     return `http://localhost:8080/images/${copertina}`;
   }
 
-
+  // Determina se è libro o manga
   readonly productType = computed(() => {
     const p = this.product();
     if (!p) return 'Prodotto';
 
     const categorieArray = (p as any).categorie;
-    const isManga = Array.isArray(categorieArray) && categorieArray.some((c: any) => 
+    const isManga = Array.isArray(categorieArray) && categorieArray.some((c: any) =>
       c.categoria?.toLowerCase().includes('manga')
     );
 
