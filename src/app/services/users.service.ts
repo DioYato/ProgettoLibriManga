@@ -28,13 +28,11 @@ export class UsersService {
     this.initUser();
   }
 
-  // Caricamento iniziale sicuro per SSR
+  // Ripristina lo stato utente da localStorage
   private initUser() {
-    if (typeof window !== 'undefined') { // Controllo per SSR
-      const stored = localStorage.getItem('user');
-      if (stored) {
-        this.userSubject.next(JSON.parse(stored));
-      }
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      this.userSubject.next(JSON.parse(stored));
     }
   }
 
@@ -42,18 +40,18 @@ export class UsersService {
     return this.http.get<any>(`${this.api}/findById?id=${id}`);
   }
 
-  // Aggiorna i dati dell'utente sul DB e sincronizza lo stato locale
+  // Aggiorna l'utente sul server e mantiene sincronizzato il local state
   update(id: number, data: any) {
     const payload = { ...data, id };
 
-    // Rimuove la password se non è stata modificata
+    // Non inviare la password vuota se l'utente non l'ha cambiata
     if (payload.password === '') {
       delete payload.password;
     }
 
     return this.http.put<User>(`${this.api}/update`, payload).pipe(
       tap((updatedUser) => {
-        // Uniamo i dati ricevuti per non perdere campi (come l'immagineProfilo)
+        // Manteniamo i campi esistenti e usiamo i dati aggiornati
         const finalUser = { ...this.userSubject.getValue(), ...updatedUser, ...payload };
         delete finalUser.password;
 

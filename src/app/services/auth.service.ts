@@ -24,7 +24,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
   ) {
-    // 🔥 RICARICA UTENTE DA LOCALSTORAGE
+    // Ricarica utente dal localStorage
     const stored = localStorage.getItem('user');
     if (stored) {
       this._user.set(JSON.parse(stored));
@@ -41,7 +41,7 @@ export class AuthService {
       tap((user) => {
         this._user.set(user);
 
-        // 🔥 SALVA UTENTE
+        // Memorizza utente autenticato
         localStorage.setItem('user', JSON.stringify(user));
       })
     );

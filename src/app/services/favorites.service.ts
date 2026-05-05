@@ -21,12 +21,12 @@ export class FavoritesService {
 
   private initFavorites() {
     const userId = this.getUserId();
-    // Pulizia vecchia chiave generica se esiste un utente loggato
+    // Se un utente è loggato, usa la chiave specifica anziché la chiave guest
     if (userId && localStorage.getItem('favorites')) {
       localStorage.removeItem('favorites');
     }
     
-    // Caricamento iniziale dai dati salvati nel browser
+    // Ripristina i preferiti salvati localmente
     this._ids.set(this.loadFromStorage());
   }
 
@@ -46,7 +46,7 @@ export class FavoritesService {
     return userId ? `favorites_${userId}` : 'favorites_guest';
   }
 
-  // Legge i dati dal localStorage in modo sicuro
+  // Legge i preferiti dal browser senza bloccare l'app
   private loadFromStorage(): number[] {
     try {
       const data = localStorage.getItem(this.getStorageKey());
@@ -86,7 +86,7 @@ export class FavoritesService {
       .subscribe();
   }
 
-  // Sincronizza i dati locali con quelli salvati sul database
+  // Sincronizza lo stato locale dei preferiti con i dati sul server
   loadFromBackend() {
     const userId = this.getUserId();
     if (!userId) return of([]);
@@ -109,7 +109,7 @@ export class FavoritesService {
     return this._ids().includes(id);
   }
 
-  // Aggiunge o rimuove un preferito (gestisce UI e Backend insieme)
+  // Alterna lo stato del preferito in locale e invia la modifica al backend
   toggle(id: number) {
     const current = this._ids();
     const exists = current.includes(id);

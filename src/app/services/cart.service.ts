@@ -27,12 +27,13 @@ export class CartService {
       this.items.set(JSON.parse(stored));
     }
 
+    // Aggiorna lo storage ogni volta che cambia il carrello
     effect(() => {
       localStorage.setItem('cart', JSON.stringify(this.items()));
     });
   }
 
-  // Aggiunge un prodotto con quantità personalizzata
+  // Aggiunge un prodotto o incrementa la quantità se già presente
   add(product: Product, qty: number = 1) {
     const current = this.items();
     const existing = current.find(i => i.product.id === product.id);
@@ -50,6 +51,7 @@ export class CartService {
     }
   }
 
+  // Aggiorna la quantità di un elemento già presente
   updateQuantity(productId: number, quantity: number) {
     const current = this.items();
     const existing = current.find(i => i.product.id === productId);
@@ -63,6 +65,7 @@ export class CartService {
     }
   }
 
+  // Riduce la quantità; elimina l'articolo se arriva a zero
   decrease(productId: number) {
     const current = this.items();
     const existing = current.find(i => i.product.id === productId);

@@ -24,7 +24,6 @@ export class Products implements OnInit {
   readonly query = signal('');
   readonly sort = signal('');
 
-  // PAGINAZIONE
   readonly itemsPerPage = 20;
   readonly currentPage = signal(1);
 
@@ -36,7 +35,7 @@ export class Products implements OnInit {
 
   readonly isModerator = computed(() => this.user()?.ruolo === 'ADMIN');
 
-  // La ricerca si fa lato server tramite query, non sul client con tutti i dati, è una follia
+  // Il backend restituisce i risultati filtrati e paginati
   readonly products = computed(() => {
     return this.productsService.all();
   });
