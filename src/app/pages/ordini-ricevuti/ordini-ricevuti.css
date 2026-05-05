@@ -68,11 +68,9 @@
   color: white;
 }
 
-.status-PENDING { background: #f59e0b; }
-.status-PROCESSING { background: #3b82f6; }
-.status-SHIPPED { background: #6366f1; }
-.status-DELIVERED { background: #10b981; }
-.status-CANCELLED { background: #ef4444; }
+.status-IN_CONSEGNA { background: #f59e0b; }
+.status-CONSEGNATO { background: #10b981; }
+.status-CANCELLATO { background: #ef4444; }
 
 /* SEZIONI */
 .order-section {
