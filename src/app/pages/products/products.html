@@ -79,6 +79,40 @@
 
       @if (products().length === 0) {
         <p class="empty">Nessun prodotto trovato. Prova con un'altra ricerca!</p>
+      } @else {
+        <!-- PAGINAZIONE -->
+        <div class="pagination">
+          <button
+            class="pagination-btn"
+            (click)="goToPage(currentPage() - 1)"
+            [disabled]="currentPage() === 1"
+          >
+            ← Precedente
+          </button>
+
+          <div class="pagination-numbers">
+            @for (page of [].constructor(totalPages()); let i = $index; track i) {
+              <button
+                class="pagination-number"
+                [class.active]="i + 1 === currentPage()"
+                (click)="goToPage(i + 1)"
+              >
+                {{ i + 1 }}
+              </button>
+            }
+          </div>
+
+          <button
+            class="pagination-btn"
+            (click)="goToPage(currentPage() + 1)"
+            [disabled]="currentPage() === totalPages()"
+          >
+            Successiva →
+          </button>
+        </div>
+        <p class="pagination-info">
+          Pagina {{ currentPage() }} di {{ totalPages() }} | Totale prodotti: {{ totalProducts() }}
+        </p>
       }
     </section>
   </main>
