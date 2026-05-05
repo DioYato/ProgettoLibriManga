@@ -15,8 +15,7 @@ export interface User {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private readonly _user = signal<User | undefined>(undefined);
-  public readonly user = this._user.asReadonly();
+  public readonly user = signal<User | undefined>(undefined);
 
   private api = 'http://localhost:8080/utenti';
 
@@ -27,7 +26,7 @@ export class AuthService {
     // Ricarica utente dal localStorage
     const stored = localStorage.getItem('user');
     if (stored) {
-      this._user.set(JSON.parse(stored));
+      this.user.set(JSON.parse(stored));
     }
   }
 
@@ -39,7 +38,7 @@ export class AuthService {
   login(credentials: { email: string; password: string }): Observable<User> {
     return this.http.post<User>(`${this.api}/login`, credentials).pipe(
       tap((user) => {
-        this._user.set(user);
+        this.user.set(user);
 
         // Memorizza utente autenticato
         localStorage.setItem('user', JSON.stringify(user));
@@ -48,7 +47,7 @@ export class AuthService {
   }
 
   logout(): void {
-    this._user.set(undefined);
+    this.user.set(undefined);
     localStorage.removeItem('user'); 
     this.router.navigate(['/']);
   }

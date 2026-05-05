@@ -16,11 +16,9 @@ export class Profilo implements OnInit {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private users = inject(UsersService);
-  private platformId = inject(PLATFORM_ID);
   private router = inject(Router); // <--- Inject del Router
 
-  userSignal = signal<any>(null);
-  welcomeMessage = computed(() => this.userSignal() ? `Ciao ${this.userSignal().nome}` : '');
+  welcomeMessage = computed(() => this.auth.user() ? `Ciao ${this.auth.user()!.nome}` : '');
 
   form = this.fb.nonNullable.group({
     nome: ['', Validators.required],
@@ -36,13 +34,12 @@ export class Profilo implements OnInit {
   private loadUserData() {
     const user = this.auth.user();
     if (user) {
-      this.userSignal.set(user);
       this.form.patchValue(user);
     }
   }
 
   getProfileImage() {
-    const photo = this.userSignal()?.immagineProfilo;
+    const photo = this.auth.user()?.immagineProfilo;
     if (photo && photo !== 'default-avatar.png') {
       return `http://localhost:8080/images/${photo}`;
     }
@@ -59,7 +56,7 @@ export class Profilo implements OnInit {
           next: (res: any) => {
             alert("Foto aggiornata con successo!");
             this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
-              this.userSignal.set(updatedUser);
+              this.auth.user.set(updatedUser);
               localStorage.setItem('user', JSON.stringify(updatedUser));
             });
           },

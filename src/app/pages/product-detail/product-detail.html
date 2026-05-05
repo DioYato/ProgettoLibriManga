@@ -18,7 +18,7 @@
 
         <div class="pdp__subHeader">
           <span class="pdp__authorName">
-            {{ p.autore?.nome || '' }} {{ p.autore?.cognome || '' }}
+            {{ p.autore.nome || '' }} {{ p.autore.cognome || '' }}
           </span>
         </div>
 
@@ -81,7 +81,7 @@
         <div class="pdp__extraDetails">
           <div class="pdp__detailRow">
             <span class="pdp__label">Editore:</span>
-            <span class="pdp__value">{{ p.casaEditrice?.nome }}</span>
+            <span class="pdp__value">{{ p.casaEditrice.nome }}</span>
           </div>
           <div class="pdp__detailRow">
             <span class="pdp__label">Formato:</span>
