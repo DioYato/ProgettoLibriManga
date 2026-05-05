@@ -24,6 +24,10 @@ export class Products implements OnInit {
   readonly query = signal('');
   readonly sort = signal('');
 
+  // PAGINAZIONE
+  readonly itemsPerPage = 20;
+  readonly currentPage = signal(1);
+
   filters = {
     genres: [] as number[]
   };
@@ -34,11 +38,11 @@ export class Products implements OnInit {
 
   // La ricerca si fa lato server tramite query, non sul client con tutti i dati, è una follia
   readonly products = computed(() => {
-    const q = this.query().trim().toLowerCase();
-    const items = this.productsService.all();
-    if (!q) return items;
-    return items.filter((p) => p.titolo.toLowerCase().includes(q));
+    return this.productsService.all();
   });
+
+  readonly totalPages = computed(() => this.productsService.totalPages());
+  readonly totalProducts = computed(() => this.productsService.totalProducts());
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -46,27 +50,33 @@ export class Products implements OnInit {
       const autoreNome = params['autore'];
       const categoriaId = params['categoriaId'];
       const q = params['q'];
+      const page = params['page'] ? Number(params['page']) : 1;
 
       if (q) {
         this.query.set(q);
       }
 
+      this.currentPage.set(page);
+
+      const backendPage = Math.max(0, page - 1);
+      const backendQuery = q ? q.trim() : undefined;
+
       if (autoreNome) {
-        this.productsService.loadFromBackend(this.sort(), [], autoreNome);
+        this.productsService.loadFromBackend(this.sort(), [], autoreNome, backendQuery, backendPage, this.itemsPerPage);
       }
       else if (categoriaId) {
-        this.productsService.loadFromBackend(this.sort(), [Number(categoriaId)]);
+        this.productsService.loadFromBackend(this.sort(), [Number(categoriaId)], undefined, backendQuery, backendPage, this.itemsPerPage);
       }
       else if (genereNome) {
         const idGenere = this.mappaNomeAdId(genereNome);
         if (idGenere) {
-          this.productsService.loadFromBackend(this.sort(), [idGenere]);
+          this.productsService.loadFromBackend(this.sort(), [idGenere], undefined, backendQuery, backendPage, this.itemsPerPage);
         } else {
-          this.productsService.loadFromBackend(this.sort());
+          this.productsService.loadFromBackend(this.sort(), [], undefined, backendQuery, backendPage, this.itemsPerPage);
         }
       }
       else {
-        this.productsService.loadFromBackend(this.sort());
+        this.productsService.loadFromBackend(this.sort(), [], undefined, backendQuery, backendPage, this.itemsPerPage);
       }
     });
   }
@@ -88,7 +98,7 @@ export class Products implements OnInit {
   deleteProduct(id: number) {
     if (confirm('Sei sicuro di voler eliminare questo prodotto?')) {
       this.adminService.deleteProduct(id).subscribe({
-        next: () => this.productsService.loadFromBackend(this.sort()),
+        next: () => this.productsService.loadFromBackend(this.sort(), this.filters.genres, undefined, this.query(), 0, this.itemsPerPage),
         error: (err) => console.error(err)
       });
     }
@@ -96,20 +106,41 @@ export class Products implements OnInit {
 
   onSearch(value: string) {
     this.query.set(value);
+    this.currentPage.set(1);
+    const backendQuery = value.trim() || undefined;
+    this.productsService.loadFromBackend(this.sort(), this.filters.genres, undefined, backendQuery, 0, this.itemsPerPage);
   }
 
   onSortChange(event: Event) {
     const value = (event.target as HTMLSelectElement)?.value ?? '';
     this.sort.set(value);
-    this.productsService.loadFromBackend(value, this.filters.genres, undefined);
+    this.currentPage.set(1);
+    this.productsService.loadFromBackend(value, this.filters.genres, undefined, this.query(), 0, this.itemsPerPage);
   }
 
   onFiltersChange(filters: ProductFilters) {
     this.filters = filters;
+    this.currentPage.set(1);
     this.productsService.loadFromBackend(
       this.sort(),
       filters.genres,
-      undefined
+      undefined,
+      this.query(),
+      0,
+      this.itemsPerPage
+    );
+  }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages()) return;
+    this.currentPage.set(page);
+    this.productsService.loadFromBackend(
+      this.sort(),
+      this.filters.genres,
+      undefined,
+      this.query(),
+      page - 1,
+      this.itemsPerPage
     );
   }
 

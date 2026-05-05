@@ -33,9 +33,16 @@ export class ProductsService {
   private readonly _items = signal<Product[]>([]);
   readonly all = computed(() => this._items());
 
+  // BACKEND DEVE FORNIRE: { data: Product[], total: number, totalPages: number, currentPage: number }
+  private readonly _totalProducts = signal<number>(0);
+  readonly totalProducts = computed(() => this._totalProducts());
+
+  private readonly _totalPages = signal<number>(0);
+  readonly totalPages = computed(() => this._totalPages());
+
   constructor(private http: HttpClient) {}
 
-  loadFromBackend(sort?: string, genres?: number[], author?: number) {
+  loadFromBackend(sort?: string, genres?: number[], author?: number, query?: string, page: number = 1, limit: number = 20) {
     let params = new HttpParams();
 
     if (sort) {
@@ -50,12 +57,37 @@ export class ProductsService {
       params = params.set('autore', author.toString());
     }
 
-    const request$ = this.http.get<Product[]>(`${this.apiUrl}/list`, { params }).pipe(
-      tap(products => this._items.set(products)),
+    if (query) {
+      params = params.set('q', query);
+    }
+
+    // AGGIUNGI QUESTI PARAMETRI AL BACKEND
+    params = params.set('page', page.toString());
+    params = params.set('limit', limit.toString());
+
+    const request$ = this.http.get<any>(`${this.apiUrl}/list`, { params }).pipe(
+      tap(response => {
+        // Retrocompatibilità: accetta sia array che oggetto paginato
+        if (Array.isArray(response)) {
+          this._items.set(response);
+          this._totalProducts.set(response.length);
+          this._totalPages.set(1);
+        } else {
+          const content = response.content || response.data || [];
+          const total = response.total ?? response.totalElements ?? 0;
+          const totalPages = response.totalPages ?? 1;
+
+          this._items.set(content);
+          this._totalProducts.set(total);
+          this._totalPages.set(totalPages);
+        }
+      }),
       catchError(err => {
         console.error('Errore nel recupero dei libri:', err);
         this._items.set([]);
-        return of([] as Product[]);
+        this._totalProducts.set(0);
+        this._totalPages.set(0);
+        return of([]);
       })
     );
 
