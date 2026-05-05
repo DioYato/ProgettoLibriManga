@@ -48,34 +48,58 @@
   margin-left: auto;
 }
 
-.img_cart_cont {
-  background-color: transparent;
-  height: 48px;
-  width: 48px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  padding: 10px;
-  position: relative;
-  border-radius: 50%;
-}
-
-.img_cart_cont:hover {
-  background-color: rgba(15, 23, 42, 0.06);
-  border-color: rgba(15, 23, 42, 0.06);
-}
-
-.admin-icon {
-  margin-left: 2px;
-}
-
+/* Puoi mantenere questo per le altre icone che sono ancora immagini */
 .img_cart_cont img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.profile-icon {
+/* 1. Il contenitore: gestisce lo spazio per TUTTE le icone (img e font-awesome) */
+.img_cart_cont {
+  background-color: transparent;
+  height: 48px;
+  width: 48px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: 11px; /* Questo ridimensiona le immagini carrello/profilo/admin */
+  position: relative;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
 
+.img_cart_cont:hover {
+  background-color: rgba(15, 23, 42, 0.06);
+}
+
+/* 2. Stile specifico per l'icona della mappa (Font Awesome) */
+.img_cart_cont i {
+  font-size: 22px; /* Dimensione perfetta per pareggiare il cuore e il carrello */
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+
+/* 3. Stile per le icone che sono ancora immagini (Carrello, Admin, Profilo) */
+.img_cart_cont img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Evita deformazioni */
+}
+
+/* 4. Fix per le altre classi esistenti nel tuo file */
+.admin-icon {
+  margin-left: 2px;
+}
+
+
+.profile-icon {
     border-radius: 50%;
     bottom: 2px;
     height: 18px;
@@ -144,18 +168,14 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1px solid rgba(177, 15, 26, 0.18);
-  color: #b10f1a;
-  font-size: 20px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.07);
+  color: #000000;
+  font-size: 32px;
   transition: transform 0.18s ease, background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
 }
 
 .nav-fav:hover .heart-icon {
-  background: #fff5f6;
-  color: #b10f1a;
-  border-color: rgba(177, 15, 26, 0.3);
+  /*aggiungere background*/
+   background-color: rgba(15, 23, 42, 0.06);
   transform: translateY(-1px);
 }
 
