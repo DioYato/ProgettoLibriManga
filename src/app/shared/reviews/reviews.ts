@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output, inject, OnChanges, SimpleChange
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Review, ReviewsService } from '../../services/reviews.service';
+import { Review, ReviewRequest, ReviewsService } from '../../services/reviews.service';
 import { StarRatingComponent } from '../star-rating/star-rating';
 
 @Component({
@@ -26,6 +26,7 @@ export class ReviewsComponent implements OnChanges {
   readonly reviews = signal<Review[]>([]);
   readonly loading = signal(false);
   readonly submitting = signal(false);
+  readonly submitError = signal<string | null>(null);
 
   rating = 5;
   comment = '';
@@ -51,9 +52,15 @@ export class ReviewsComponent implements OnChanges {
     }
 
     this.loading.set(true);
-    this.reviewsService.getByProduct(this.productId).subscribe(result => {
-      this.reviews.set(result || []);
-      this.loading.set(false);
+    this.reviewsService.getByProduct(this.productId).subscribe({
+      next: (result) => {
+        this.reviews.set(result || []);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.reviews.set([]);
+        this.loading.set(false);
+      }
     });
   }
 
@@ -74,22 +81,29 @@ export class ReviewsComponent implements OnChanges {
       return;
     }
 
-    const review: Review = {
-      libroId: this.productId,
-      utenteId: currentUser.id,
-      nomeUtente: `${currentUser.nome} ${currentUser.cognome}`,
-      valutazione: this.rating,
-      commento: this.comment.trim(),
-      data: new Date().toISOString(),
+    const review: ReviewRequest = {
+      idLibro: this.productId,
+      idUtente: currentUser.id,
+      stelle: this.rating,
+      contenuto: this.comment.trim(),
     };
 
     this.submitting.set(true);
-    this.reviewsService.submitReview(review).subscribe(savedReview => {
-      this.reviews.update(list => [savedReview, ...list]);
-      this.comment = '';
-      this.rating = 5;
-      this.selectedRatingChange.emit(this.rating);
-      this.submitting.set(false);
+    this.submitError.set(null);
+    this.reviewsService.submitReview(review).subscribe({
+      next: () => {
+        this.comment = '';
+        this.rating = 5;
+        this.selectedRatingChange.emit(this.rating);
+        this.submitting.set(false);
+        this.loadReviews();
+        alert('Recensione inviata con successo!');
+      },
+      error: (err) => {
+        this.submitting.set(false);
+        this.submitError.set('Errore nell\'invio della recensione. Riprova.');
+        console.error('Errore:', err);
+      }
     });
   }
 
@@ -101,11 +115,13 @@ export class ReviewsComponent implements OnChanges {
     return '★'.repeat(value) + '☆'.repeat(5 - value);
   }
 
-  formatDate(date: string) {
-    return new Date(date).toLocaleDateString('it-IT', {
+  formatDate(date: string | Date) {
+    const d = typeof date === 'string' ? new Date(date) : date;
+    return d.toLocaleDateString('it-IT', {
       day: '2-digit',
       month: 'long',
       year: 'numeric',
     });
   }
 }
+

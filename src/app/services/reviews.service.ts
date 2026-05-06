@@ -1,15 +1,33 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 
+export type UtentiDTO = {
+  id: number;
+  nome: string;
+  cognome: string;
+  email?: string;
+};
+
+export type LibriDTO = {
+  id: number;
+  titolo: string;
+};
+
 export type Review = {
   id?: number;
-  libroId: number;
-  utenteId: number;
-  nomeUtente: string;
-  valutazione: number;
-  commento: string;
-  data: string;
+  stelle: number;
+  contenuto: string;
+  data: string | Date;
+  libro?: LibriDTO;
+  utente?: UtentiDTO;
+};
+
+export type ReviewRequest = {
+  idLibro: number;
+  idUtente: number;
+  stelle: number;
+  contenuto: string;
 };
 
 @Injectable({ providedIn: 'root' })
@@ -19,10 +37,8 @@ export class ReviewsService {
 
   constructor(private http: HttpClient) {}
 
-  // Se il backend usa un path o una query diversa, aggiornare qui l'endpoint
   getByProduct(libroId: number): Observable<Review[]> {
-    const params = new HttpParams().set('libroId', libroId.toString());
-    return this.http.get<Review[]>(this.api, { params }).pipe(
+    return this.http.get<Review[]>(`${this.api}/findByIdLibro?idLibro=${libroId}`).pipe(
       catchError(err => {
         console.error('Errore nel caricamento delle recensioni:', err);
         return of([]);
@@ -30,12 +46,11 @@ export class ReviewsService {
     );
   }
 
-  // Aggiornare questo endpoint se il backend richiede un percorso diverso o un payload con campi differenti.
-  submitReview(review: Review): Observable<Review> {
-    return this.http.post<Review>(this.api, review).pipe(
+  submitReview(review: ReviewRequest): Observable<any> {
+    return this.http.post(`${this.api}/create`, review).pipe(
       catchError(err => {
         console.error('Errore nell\'invio della recensione:', err);
-        return of(review);
+        throw err;
       })
     );
   }

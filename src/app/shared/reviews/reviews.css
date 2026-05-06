@@ -125,6 +125,16 @@
   cursor: not-allowed;
 }
 
+.reviews__error {
+  margin-top: 12px;
+  padding: 12px;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  color: #c33;
+  font-size: 0.95rem;
+}
+
 .reviews__hint {
   margin-top: 12px;
   color: #555;

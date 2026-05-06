@@ -44,6 +44,10 @@
       {{ submitting() ? 'Invio in corso...' : 'Invia recensione' }}
     </button>
 
+    @if (submitError()) {
+      <div class="reviews__error">{{ submitError() }}</div>
+    }
+
     <div class="reviews__hint">
       @if (!isLogged) {
         Devi effettuare il login per pubblicare una recensione.
@@ -68,12 +72,12 @@
       <article class="review-card">
         <div class="review-card__top">
           <div>
-            <span class="review-card__author">{{ review.nomeUtente }}</span>
+            <span class="review-card__author">{{ review.utente?.nome }} {{ review.utente?.cognome }}</span>
             <time class="review-card__date">{{ formatDate(review.data) }}</time>
           </div>
-          <span class="review-card__rating">{{ formatStars(review.valutazione) }}</span>
+          <span class="review-card__rating">{{ formatStars(review.stelle) }}</span>
         </div>
-        <p class="review-card__text">{{ review.commento }}</p>
+        <p class="review-card__text">{{ review.contenuto }}</p>
       </article>
     }
   </div>
