@@ -25,8 +25,18 @@
         <h1 class="pdp__title">{{ p.titolo }}</h1>
 
         <div class="pdp__ratingRow">
-          <span class="pdp__stars">⭐⭐⭐⭐⭐</span>
-          <span class="pdp__ratingCount">770 recensioni</span>
+          <app-star-rating
+            [value]="reviewRating()"
+            [size]="'1.2rem'"
+            (valueChange)="reviewRating.set($event)">
+          </app-star-rating>
+          <span class="pdp__ratingCount" (click)="scrollToReviews()">770 recensioni</span>
+        </div>
+
+        <div class="pdp__reviewTrigger">
+          <button class="pdp__reviewsBtn" type="button" (click)="scrollToReviews()">
+            Vai alle recensioni
+          </button>
         </div>
 
         <hr class="pdp__divider">
@@ -100,5 +110,12 @@
             </a>
           </div>
         </div> <div class="pdp__note">Verifica i termini e le condizioni</div>
-      </div> </div> }
+      </div> </div>
+
+      <app-reviews
+        [productId]="productId()"
+        [selectedRating]="reviewRating()"
+        (selectedRatingChange)="reviewRating.set($event)">
+      </app-reviews>
+    }
 </section>

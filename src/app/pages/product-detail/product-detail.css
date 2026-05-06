@@ -112,6 +112,29 @@
   cursor: pointer;
 }
 
+.pdp__reviewTrigger {
+  margin-bottom: 16px;
+}
+
+.pdp__reviewsBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #007185;
+  border-radius: 999px;
+  padding: 8px 16px;
+  background: transparent;
+  color: #007185;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.pdp__reviewsBtn:hover {
+  background: rgba(0, 113, 133, 0.08);
+  transform: translateY(-1px);
+}
+
 .pdp__divider {
   border: 0;
   border-top: 1px solid #e7e7e7;

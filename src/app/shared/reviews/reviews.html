@@ -1,0 +1,80 @@
+<section class="reviews" id="reviewsSection">
+  <div class="reviews__header">
+    <div>
+      <h2>Recensioni</h2>
+      <p class="reviews__subtitle">{{ reviewCount }} recensioni</p>
+    </div>
+  </div>
+
+  <div class="reviews__form">
+    <div class="reviews__formHeader">
+      <h3>Lascia la tua recensione</h3>
+      @if (isLogged) {
+        <span class="reviews__loggedIn">
+          Loggato come {{ user()?.nome }} {{ user()?.cognome }}
+        </span>
+      }
+    </div>
+
+    <div class="reviews__fields">
+      <label class="reviews__field">
+        Valutazione
+        <app-star-rating
+          [value]="rating"
+          [size]="'1.9rem'"
+          (valueChange)="setRating($event)">
+        </app-star-rating>
+      </label>
+
+      <label class="reviews__field reviews__textareaLabel">
+        Commento
+        <textarea
+          [(ngModel)]="comment"
+          placeholder="Raccontaci la tua esperienza con questo libro..."
+          rows="5">
+        </textarea>
+      </label>
+    </div>
+
+    <button
+      class="reviews__submit"
+      type="button"
+      (click)="submitReview()"
+      [disabled]="submitting() || !comment.trim()">
+      {{ submitting() ? 'Invio in corso...' : 'Invia recensione' }}
+    </button>
+
+    <div class="reviews__hint">
+      @if (!isLogged) {
+        Devi effettuare il login per pubblicare una recensione.
+      }
+    </div>
+  </div>
+
+  <div class="reviews__list">
+    @if (loading()) {
+      <div class="reviews__loading">
+        Caricamento recensioni…
+      </div>
+    }
+
+    @if (!loading() && reviewCount === 0) {
+      <div class="reviews__empty">
+        Ancora nessuna recensione. Sii il primo a recensire questo libro!
+      </div>
+    }
+
+    @for (review of reviews(); track review.id) {
+      <article class="review-card">
+        <div class="review-card__top">
+          <div>
+            <span class="review-card__author">{{ review.nomeUtente }}</span>
+            <time class="review-card__date">{{ formatDate(review.data) }}</time>
+          </div>
+          <span class="review-card__rating">{{ formatStars(review.valutazione) }}</span>
+        </div>
+        <p class="review-card__text">{{ review.commento }}</p>
+      </article>
+    }
+  </div>
+</section>

@@ -1,0 +1,27 @@
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.star-rating__star {
+  background: transparent;
+  border: none;
+  color: var(--inactive-color, #d1d5db);
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.15s ease, transform 0.15s ease;
+  padding: 0;
+}
+
+.star-rating__star.active {
+  color: var(--active-color, #f59e0b);
+}
+
+.star-rating__star:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.star-rating__star:disabled {
+  cursor: default;
+}

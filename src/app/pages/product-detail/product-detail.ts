@@ -5,10 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { ProductsService } from '../../services/products.service';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
+import { ReviewsComponent } from '../../shared/reviews/reviews';
+import { StarRatingComponent } from '../../shared/star-rating/star-rating';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [FormsModule, RouterLink, DecimalPipe],
+  imports: [FormsModule, RouterLink, DecimalPipe, ReviewsComponent, StarRatingComponent],
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',
 })
@@ -25,6 +27,7 @@ export class ProductDetail implements OnInit {
   private readonly id = computed(() => this.route.snapshot.paramMap.get('id'));
 
   readonly product = computed(() => this.products.getById(this.id()));
+  readonly productId = computed(() => this.product()?.id);
 
   // Quantità come SIGNAL (così aggiorna il prezzo)
   quantity = signal(1);
@@ -34,6 +37,8 @@ export class ProductDetail implements OnInit {
     const p = this.product();
     return p ? p.prezzo * this.quantity() : 0;
   });
+
+  readonly reviewRating = signal(5);
 
   constructor() {}
 
@@ -54,7 +59,7 @@ export class ProductDetail implements OnInit {
   }
 
   addToCart() {
-    const user = this.auth.user;
+    const user = this.auth.user();
     if (!user) {
       alert('Devi effettuare il login per aggiungere prodotti al carrello!');
       this.router.navigate(['/login']);
@@ -66,6 +71,13 @@ export class ProductDetail implements OnInit {
 
     this.cart.add(p, this.quantity());
     alert('Prodotto aggiunto al carrello!');
+  }
+
+  scrollToReviews() {
+    const target = document.getElementById('reviewsSection');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
   imageUrl(copertina?: string) {

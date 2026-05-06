@@ -1,0 +1,13 @@
+<div class="star-rating" [style.fontSize]="size">
+  @for (star of stars; track star) {
+    <button
+      type="button"
+      class="star-rating__star"
+      [class.active]="value >= star"
+      [attr.aria-label]="'Valuta ' + star + ' stelle'"
+      [disabled]="readonly"
+      (click)="select(star)">
+      {{ value >= star ? '★' : '☆' }}
+    </button>
+  }
+</div>
