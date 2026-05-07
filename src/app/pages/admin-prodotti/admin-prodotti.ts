@@ -7,7 +7,6 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admin-prodotti',
-  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './admin-prodotti.html',
   styleUrl: './admin-prodotti.css',

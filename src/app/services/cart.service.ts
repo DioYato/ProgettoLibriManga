@@ -1,91 +1,52 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
-import { Product } from './products.service';
-
-export type CartItem = {
-  product: Product;
-  quantity: number;
-};
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
 
-  private readonly items = signal<CartItem[]>([]);
+  private readonly http = inject(HttpClient);
+  private readonly items = signal<any[]>([]);
 
   readonly all = computed(() => this.items());
-
   readonly total = computed(() =>
-    this.items().reduce((sum, item) => sum + item.product.prezzo * item.quantity, 0)
+    this.items().reduce((sum, item) => sum + item.libro.prezzo * item.quantita, 0)
   );
-
   readonly count = computed(() =>
-    this.items().reduce((sum, item) => sum + item.quantity, 0)
+    this.items().reduce((sum, item) => sum + item.quantita, 0)
   );
 
-  constructor() {
-    const stored = localStorage.getItem('cart');
-    if (stored) {
-      this.items.set(JSON.parse(stored));
-    }
+  load(userId: number) {
+    this.http
+      .get<any[]>(`http://localhost:8080/carrello/findByUtente?idUtente=${userId}`)
+      .subscribe(r => this.items.set(r));
+  }
 
-    // Aggiorna lo storage ogni volta che cambia il carrello
-    effect(() => {
-      localStorage.setItem('cart', JSON.stringify(this.items()));
+  add(userId: number, bookId: number, qty: number = 1) {
+    this.http.post('http://localhost:8080/carrello/create', {
+      idUtente: userId,
+      idLibro: bookId,
+      quantita: qty
+    }).subscribe(() => this.load(userId));
+  }
+
+  updateQuantity(cartItemId: number, qty: number, userId: number) {
+    this.http.put('http://localhost:8080/carrello/update', {
+      id: cartItemId,
+      quantita: qty
+    }).subscribe(() => this.load(userId));
+  }
+
+  remove(cartItemId: number, userId: number) {
+    this.http
+      .delete(`http://localhost:8080/carrello/delete?id=${cartItemId}`)
+      .subscribe(() => this.load(userId));
+  }
+
+  clear(userId: number) {
+    const current = this.items();
+    current.forEach(i => {
+      this.http.delete(`http://localhost:8080/carrello/delete?id=${i.id}`).subscribe();
     });
-  }
-
-  // Aggiunge un prodotto o incrementa la quantità se già presente
-  add(product: Product, qty: number = 1) {
-    const current = this.items();
-    const existing = current.find(i => i.product.id === product.id);
-
-    if (existing) {
-      this.items.set(
-        current.map(i =>
-          i.product.id === product.id
-            ? { ...i, quantity: i.quantity + qty }
-            : i
-        )
-      );
-    } else {
-      this.items.set([...current, { product, quantity: qty }]);
-    }
-  }
-
-  // Aggiorna la quantità di un elemento già presente
-  updateQuantity(productId: number, quantity: number) {
-    const current = this.items();
-    const existing = current.find(i => i.product.id === productId);
-
-    if (existing) {
-      this.items.set(
-        current.map(i =>
-          i.product.id === productId ? { ...i, quantity } : i
-        )
-      );
-    }
-  }
-
-  // Riduce la quantità; elimina l'articolo se arriva a zero
-  decrease(productId: number) {
-    const current = this.items();
-    const existing = current.find(i => i.product.id === productId);
-
-    if (existing && existing.quantity > 1) {
-      this.items.set(
-        current.map(i =>
-          i.product.id === productId ? { ...i, quantity: i.quantity - 1 } : i
-        )
-      );
-    } else {
-      this.remove(productId);
-    }
-  }
-
-  remove(productId: number) {
-    this.items.update(prev => prev.filter(i => i.product.id !== productId));
-  }
-
-  clear() {
     this.items.set([]);
   }
 }

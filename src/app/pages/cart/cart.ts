@@ -9,62 +9,58 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Cart {
 
-  // servizi
   private readonly cart = inject(CartService);
   private readonly http = inject(HttpClient);
 
-  // signals
   readonly items = computed(() => this.cart.all());
   readonly total = computed(() => this.cart.total());
 
-  remove(id: number) {
-    this.cart.remove(id);
-  }
+  private userId: number | null = null;
 
-  updateQuantity(id: number, event: Event) {
-    const input = event.target as HTMLInputElement;
-    const quantity = parseInt(input.value);
-    if (!isNaN(quantity) && quantity > 0) {
-      this.cart.updateQuantity(id, quantity);
-    } else {
-      input.value = '1'; // reset a 1 se input non valido
-      this.cart.updateQuantity(id, 1);
+  constructor() {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      const user = JSON.parse(stored);
+      this.userId = user.id;
+      this.cart.load(user.id);
     }
   }
 
+  remove(cartItemId: number) {
+    if (!this.userId) return;
+    this.cart.remove(cartItemId, this.userId);
+  }
+
+  updateQuantity(cartItemId: number, event: Event) {
+    if (!this.userId) return;
+    const input = event.target as HTMLInputElement;
+    const qty = parseInt(input.value);
+    const value = isNaN(qty) || qty < 1 ? 1 : qty;
+    input.value = value.toString();
+    this.cart.updateQuantity(cartItemId, value, this.userId);
+  }
+
   imageUrl(copertina?: string) {
-    if (!copertina) return '';
-    return `http://localhost:8080/images/${copertina}`;
+    return copertina ? `http://localhost:8080/images/${copertina}` : '';
   }
 
   sendOrder() {
-    const items = this.cart.all(); // prodotti nel carrello
-
-    const stored = localStorage.getItem('user');
-    if (!stored) {
+    if (!this.userId) {
       alert('Devi essere loggato per inviare un ordine.');
       return;
     }
 
-    const user = JSON.parse(stored);
-
-    const prodotti = items.map(item => ({
-      idLibro: item.product.id,
-      quantita: item.quantity
-    }));
-
-    this.http.post('http://localhost:8080/ordini/create', {
-      idUtente: user.id,
-      dettagliOrdini: prodotti
-    }).subscribe({
-      next: () => {
-        alert('Ordine inviato con successo!');
-        this.cart.clear(); // svuota il carrello
-      },
-      error: () => {
-        alert('Errore durante l’invio dell’ordine.');
-      }
-    });
+    this.http
+      .post(`http://localhost:8080/carrello/acquista?idUtente=${this.userId}`, {})
+      .subscribe({
+        next: () => {
+          alert('Ordine inviato con successo!');
+          this.cart.clear(this.userId!);
+        },
+        error: () => {
+          alert('Errore durante l’invio dell’ordine.');
+        }
+      });
   }
 }
 
