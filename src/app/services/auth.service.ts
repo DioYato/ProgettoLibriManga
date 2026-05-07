@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { FavoritesService } from './favorites.service';
 
 export interface User {
   id: number;
@@ -22,6 +23,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private favorites: FavoritesService,
   ) {
     // Ricarica utente dal localStorage
     const stored = localStorage.getItem('user');
@@ -42,13 +44,18 @@ export class AuthService {
 
         // Memorizza utente autenticato
         localStorage.setItem('user', JSON.stringify(user));
+
+        // Aggiorna i preferiti al login
+        this.favorites.loadFromBackend().subscribe();
       })
     );
   }
 
   logout(): void {
+    const currentUser = this.user();
     this.user.set(undefined);
-    localStorage.removeItem('user'); 
+    localStorage.removeItem('user');
+    this.favorites.clearLocalFavorites(currentUser?.id);
     this.router.navigate(['/']);
   }
 

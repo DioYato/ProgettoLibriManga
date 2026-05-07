@@ -18,7 +18,7 @@ export class MangaSectionComponent implements OnInit {
   mangaList = signal<Product[]>([]);
   
   ngOnInit() {
-    this.productsService.fetchFromBackend(undefined, [10]).subscribe(manga => {
+    this.productsService.fetchFromBackend('annoDesc', [10]).subscribe(manga => {
       this.mangaList.set(manga);
     });
   }
