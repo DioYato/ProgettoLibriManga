@@ -1,6 +1,6 @@
-import { Component, computed, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductsService } from '../../../services/products.service';
+import { Product, ProductsService } from '../../../services/products.service';
 import { Router } from '@angular/router'; 
 
 @Component({
@@ -15,13 +15,12 @@ export class MangaSectionComponent implements OnInit {
 
   @ViewChild('carousel') carousel!: ElementRef;
 
-  mangaList = computed(() => {
-    const tutti = this.productsService.all();
-    return tutti.filter(p => p.id >= 21 && p.id <= 27);
-  });
+  mangaList = signal<Product[]>([]);
   
   ngOnInit() {
-    this.productsService.loadFromBackend();
+    this.productsService.fetchFromBackend(undefined, [10]).subscribe(manga => {
+      this.mangaList.set(manga);
+    });
   }
 
   vaiAlDettaglio(id: number) {

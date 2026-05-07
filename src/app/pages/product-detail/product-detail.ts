@@ -2,7 +2,7 @@ import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ProductsService } from '../../services/products.service';
+import { Product, ProductsService } from '../../services/products.service';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { ReviewsComponent } from '../../shared/reviews/reviews';
@@ -25,8 +25,9 @@ export class ProductDetail implements OnInit {
   readonly tab = signal<'descrizione' | 'dettagli'>('descrizione');
 
   private readonly id = computed(() => this.route.snapshot.paramMap.get('id'));
+  private readonly productSignal = signal<Product | undefined>(undefined);
 
-  readonly product = computed(() => this.products.getById(this.id()));
+  readonly product = computed(() => this.productSignal());
   readonly productId = computed(() => this.product()?.id);
 
   // Quantità come SIGNAL (così aggiorna il prezzo)
@@ -43,7 +44,12 @@ export class ProductDetail implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.products.loadFromBackend();
+    const id = this.id();
+    if (id) {
+      this.products.fetchById(id).subscribe(product => {
+        this.productSignal.set(product);
+      });
+    }
   }
 
   setTab(tab: 'descrizione' | 'dettagli') {

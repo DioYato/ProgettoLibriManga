@@ -1,6 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, of, tap, Observable } from 'rxjs';
+import { catchError, map, of, tap, Observable } from 'rxjs';
 
 export type Author = {
   nome: string;
@@ -49,24 +49,44 @@ export class ProductsService {
   constructor(private http: HttpClient) {}
 
   loadFromBackend(sort?: string, genres?: number[], author?: number, query?: string, page: number = 0, limit: number = 20) {
-    const params = this.buildHttpParams(sort, genres, author, query, page, limit);
-
-    const request$ = this.http.get<any>(`${this.apiUrl}/list`, { params }).pipe(
-      tap(response => this.updateProductsFromResponse(response)),
-      catchError(err => {
-        console.error('Errore nel recupero dei libri:', err);
-        this.clearProducts();
-        return of([]);
-      })
+    const request$ = this.createProductsRequest(sort, genres, author, query, page, limit).pipe(
+      tap(response => this.updateProductsFromResponse(response))
     );
 
     request$.subscribe();
     return request$;
   }
 
+  fetchFromBackend(sort?: string, genres?: number[], author?: number, query?: string, page: number = 0, limit: number = 20): Observable<Product[]> {
+    return this.createProductsRequest(sort, genres, author, query, page, limit).pipe(
+      map(response => Array.isArray(response) ? response : (response.content || response.data || []))
+    );
+  }
+
+  private createProductsRequest(sort?: string, genres?: number[], author?: number, query?: string, page: number = 0, limit: number = 20) {
+    const params = this.buildHttpParams(sort, genres, author, query, page, limit);
+    return this.http.get<any>(`${this.apiUrl}/list`, { params }).pipe(
+      catchError(err => {
+        console.error('Errore nel recupero dei libri:', err);
+        return of([]);
+      })
+    );
+  }
+
   getById(id: string | number | null | undefined) {
     if (!id) return undefined;
     return this._items().find(p => p.id == id);
+  }
+
+  fetchById(id: string | number): Observable<Product | undefined> {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.get<any>(`${this.apiUrl}/findById`, { params }).pipe(
+      map(response => response?.content ?? response?.data ?? response ?? undefined),
+      catchError(err => {
+        console.error('Errore nel recupero del prodotto per ID:', err);
+        return of(undefined);
+      })
+    );
   }
 
   private buildHttpParams(sort?: string, genres?: number[], author?: number, query?: string, page: number = 0, limit: number = 20): HttpParams {

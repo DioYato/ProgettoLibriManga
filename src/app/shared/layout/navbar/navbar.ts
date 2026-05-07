@@ -21,6 +21,8 @@ export class Navbar {
 
   private readonly cart = inject(CartService);
 
+  readonly cartCount = this.cart.count;
+
   constructor(private favorites: FavoritesService) {}
 
   logout() {
@@ -30,10 +32,6 @@ export class Navbar {
   goToProfile() {
     this.router.navigate(['/profilo']);
   }
-
-  readonly cartCount = computed(() =>
-    this.cart.all().reduce((sum, item) => sum + item.quantity, 0)
-  );
 
   favoritesCount() {
     return this.favorites.count();
