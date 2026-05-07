@@ -7,7 +7,9 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { ReviewsComponent } from '../../shared/reviews/reviews';
 import { StarRatingComponent } from '../../shared/star-rating/star-rating';
+import { ReviewsService, Review } from '../../services/reviews.service'; // Aggiunta importazione
 import { App } from '../../app';
+
 
 @Component({
   selector: 'app-product-detail',
@@ -15,6 +17,8 @@ import { App } from '../../app';
   templateUrl: './product-detail.html',
   styleUrl: './product-detail.css',
 })
+
+
 export class ProductDetail implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
@@ -22,15 +26,29 @@ export class ProductDetail implements OnInit {
   private readonly cart = inject(CartService);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly app = inject(App);
+  private readonly reviewsService = inject(ReviewsService); // Iniezione del servizio recensioni
+  private readonly app = inject(App); 
 
   readonly tab = signal<'descrizione' | 'dettagli'>('descrizione');
 
   private readonly id = computed(() => this.route.snapshot.paramMap.get('id'));
   private readonly productSignal = signal<Product | undefined>(undefined);
+  
+  // Nuovo segnale per contenere l'elenco reale delle recensioni
+  private readonly productReviews = signal<Review[]>([]);
 
   readonly product = computed(() => this.productSignal());
   readonly productId = computed(() => this.product()?.id);
+
+  // LOGICA RECENSIONI DINAMICA
+  readonly reviewCount = computed(() => this.productReviews().length);
+  
+  readonly reviewRating = computed(() => {
+    const list = this.productReviews();
+    if (list.length === 0) return 0;
+    const sum = list.reduce((acc, curr) => acc + (curr.stelle || 0), 0);
+    return sum / list.length;
+  });
 
   quantity = signal(1);
 
@@ -39,7 +57,7 @@ export class ProductDetail implements OnInit {
     return p ? p.prezzo * this.quantity() : 0;
   });
 
-  readonly reviewRating = signal(5);
+  userVote = signal(5);
 
   private userId: number | null = null;
 
@@ -54,13 +72,24 @@ export class ProductDetail implements OnInit {
   }
 
   ngOnInit() {
-    const id = this.id();
-    if (id) {
-      this.products.fetchById(id).subscribe(product => {
-        this.productSignal.set(product);
-      });
-    }
+    this.loadProductData();
   }
+
+  loadProductData() {
+  const id = this.id();
+  if (id) {
+    // 1. Carica i dati base del prodotto
+    this.products.fetchById(id).subscribe(product => {
+      this.productSignal.set(product);
+    });
+
+    // 2. Carica (o ricarica) le recensioni
+    // Quando questo Signal cambia, reviewCount() e reviewRating() si aggiornano all'istante
+    this.reviewsService.getByProduct(Number(id)).subscribe(reviews => {
+      this.productReviews.set(reviews || []);
+    });
+  }
+}
 
   setTab(tab: 'descrizione' | 'dettagli') {
     this.tab.set(tab);
