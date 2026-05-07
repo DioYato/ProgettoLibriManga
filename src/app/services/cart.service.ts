@@ -42,11 +42,7 @@ export class CartService {
       .subscribe(() => this.load(userId));
   }
 
-  clear(userId: number) {
-    const current = this.items();
-    current.forEach(i => {
-      this.http.delete(`http://localhost:8080/carrello/delete?id=${i.id}`).subscribe();
-    });
+  clearLocal() {
     this.items.set([]);
   }
 }

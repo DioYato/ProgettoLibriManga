@@ -25,12 +25,15 @@
         <h1 class="pdp__title">{{ p.titolo }}</h1>
 
         <div class="pdp__ratingRow">
-          <app-star-rating
-            [value]="reviewRating()"
-            [size]="'1.2rem'"
-            (valueChange)="reviewRating.set($event)">
+          <app-star-rating 
+            [value]="reviewRating()" 
+            [readonly]="true"
+            size="1.2rem">
           </app-star-rating>
-          <span class="pdp__ratingCount" (click)="scrollToReviews()">770 recensioni</span>
+
+          <span class="text-muted">
+            {{ reviewCount() }} recensioni
+          </span>
         </div>
 
         <div class="pdp__reviewTrigger">
@@ -115,7 +118,7 @@
       <app-reviews
         [productId]="productId()"
         [selectedRating]="reviewRating()"
-        (selectedRatingChange)="reviewRating.set($event)">
+        (selectedRatingChange)="userVote.set($event) ; loadProductData()">
       </app-reviews>
     }
 </section>

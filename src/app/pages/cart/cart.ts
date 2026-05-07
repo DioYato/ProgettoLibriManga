@@ -55,7 +55,7 @@ export class Cart {
       .subscribe({
         next: () => {
           alert('Ordine inviato con successo!');
-          this.cart.clear(this.userId!);
+          this.cart.clearLocal();
         },
         error: () => {
           alert('Errore durante l’invio dell’ordine.');
