@@ -17,6 +17,8 @@ export class AdminProdotti {
 
   backend = 'http://localhost:8080';
 
+  errorMessage = '';
+
   newProduct = {
     titolo: '',
     descrizione: '',
@@ -37,9 +39,11 @@ export class AdminProdotti {
 
   async addProduct() {
     if (!this.newProduct.titolo || !this.copertina) {
-      alert("Manca il titolo o l'immagine!");
+      this.errorMessage = "Manca il titolo o l'immagine!";
       return;
     }
+
+    this.errorMessage = '';
 
     try {
       const autoreId = await this.getOrCreateAutore(

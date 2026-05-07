@@ -5,6 +5,12 @@
       <p>Inserisci i dettagli del nuovo libro o manga nel catalogo</p>
     </header>
 
+    @if (errorMessage) {
+      <div class="error-box">
+        {{ errorMessage }}
+      </div>
+    }
+
     <form (ngSubmit)="addProduct()" class="modern-form">
       
       <!-- Sezione Titolo e Tipologia -->
@@ -65,8 +71,6 @@
           <input type="number" id="quantita" [(ngModel)]="newProduct.quantitaDisponibile" name="quantita" min="0" placeholder="10" required>
         </div>
       </div>
-
-      <!-- ... resto del form sopra ... -->
 
       <div class="form-actions">
         <button type="submit" class="btn-submit">
