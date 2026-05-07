@@ -152,29 +152,4 @@ export class Products implements OnInit {
 
   isFavorite(id: number) { return this.favorites.isFavorite(id); }
   toggleFavorite(id: number) { this.favorites.toggle(id); }
-
-  aggiungiAlCarrello(product: any) {
-    this.selectedProduct = product;
-
-    this.app.sideCart.items = [{
-      title: product.titolo,
-      price: product.prezzo,
-      qty: 1,
-      image: this.imageUrl(product.copertina)
-    }];
-
-    this.app.sideCart.subtotal = product.prezzo;
-    this.app.sideCart.shipping = 5.50;
-    this.app.sideCart.total = this.app.sideCart.subtotal + this.app.sideCart.shipping;
-    this.app.sideCart.missingForFree = Math.max(0, 40 - this.app.sideCart.total);
-
-    this.app.checkoutHandler = () => {
-      const user = this.auth.user();
-      if (!user || !this.selectedProduct) return;
-      this.cart.add(user.id, this.selectedProduct.id, 1);
-      this.router.navigate(['/carrello']);
-    };
-
-    this.app.sideCart.open();
-  }
 }

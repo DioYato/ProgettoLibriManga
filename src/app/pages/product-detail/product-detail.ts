@@ -85,6 +85,20 @@ export class ProductDetail implements OnInit {
 
     this.selectedProduct = p;
 
+    let existingItem = null;
+    for (const item of this.cart.all()) {
+      if (item.libro.id === p.id) {
+        existingItem = item;
+        break;
+      }
+    }
+
+    if (existingItem === null) {
+      this.cart.add(this.userId, this.selectedProduct.id, this.quantity());
+    } else {
+      this.cart.updateQuantity(existingItem.id, existingItem.quantita + this.quantity(), this.userId);
+    }
+
     this.app.sideCart.items = [{
       title: p.titolo,
       price: p.prezzo,
@@ -99,8 +113,7 @@ export class ProductDetail implements OnInit {
 
     this.app.checkoutHandler = () => {
       if (!this.userId || !this.selectedProduct) return;
-      this.cart.add(this.userId, this.selectedProduct.id, this.quantity());
-      this.router.navigate(['/carrello']);
+      this.router.navigate(['/cart']);
     };
 
     this.app.sideCart.open();
