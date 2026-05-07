@@ -1,0 +1,41 @@
+<div class="overlay" *ngIf="visible" (click)="close()"></div>
+
+<div class="panel" [class.open]="visible">
+  <h3 class="title">Aggiunto al carrello</h3>
+
+  <div class="items">
+    <div class="item" *ngFor="let i of items">
+      <img [src]="i.image" class="item-img">
+      <div class="item-info">
+        <div class="item-title">{{ i.title }}</div>
+        <div class="item-qty">€{{ i.price }} × {{ i.qty }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="row">
+      <span>Totale parziale</span>
+      <strong>€{{ subtotal }}</strong>
+    </div>
+
+    <div class="row">
+      <span>Spedizione</span>
+      <strong>€{{ shipping }}</strong>
+    </div>
+
+    <div class="row total">
+      <span>TOTALE</span>
+      <strong>€{{ total }}</strong>
+    </div>
+
+    <p class="free-msg">
+      Ti mancano ancora <strong>€{{ missingForFree }}</strong> per avere la spedizione gratuita!
+    </p>
+
+    <!-- QUI LA MODIFICA -->
+    <button class="checkout" (click)="proceedToCheckout()">
+      Procedi con il checkout
+    </button>
+  </div>
+</div>

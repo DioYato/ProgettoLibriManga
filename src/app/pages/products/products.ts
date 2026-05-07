@@ -1,12 +1,14 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, computed, signal, OnInit, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { ProductsService } from '../../services/products.service';
 import { FiltersComponent, ProductFilters } from '../filters/filters.component';
 import { FavoritesService } from '../../services/favorites.service';
 import { AdminService } from '../../services/admin.service';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { App } from '../../app';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -20,6 +22,10 @@ export class Products implements OnInit {
   private readonly favorites = inject(FavoritesService);
   private readonly adminService = inject(AdminService);
   private readonly route = inject(ActivatedRoute);
+  private readonly app = inject(App);
+  private readonly cart = inject(CartService);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   readonly query = signal('');
   readonly sort = signal('');
@@ -35,13 +41,11 @@ export class Products implements OnInit {
 
   readonly isModerator = computed(() => this.user()?.ruolo === 'ADMIN');
 
-  // Il backend restituisce i risultati filtrati e paginati
-  readonly products = computed(() => {
-    return this.productsService.all();
-  });
-
+  readonly products = computed(() => this.productsService.all());
   readonly totalPages = computed(() => this.productsService.totalPages());
   readonly totalProducts = computed(() => this.productsService.totalProducts());
+
+  private selectedProduct: any = null;
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -51,9 +55,7 @@ export class Products implements OnInit {
       const q = params['q'];
       const page = params['page'] ? Number(params['page']) : 1;
 
-      if (q) {
-        this.query.set(q);
-      }
+      if (q) this.query.set(q);
 
       this.currentPage.set(page);
 
@@ -150,4 +152,29 @@ export class Products implements OnInit {
 
   isFavorite(id: number) { return this.favorites.isFavorite(id); }
   toggleFavorite(id: number) { this.favorites.toggle(id); }
+
+  aggiungiAlCarrello(product: any) {
+    this.selectedProduct = product;
+
+    this.app.sideCart.items = [{
+      title: product.titolo,
+      price: product.prezzo,
+      qty: 1,
+      image: this.imageUrl(product.copertina)
+    }];
+
+    this.app.sideCart.subtotal = product.prezzo;
+    this.app.sideCart.shipping = 5.50;
+    this.app.sideCart.total = this.app.sideCart.subtotal + this.app.sideCart.shipping;
+    this.app.sideCart.missingForFree = Math.max(0, 40 - this.app.sideCart.total);
+
+    this.app.checkoutHandler = () => {
+      const user = this.auth.user();
+      if (!user || !this.selectedProduct) return;
+      this.cart.add(user.id, this.selectedProduct.id, 1);
+      this.router.navigate(['/carrello']);
+    };
+
+    this.app.sideCart.open();
+  }
 }
