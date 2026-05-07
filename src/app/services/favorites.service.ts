@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
 
 interface FavoriteRequest {
@@ -15,18 +16,18 @@ export class FavoritesService {
   private readonly _ids = signal<number[]>([]);
   readonly ids = computed(() => this._ids());
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.initFavorites();
   }
 
   private initFavorites() {
     const userId = this.getUserId();
-    // Se un utente è loggato, usa la chiave specifica anziché la chiave guest
-    if (userId && localStorage.getItem('favorites')) {
-      localStorage.removeItem('favorites');
+    if (!userId) {
+      this._ids.set([]);
+      return;
     }
-    
-    // Ripristina i preferiti salvati localmente
+
+    // Ripristina i preferiti salvati localmente per l'utente
     this._ids.set(this.loadFromStorage());
   }
 
@@ -40,16 +41,19 @@ export class FavoritesService {
     }
   }
 
-  // Genera una chiave specifica per utente o una per ospiti
-  private getStorageKey(): string {
+  // Genera una chiave specifica per l'utente
+  private getStorageKey(): string | null {
     const userId = this.getUserId();
-    return userId ? `favorites_${userId}` : 'favorites_guest';
+    return userId ? `favorites_${userId}` : null;
   }
 
   // Legge i preferiti dal browser senza bloccare l'app
   private loadFromStorage(): number[] {
+    const storageKey = this.getStorageKey();
+    if (!storageKey) return [];
+
     try {
-      const data = localStorage.getItem(this.getStorageKey());
+      const data = localStorage.getItem(storageKey);
       return data ? JSON.parse(data) : [];
     } catch {
       return [];
@@ -58,7 +62,9 @@ export class FavoritesService {
 
   // Salva i dati nel localStorage in modo sicuro
   private saveToStorage(ids: number[]) {
-    localStorage.setItem(this.getStorageKey(), JSON.stringify(ids));
+    const storageKey = this.getStorageKey();
+    if (!storageKey) return;
+    localStorage.setItem(storageKey, JSON.stringify(ids));
   }
 
   // --- Chiamate al Backend ---
@@ -111,6 +117,12 @@ export class FavoritesService {
 
   // Alterna lo stato del preferito in locale e invia la modifica al backend
   toggle(id: number) {
+    const userId = this.getUserId();
+    if (!userId) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
     const current = this._ids();
     const exists = current.includes(id);
     
@@ -126,6 +138,13 @@ export class FavoritesService {
     } else {
       this.addFavoriteOnBackend(id);
     }
+  }
+
+  clearLocalFavorites(userId?: number) {
+    if (userId) {
+      localStorage.removeItem(`favorites_${userId}`);
+    }
+    this._ids.set([]);
   }
 
   // Restituisce il numero di preferiti salvati
