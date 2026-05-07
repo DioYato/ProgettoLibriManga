@@ -29,10 +29,8 @@ export class ProductDetail implements OnInit {
   readonly product = computed(() => this.products.getById(this.id()));
   readonly productId = computed(() => this.product()?.id);
 
-  // Quantità come SIGNAL (così aggiorna il prezzo)
   quantity = signal(1);
 
-  // Prezzo totale aggiornato in tempo reale
   readonly totalPrice = computed(() => {
     const p = this.product();
     return p ? p.prezzo * this.quantity() : 0;
@@ -40,7 +38,15 @@ export class ProductDetail implements OnInit {
 
   readonly reviewRating = signal(5);
 
-  constructor() {}
+  private userId: number | null = null;
+
+  constructor() {
+    const stored = localStorage.getItem('user');
+    if (stored) {
+      const user = JSON.parse(stored);
+      this.userId = user.id;
+    }
+  }
 
   ngOnInit() {
     this.products.loadFromBackend();
@@ -59,8 +65,7 @@ export class ProductDetail implements OnInit {
   }
 
   addToCart() {
-    const user = this.auth.user();
-    if (!user) {
+    if (!this.userId) {
       alert('Devi effettuare il login per aggiungere prodotti al carrello!');
       this.router.navigate(['/login']);
       return;
@@ -69,7 +74,7 @@ export class ProductDetail implements OnInit {
     const p = this.product();
     if (!p) return;
 
-    this.cart.add(p, this.quantity());
+    this.cart.add(this.userId, p.id, this.quantity());
     alert('Prodotto aggiunto al carrello!');
   }
 
@@ -81,19 +86,16 @@ export class ProductDetail implements OnInit {
   }
 
   imageUrl(copertina?: string) {
-    if (!copertina) return '';
-    return `http://localhost:8080/images/${copertina}`;
+    return copertina ? `http://localhost:8080/images/${copertina}` : '';
   }
 
-  // Determina se è libro o manga
   readonly productType = computed(() => {
     const p = this.product();
     if (!p) return 'Prodotto';
 
     const categorieArray = (p as any).categorie;
-    const isManga = Array.isArray(categorieArray) && categorieArray.some((c: any) =>
-      c.categoria?.toLowerCase().includes('manga')
-    );
+    const isManga = Array.isArray(categorieArray) &&
+      categorieArray.some((c: any) => c.categoria?.toLowerCase().includes('manga'));
 
     return isManga ? 'Manga' : 'Libro';
   });
