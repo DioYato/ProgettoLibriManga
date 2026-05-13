@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Product } from './products.service';
+import { Ordine } from '../models/ordine.model';
+import { DettaglioOrdine } from '../models/dettaglio-ordine.model';
+import { Libro } from '../models/libro.model';
 
 export interface Order {
   id: number;
@@ -26,44 +29,44 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  private mapOrders(response: any): Order[] {
+  private mapOrders(response: Ordine[]): Order[] {
     if (!Array.isArray(response)) return [];
     return response.map(order => ({
       id: order.id,
       userId: order.utente?.id || 0,
       userName: `${order.utente?.nome || ''} ${order.utente?.cognome || ''}`.trim() || 'Utente Sconosciuto',
-      products: (order.dettagliOrdine || []).map((detail: any) => ({
+      products: (order.dettagliOrdine || []).map((detail: DettaglioOrdine) => ({
         id: detail.libro?.id || 0,
         name: detail.libro?.titolo || 'Prodotto sconosciuto',
         quantity: detail.quantita || 0,
         price: detail.libro?.prezzo || 0
       })),
-      total: order.dettagliOrdine?.reduce((sum: number, d: any) => sum + (d.costoTotale || 0), 0) || 0,
+      total: order.dettagliOrdine?.reduce((sum: number, d: DettaglioOrdine) => sum + (d.costoTotale || 0), 0) || 0,
       date: order.dettagliOrdine?.[0]?.data || '',
       status: order.dettagliOrdine?.[0]?.stato || 'PENDING'
     }));
   }
 
   getOrders(): Observable<Order[]> {
-    return this.http.get<any>(`${this.ordiniApi}/list`).pipe(
-      map(response => this.mapOrders(response)),
-      catchError(() => of([])) 
-    );
-  }
-
-  getUserOrders(userId: number): Observable<Order[]> {
-    return this.http.get<any>(`${this.ordiniApi}/findByUtente?idUtente=${userId}`).pipe(
+    return this.http.get<Ordine[]>(`${this.ordiniApi}/list`).pipe(
       map(response => this.mapOrders(response)),
       catchError(() => of([]))
     );
   }
 
-  updateOrderStatus(orderId: number, status: string): Observable<any> {
-    return this.http.put(`${this.ordiniApi}/updateStatus`, { id: orderId, status });
+  getUserOrders(userId: number): Observable<Order[]> {
+    return this.http.get<Ordine[]>(`${this.ordiniApi}/findByUtente?idUtente=${userId}`).pipe(
+      map(response => this.mapOrders(response)),
+      catchError(() => of([]))
+    );
   }
 
-  deleteOrder(orderId: number): Observable<any> {
-    return this.http.delete(`${this.ordiniApi}/delete?id=${orderId}`);
+  updateOrderStatus(orderId: number, status: string): Observable<void> {
+    return this.http.put<void>(`${this.ordiniApi}/updateStatus`, { id: orderId, status });
+  }
+
+  deleteOrder(orderId: number): Observable<void> {
+    return this.http.delete<void>(`${this.ordiniApi}/delete?id=${orderId}`);
   }
 
   // --- Catalogo ---
@@ -71,19 +74,19 @@ export class AdminService {
     return this.http.get<Product[]>(`${this.api}/libri/list`).pipe(catchError(() => of([])));
   }
 
-  addProduct(libroData: any): Observable<LibriResponse> {
+  addProduct(libroData: Partial<Libro>): Observable<LibriResponse> {
     return this.http.post<LibriResponse>(`${this.api}/libri/create`, libroData);
   }
 
-  deleteProduct(productId: number): Observable<any> {
-    return this.http.delete(`${this.api}/libri/delete?id=${productId}`);
+  deleteProduct(productId: number): Observable<void> {
+    return this.http.delete<void>(`${this.api}/libri/delete?id=${productId}`);
   }
 
-  addImageToProduct(productId: number, image: File): Observable<any> {
+  addImageToProduct(productId: number, image: File): Observable<void> {
     const formData = new FormData();
     formData.append('file', image);
     formData.append('id', productId.toString());
     formData.append('tipo', 'libro');
-    return this.http.post(`${this.api}/rest/upload/image`, formData);
+    return this.http.post<void>(`${this.api}/rest/upload/image`, formData);
   }
 }

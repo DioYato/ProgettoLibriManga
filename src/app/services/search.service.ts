@@ -1,6 +1,7 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Libro } from '../models/libro.model';
 
 @Injectable({ providedIn: 'root' })
 export class SearchService {
@@ -9,11 +10,11 @@ export class SearchService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  search(term: string) {
+  search(term: string): void {
     const q = term.trim().toLowerCase();
     if (!q) return;
 
-    this.http.get<any[]>(`${this.api}/list`).subscribe(products => {
+    this.http.get<Libro[]>(`${this.api}/list`).subscribe(products => {
       const match = products.find(p =>
         p.titolo.toLowerCase().includes(q)
       );

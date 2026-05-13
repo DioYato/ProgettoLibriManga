@@ -35,7 +35,7 @@ export class FavoritesPageComponent implements OnInit {
         return;
       }
 
-      const idsChanged = backendIds.length !== localIds.length || backendIds.some((id: any, index: any) => id !== localIds[index]);
+      const idsChanged = backendIds.length !== localIds.length || backendIds.some((id: number, index: number) => id !== localIds[index]);
       if (idsChanged) {
         this._products.loadFromBackend().subscribe(() => {
           this.items.set(this._products.all().filter((p) => backendIds.includes(p.id)));

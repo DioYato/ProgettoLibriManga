@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { Autore } from '../../models/autore.model';
+import { CasaEditrice } from '../../models/casa-editrice.model';
 
 @Component({
   selector: 'app-admin-prodotti',
@@ -33,8 +35,9 @@ export class AdminProdotti {
 
   copertina: File | null = null;
 
-  onFileSelected(event: any) {
-    this.copertina = event.target.files[0];
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.copertina = input.files?.[0] ?? null;
   }
 
   async addProduct() {
@@ -85,7 +88,7 @@ export class AdminProdotti {
 
   async getOrCreateAutore(nome: string, cognome: string): Promise<number> {
     const autori = await firstValueFrom(
-      this.http.get<any[]>(`${this.backend}/autori/list`)
+      this.http.get<Autore[]>(`${this.backend}/autori/list`)
     );
 
     const esistente = autori.find(a =>
@@ -100,18 +103,18 @@ export class AdminProdotti {
     );
 
     const updated = await firstValueFrom(
-      this.http.get<any[]>(`${this.backend}/autori/list`)
+      this.http.get<Autore[]>(`${this.backend}/autori/list`)
     );
 
     return updated.find(a =>
       a.nome.toLowerCase() === nome.toLowerCase() &&
       a.cognome.toLowerCase() === cognome.toLowerCase()
-    ).id;
+    )!.id;
   }
 
   async getOrCreateCasaEditrice(nome: string): Promise<number> {
     const caseEd = await firstValueFrom(
-      this.http.get<any[]>(`${this.backend}/case_editrici/list`)
+      this.http.get<CasaEditrice[]>(`${this.backend}/case_editrici/list`)
     );
 
     const esistente = caseEd.find(c =>
@@ -125,12 +128,12 @@ export class AdminProdotti {
     );
 
     const updated = await firstValueFrom(
-      this.http.get<any[]>(`${this.backend}/case_editrici/list`)
+      this.http.get<CasaEditrice[]>(`${this.backend}/case_editrici/list`)
     );
 
     return updated.find(c =>
       c.nome.toLowerCase() === nome.toLowerCase()
-    ).id;
+    )!.id;
   }
 
   resetForm() {

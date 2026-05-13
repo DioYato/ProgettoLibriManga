@@ -4,7 +4,6 @@ import { AdminService, Order } from '../../services/admin.service';
 
 @Component({
   selector: 'app-ordini-ricevuti',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './ordini-ricevuti.html',
   styleUrl: './ordini-ricevuti.css',

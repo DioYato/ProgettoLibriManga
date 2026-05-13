@@ -45,7 +45,6 @@ export class Products implements OnInit {
   readonly totalPages = computed(() => this.productsService.totalPages());
   readonly totalProducts = computed(() => this.productsService.totalProducts());
 
-  private selectedProduct: any = null;
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {

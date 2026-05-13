@@ -163,9 +163,8 @@ export class ProductDetail implements OnInit {
     const p = this.product();
     if (!p) return 'Prodotto';
 
-    const categorieArray = (p as any).categorie;
-    const isManga = Array.isArray(categorieArray) &&
-      categorieArray.some((c: any) => c.categoria?.toLowerCase().includes('manga'));
+    const isManga = Array.isArray(p.categorie) &&
+    p.categorie.some(c => c.categoria?.toLowerCase().includes('manga'));
 
     return isManga ? 'Manga' : 'Libro';
   });

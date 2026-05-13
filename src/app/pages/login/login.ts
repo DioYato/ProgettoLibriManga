@@ -93,7 +93,7 @@ export class Login {
         alert('Registrazione completata');
         this.switchMode('login');
       },
-      error: (err: any) => alert('Errore: ' + (err?.message || 'impossibile registrare'))
+      error: (err: { message?: string }) => alert('Errore: ' + (err?.message || 'impossibile registrare'))
     });
   }
 

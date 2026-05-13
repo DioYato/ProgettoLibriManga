@@ -1,35 +1,17 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, of, tap, Observable } from 'rxjs';
+import { Libro } from '../models/libro.model';
 
-export type Author = {
-  nome: string;
-  cognome: string;
+export type Product = Libro;
+
+interface PaginatedResponse {
+  content?: Libro[];
+  data?: Libro[];
+  total?: number;
+  totalElements?: number;
+  totalPages?: number;
 }
-
-// per il componente product-detail
-export type Category = {
-  id?: number;
-  categoria: string;
-}
-
-export type Publisher = {
-  id: number;
-  nome: string;
-  sede: string;
-}
-
-export type Product = {
-  id: number;
-  titolo: string;
-  autore: Author;
-  categorie: Category[];
-  casaEditrice: Publisher;
-  quantitaDisponibile: number;
-  prezzo: number;
-  descrizione: string;
-  copertina?: string;
-};
 
 @Injectable({ providedIn: 'root' })
 export class ProductsService {
@@ -39,7 +21,6 @@ export class ProductsService {
   private readonly _items = signal<Product[]>([]);
   readonly all = computed(() => this._items());
 
-  // Risposta paginata dal backend
   private readonly _totalProducts = signal<number>(0);
   readonly totalProducts = computed(() => this._totalProducts());
 
@@ -65,7 +46,7 @@ export class ProductsService {
 
   private createProductsRequest(sort?: string, genres?: number[], author?: number, query?: string, page: number = 0, limit: number = 20) {
     const params = this.buildHttpParams(sort, genres, author, query, page, limit);
-    return this.http.get<any>(`${this.apiUrl}/list`, { params }).pipe(
+    return this.http.get<Libro[] | PaginatedResponse>(`${this.apiUrl}/list`, { params }).pipe(
       catchError(err => {
         console.error('Errore nel recupero dei libri:', err);
         return of([]);
@@ -73,15 +54,15 @@ export class ProductsService {
     );
   }
 
-  getById(id: string | number | null | undefined) {
+  getById(id: string | number | null | undefined): Product | undefined {
     if (!id) return undefined;
     return this._items().find(p => p.id == id);
   }
 
   fetchById(id: string | number): Observable<Product | undefined> {
     const params = new HttpParams().set('id', id.toString());
-    return this.http.get<any>(`${this.apiUrl}/findById`, { params }).pipe(
-      map(response => response?.content ?? response?.data ?? response ?? undefined),
+    return this.http.get<Libro>(`${this.apiUrl}/findById`, { params }).pipe(
+      map(response => response ?? undefined),
       catchError(err => {
         console.error('Errore nel recupero del prodotto per ID:', err);
         return of(undefined);
@@ -100,7 +81,7 @@ export class ProductsService {
     return params.set('page', page.toString()).set('limit', limit.toString());
   }
 
-  private updateProductsFromResponse(response: any): void {
+  private updateProductsFromResponse(response: Libro[] | PaginatedResponse): void {
     if (Array.isArray(response)) {
       this._items.set(response);
       this._totalProducts.set(response.length);

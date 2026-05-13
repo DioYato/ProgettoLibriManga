@@ -1,11 +1,12 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { DettaglioCarrello } from '../models/carrello.model';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
 
   private readonly http = inject(HttpClient);
-  private readonly items = signal<any[]>([]);
+  private readonly items = signal<DettaglioCarrello[]>([]);
 
   readonly all = computed(() => this.items());
   readonly total = computed(() =>
@@ -17,32 +18,32 @@ export class CartService {
 
   load(userId: number) {
     this.http
-      .get<any[]>(`http://localhost:8080/carrello/findByUtente?idUtente=${userId}`)
+      .get<DettaglioCarrello[]>(`http://localhost:8080/carrello/findByUtente?idUtente=${userId}`)
       .subscribe(r => this.items.set(r));
   }
 
-  add(userId: number, bookId: number, qty: number = 1) {
-    this.http.post('http://localhost:8080/carrello/create', {
+  add(userId: number, bookId: number, qty: number = 1): void {
+    this.http.post<void>('http://localhost:8080/carrello/create', {
       idUtente: userId,
       idLibro: bookId,
       quantita: qty
     }).subscribe(() => this.load(userId));
   }
 
-  updateQuantity(cartItemId: number, qty: number, userId: number) {
-    this.http.put('http://localhost:8080/carrello/update', {
+  updateQuantity(cartItemId: number, qty: number, userId: number): void {
+    this.http.put<void>('http://localhost:8080/carrello/update', {
       id: cartItemId,
       quantita: qty
     }).subscribe(() => this.load(userId));
   }
 
-  remove(cartItemId: number, userId: number) {
+  remove(cartItemId: number, userId: number): void {
     this.http
-      .delete(`http://localhost:8080/carrello/delete?id=${cartItemId}`)
+      .delete<void>(`http://localhost:8080/carrello/delete?id=${cartItemId}`)
       .subscribe(() => this.load(userId));
   }
 
-  clearLocal() {
+  clearLocal(): void {
     this.items.set([]);
   }
 }

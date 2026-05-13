@@ -1,13 +1,13 @@
-import { Component, computed, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router'; // <--- Importa il Router
+import { Router } from '@angular/router';
 import { first } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-profilo',
-  standalone: true, // Assicurati che sia standalone se usi gli imports
   imports: [ReactiveFormsModule],
   templateUrl: './profilo.html',
   styleUrl: './profilo.css'
@@ -16,7 +16,7 @@ export class Profilo implements OnInit {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private users = inject(UsersService);
-  private router = inject(Router); // <--- Inject del Router
+  private router = inject(Router);
 
   welcomeMessage = computed(() => this.auth.user() ? `Ciao ${this.auth.user()!.nome}` : '');
 
@@ -46,21 +46,22 @@ export class Profilo implements OnInit {
     return 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
   }
 
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
     const currentUser = this.auth.user();
 
     if (file && currentUser) {
       this.users.addImage(currentUser.id, file)
         .subscribe({
-          next: (res: any) => {
+          next: () => {
             alert("Foto aggiornata con successo!");
-            this.users.getById(currentUser.id).subscribe((updatedUser: any) => {
+            this.users.getById(currentUser.id).subscribe((updatedUser: User) => {
               this.auth.user.set(updatedUser);
               localStorage.setItem('user', JSON.stringify(updatedUser));
             });
           },
-          error: (err: any) => {
+          error: (err: { error?: { msg?: string } }) => {
             console.error("Dettaglio errore:", err);
             const msg = err.error?.msg || "Errore del server";
             alert("Errore nel caricamento: " + msg);
@@ -75,38 +76,30 @@ export class Profilo implements OnInit {
     if (!currentUser) return;
 
     const updateData = { ...this.form.getRawValue() };
-    if (!updateData.password) delete (updateData as any).password;
+    if (!updateData.password) delete (updateData as Partial<typeof updateData>).password;
 
     this.users.update(currentUser.id, updateData)
       .pipe(first())
       .subscribe({
         next: () => alert("Dati aggiornati con successo!"),
-        error: (err: any) => alert('Errore durante il salvataggio')
+        error: (err: { error?: { msg?: string } }) => alert('Errore durante il salvataggio')
       });
   }
 
-  // --- NUOVA FUNZIONE ELIMINA ACCOUNT ---
   eliminaAccount() {
     const currentUser = this.auth.user();
     if (!currentUser) return;
 
-    // Chiedi conferma all'utente
     const conferma = confirm("Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile e verrai disconnesso.");
 
     if (conferma) {
       this.users.delete(currentUser.id).subscribe({
         next: () => {
           alert("Account eliminato correttamente.");
-          
-          // Esegui il logout (pulisci localStorage e stato)
-          // Nota: Assicurati che il tuo AuthService abbia un metodo logout()
-          // Altrimenti puoi farlo manualmente:
           localStorage.removeItem('user');
-          localStorage.removeItem('token'); // Se lo usi
-          
-          // Reindirizza l'utente alla home o al login
+          localStorage.removeItem('token');
           this.router.navigate(['/login']).then(() => {
-            window.location.reload(); // Opzionale: forza il refresh per resettare tutti i signal
+            window.location.reload();
           });
         },
         error: (err) => {
