@@ -194,6 +194,95 @@
   box-shadow: none;
 }
 
+/* NOTIFICA INLINE */
+.notifica {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  margin-top: 24px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+  position: relative;
+  pointer-events: none;
+}
+
+.notifica--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.notifica--success {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.notifica--error {
+  background: #fff1f2;
+  color: #881337;
+  border: 1px solid #fda4af;
+}
+
+.notifica--info {
+  background: #eef2ff;
+  color: #3730a3;
+  border: 1px solid #a5b4fc;
+}
+
+.notifica-icona {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.notifica-body {
+  flex: 1;
+}
+
+.notifica-testo {
+  line-height: 1.4;
+}
+
+.notifica-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: inherit;
+  opacity: 0.45;
+  padding: 0;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.notifica-close:hover {
+  opacity: 1;
+}
+
+.notifica-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-radius: 0 0 12px 12px;
+  animation: progress-shrink linear forwards;
+}
+
+.notifica--success .notifica-progress { background: #10b981; }
+.notifica--error   .notifica-progress { background: #e11d48; }
+.notifica--info    .notifica-progress { background: #6366f1; }
+
+@keyframes progress-shrink {
+  from { width: 100%; }
+  to   { width: 0%; }
+}
+
 /* RESPONSIVE */
 @media (max-width: 640px) {
   .form-grid {
