@@ -1,9 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
 import { User } from '../models/user.model';
 import { Libro } from '../models/libro.model';
+import { ProductsService } from './products.service';
 
 interface FavoriteRequest {
   idUtente: number;
@@ -14,8 +15,10 @@ interface FavoriteRequest {
 export class FavoritesService {
   private readonly backendUrl = 'http://localhost:8080/utenti';
 
-  private readonly _ids = signal<number[]>([]);
-  readonly ids = computed(() => this._ids());
+  private readonly _favorites = signal<Libro[]>([]);
+  readonly favorites = computed(() => this._favorites());
+
+  private readonly _products = inject(ProductsService);
 
   constructor(private http: HttpClient, private router: Router) {
     this.initFavorites();
@@ -24,10 +27,10 @@ export class FavoritesService {
   private initFavorites() {
     const userId = this.getUserId();
     if (!userId) {
-      this._ids.set([]);
+      this._favorites.set([]);
       return;
     }
-    this._ids.set(this.loadFromStorage());
+    this._favorites.set(this.loadFromStorage());
   }
 
   private getUserId(): number | null {
@@ -45,7 +48,7 @@ export class FavoritesService {
     return userId ? `favorites_${userId}` : null;
   }
 
-  private loadFromStorage(): number[] {
+  private loadFromStorage(): Libro[] {
     const storageKey = this.getStorageKey();
     if (!storageKey) return [];
     try {
@@ -56,10 +59,10 @@ export class FavoritesService {
     }
   }
 
-  private saveToStorage(ids: number[]): void {
+  private saveToStorage(favorites: Libro[]): void {
     const storageKey = this.getStorageKey();
     if (!storageKey) return;
-    localStorage.setItem(storageKey, JSON.stringify(ids));
+    localStorage.setItem(storageKey, JSON.stringify(favorites));
   }
 
   private addFavoriteOnBackend(productId: number): void {
@@ -92,17 +95,17 @@ export class FavoritesService {
     const params = new HttpParams().set('id', String(userId));
     return this.http.get<User>(`${this.backendUrl}/findById`, { params }).pipe(
       map(response => {
-        const ids = (response.libriPreferiti || []).map((p: Libro) => p.id);
-        this._ids.set(ids);
-        this.saveToStorage(ids);
-        return ids;
+        const libri = response.libriPreferiti || [];
+        this._favorites.set(libri);
+        this.saveToStorage(libri);
+        return libri;
       }),
-      catchError(() => of(this._ids()))
+      catchError(() => of(this._favorites()))
     );
   }
 
   isFavorite(id: number): boolean {
-    return this._ids().includes(id);
+    return this._favorites().some(libro => libro.id === id);
   }
 
   toggle(id: number): void {
@@ -112,14 +115,17 @@ export class FavoritesService {
       return;
     }
 
-    const current = this._ids();
-    const exists = current.includes(id);
+    const libro = this._products.all().find(p => p.id === id);
+    if (!libro) return;
+
+    const current = this._favorites();
+    const exists = current.some(l => l.id === id);
 
     const updated = exists
-      ? current.filter(x => x !== id)
-      : [...current, id];
+      ? current.filter(l => l.id !== id)
+      : [...current, libro];
 
-    this._ids.set(updated);
+    this._favorites.set(updated);
     this.saveToStorage(updated);
 
     if (exists) {
@@ -133,10 +139,10 @@ export class FavoritesService {
     if (userId) {
       localStorage.removeItem(`favorites_${userId}`);
     }
-    this._ids.set([]);
+    this._favorites.set([]);
   }
 
   count(): number {
-    return this._ids().length;
+    return this._favorites().length;
   }
 }
