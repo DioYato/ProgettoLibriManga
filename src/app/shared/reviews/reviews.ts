@@ -3,8 +3,9 @@ import { Component, EventEmitter, Input, Output, inject, OnChanges, SimpleChange
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Review, ReviewRequest, ReviewsService } from '../../services/reviews.service';
+import { ReviewsService } from '../../services/reviews.service';
 import { StarRatingComponent } from '../star-rating/star-rating';
+import { Review, ReviewRequest } from '../../models/review.model';
 
 @Component({
   selector: 'app-reviews',

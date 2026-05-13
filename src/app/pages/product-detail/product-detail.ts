@@ -7,8 +7,9 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { ReviewsComponent } from '../../shared/reviews/reviews';
 import { StarRatingComponent } from '../../shared/star-rating/star-rating';
-import { ReviewsService, Review } from '../../services/reviews.service'; // Aggiunta importazione
+import { ReviewsService } from '../../services/reviews.service';
 import { App } from '../../app';
+import { Review } from '../../models/review.model';
 
 
 @Component({
