@@ -59,6 +59,24 @@
         </div>
       </div>
 
+
+      @if (notifica(); as n) {
+        <div [class]="'notifica notifica--' + n.tipo + (n.visible ? ' notifica--visible' : '')">
+          <span class="notifica-icona">
+            @if (n.tipo === 'success') { ✅ }
+            @if (n.tipo === 'error')   { ❌ }
+            @if (n.tipo === 'info')    { ⚠️ }
+          </span>
+          <div class="notifica-body">
+            <span class="notifica-testo">{{ n.messaggio }}</span>
+          </div>
+          <button class="notifica-close" type="button" (click)="chiudiNotifica()" aria-label="Chiudi">✕</button>
+          <div class="notifica-progress" [style.animation-duration]="'4000ms'"></div>
+        </div>
+      }
+
+
+      
       <div class="form-actions">
         <button type="submit" class="btn btn-save" [disabled]="form.invalid">
           Salva Modifiche

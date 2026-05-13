@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -11,7 +12,9 @@ export class Cart {
 
   private readonly cart = inject(CartService);
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
 
+  
   readonly items = computed(() => this.cart.all());
   readonly total = computed(() => this.cart.total());
 
@@ -54,8 +57,8 @@ export class Cart {
       .post(`http://localhost:8080/carrello/acquista?idUtente=${this.userId}`, {})
       .subscribe({
         next: () => {
-          alert('Ordine inviato con successo!');
           this.cart.clearLocal();
+           this.router.navigate(['/ordini-ricevuti']);
         },
         error: () => {
           alert('Errore durante l’invio dell’ordine.');
